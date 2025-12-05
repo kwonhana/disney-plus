@@ -1,0 +1,81 @@
+/* 공동 scss common
+ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  min-height: 100vh;
+  line-height: 1;
+  /* font-family: */
+  font-size: 10px;
+}
+
+ol,
+ul,
+li {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+input,
+button,
+textarea {
+  border: none;
+  background: inherit;
+  font-family: '', sans-serif;
+  outline: none;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: 100%;
+}
+
+.hide {
+  display: none;
+}
+
+.inner {
+  max-width: 1720px;
+  margin: 0 auto;
+}
+
+/* TODO 반응형 해상도 */
+
+@media screen and (max-width: 1400px) {
+  .inner {
+    max-width: 1680px;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .inner {
+    max-width: 1520px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .inner {
+    /* max-width: * *; */
+  }
+}
+
+@media screen and (max-width: 393px) {
+  .inner {
+    /* max-width: * *; */
+  }
+}
