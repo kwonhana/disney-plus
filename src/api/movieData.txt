@@ -1,0 +1,53 @@
+ //TODO movie Data 정보 
+ {
+  
+  //TODO 성인여부
+    "adult": false,
+
+    //TODO 가로 이미지 
+    "backdrop_path": "/6bzabqH399ioM3nZScwZtzGaHIy.jpg",
+    //TODO 장르
+    "genre_ids": [
+      878,
+      12,
+      28
+    ],
+
+    //TODO ID
+    "id": 533533,
+
+    //TODO 원어
+    "original_language": "en",
+
+    //TODO 원 제목
+    "original_title": "TRON: Ares",
+
+    //TODO 설명
+    "overview": "가상 세계에서 창조된 존재를 현실 세계로 끌어올 수 있는 시대. 그곳에서 탄생한 AI 최종 병기 아레스는 초인적인 힘과 속도, 고도 지능으로 설계되어 무한히 재생될 수 있지만 기술의 한계로 현실 세계에 단 29분만 머무를 수 있다. 그러던 중, 세계 최고의 프로그래머 이브 킴은 기술의 한계를 넘어설 해답을 발견하게 되고 아레스가 점차 통제를 벗어나 자신만의 목적을 향해 움직이기 시작하자 인류는 역사상 한 번도 경험한 적 없는 최악의 위기에 처하게 되는데…",
+
+    //TODO 관객수
+    "popularity": 505.4754,
+
+    //TODO 세로 이미지 
+    "poster_path": "/4nJcUMpWgnIPZPJ13TWKRxAdY9U.jpg",
+
+    //TODO 개봉일
+    "release_date": "2025-10-08",
+
+    //TODO 한글 제목
+    "title": "트론: 아레스",
+
+    //TODO ??
+    "video": false,
+
+    //TODO 평점 (10점 만점) 
+    "vote_average": 6.529,
+
+    //TODO 평점 참여인원?
+    "vote_count": 590
+  },
+
+  추가 해야할 것 , 
+  1. series(시리즈) 여부 
+  2. series(시리즈) 개수 
+  3. 나이  age 
