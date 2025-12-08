@@ -1,0 +1,73 @@
+@use '../../../App.scss' as rs;
+
+.Header {
+  width: 100%;
+  aspect-ratio: 1920/ 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 3%;
+  position: fixed;
+  top: 0;
+
+  .Header-left {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+
+    h1 {
+      aspect-ratio: 103/56;
+    }
+  }
+
+  .Header-right {
+    display: flex;
+    align-items: center;
+  }
+
+  .LinkBtn {
+    padding: 8px 20px;
+    display: inline-block;
+    @include rs.font(2rem, 400, #fff);
+    line-height: 150%;
+    letter-spacing: -0.5px;
+
+    &.Kids {
+      display: inline-flex;
+      align-items: center;
+
+      &::after {
+        content: '';
+        width: 18px;
+        aspect-ratio: 18/18;
+        display: inline-block;
+        margin-left: 4px;
+        background: url(../../../../public/icon/kids.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+      }
+    }
+
+    &.MyProfile {
+      width: 56px;
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      overflow: hidden;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 150%;
+        max-width: 200%;
+        height: auto;
+      }
+
+      &:hover {
+        border: 2px solid #fff;
+      }
+    }
+  }
+}
