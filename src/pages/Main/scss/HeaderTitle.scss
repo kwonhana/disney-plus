@@ -1,0 +1,52 @@
+@use '../../../App.scss' as rs;
+
+.mainTItle {
+  h1 {
+    @include rs.font(2.4rem, 500, #fff);
+    line-height: 150%;
+    letter-spacing: -0.6px;
+    margin-bottom: 20px;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+    position: relative;
+
+    &:hover {
+      .arrow::before {
+        visibility: visible;
+        width: 60px;
+        max-width: 60px;
+        opacity: 1;
+        transition: ease 0.4s;
+      }
+    }
+  }
+
+  .arrow {
+    margin-left: 30px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+
+    &::before {
+      content: '둘러보기';
+      @include rs.font(1.8rem, 500, #33ddff);
+      line-height: 1;
+      visibility: hidden;
+      width: 0px;
+      max-width: 0;
+      opacity: 0;
+      white-space: nowrap;
+      display: inline-block;
+      margin-right: 8px;
+    }
+    &::after {
+      content: '';
+      width: 8px;
+      height: 14px;
+      display: inline-block;
+      background: url('../../../../public/icon/mainArrow.svg');
+    }
+  }
+}

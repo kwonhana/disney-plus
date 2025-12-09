@@ -7,12 +7,11 @@
 
 .MainScreen {
   width: 100%;
-  max-width: 1920px;
-  margin: 0 auto;
   background-repeat: no-repeat;
 
   .swiper {
-    height: 100vh;
+    width: 100%;
+    aspect-ratio: 1920/1010;
 
     .swiper-slide {
       position: relative;
@@ -69,6 +68,8 @@
         gap: 12px;
         @include rs.font(1.6rem, 600, #fff);
         margin-bottom: 34px;
+        user-select: none;
+        cursor: default;
 
         .age {
           display: flex;
@@ -146,6 +147,9 @@
         letter-spacing: -0.45px;
         line-height: 150%;
         margin-bottom: 40px;
+        user-select: none;
+        cursor: default;
+        word-break: keep-all;
       }
 
       .nowPlay {
@@ -161,7 +165,7 @@
         &::after {
           content: '';
           display: inline-block;
-          width: 24px;
+          width: 14px;
           aspect-ratio: 1/1;
           background: url('../../../../public/images/main/nowPlay.svg');
           background-repeat: no-repeat;
@@ -180,5 +184,21 @@
         margin-left: 20px;
       }
     }
+  }
+
+  .bgGra {
+    width: 100%;
+    aspect-ratio: 1840/250;
+    margin-top: -180px;
+    position: relative;
+    z-index: 1;
+    background: #ffffff;
+    background: #ffffff;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(2, 23, 42, 0.5) 20%,
+      rgba(2, 23, 42, 1) 80%
+    );
   }
 }
