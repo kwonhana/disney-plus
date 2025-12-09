@@ -5,13 +5,14 @@ import { Pagination, Autoplay } from 'swiper/modules';
 import { MainScreenData } from '../../../store/data';
 import { Link } from 'react-router-dom';
 
+//TODO 메인 베너
 const MainScreen = () => {
   // 기본 메인 basic
   // 영화 메인 movie
   // 시리즈 메인 series
   // 오리지널 메인 original
   return (
-    <div className="MainScreen">
+    <div className="MainScreen pullInner">
       <Swiper
         loop={true}
         pagination={true}
@@ -43,6 +44,7 @@ const MainScreen = () => {
           );
         })}
       </Swiper>
+      <div className="bgGra"></div>
     </div>
   );
 };
