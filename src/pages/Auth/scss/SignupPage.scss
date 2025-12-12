@@ -1,1 +1,240 @@
 @use '../../../App.scss' as rs;
+
+.authWrap {
+  .scrollWrap {
+    overflow-y: auto;
+    width: inherit;
+    height: inherit;
+
+    .authTop {
+      margin-bottom: 4rem;
+    }
+
+    .signupFormWrap {
+      font-size: 1.4rem;
+      line-height: 1.6;
+      width: 40rem;
+      margin: 0 auto;
+      .signupForm {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+
+        .idPwWrap {
+          display: flex;
+          flex-direction: column;
+          gap: 2rem;
+          margin-bottom: 2rem;
+          > div {
+            > label {
+              font-size: 1.4rem;
+              color: #ddd;
+
+              > input {
+                display: block;
+                border: 1px solid #fff;
+                width: 40rem;
+                height: 4.8rem;
+                border-radius: 8px;
+                padding: 1.6rem;
+                margin: 4px 0;
+                color: #fff;
+              }
+            }
+
+            &.pwWrap {
+              .pwDec {
+                font-size: 1.2rem;
+                color: #ddd;
+                margin-bottom: 8px;
+              }
+              .progressBarWrap {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+
+                .pwProgressBar {
+                  width: 20rem;
+                  height: 4px;
+                  background: rgba($color: #fff, $alpha: 0.3);
+                  border-radius: 10px;
+                  overflow: hidden;
+
+                  .pwColorBar {
+                    display: block;
+                    height: 100%;
+                    width: 0%;
+                    border-radius: 10px;
+                    transition: 0.3s;
+                  }
+
+                  &.strength1 {
+                    .pwColorBar {
+                      width: 25%;
+                      background: #ff2e2e;
+                    }
+                    // TODO 형제 선택자
+                    ~ .pwText {
+                      color: #ff2e2e;
+                    }
+                  }
+
+                  &.strength2 {
+                    .pwColorBar {
+                      width: 50%;
+                      background: #ff7a00;
+                    }
+                    ~ .pwText {
+                      color: #ff7a00;
+                    }
+                  }
+
+                  &.strength3 {
+                    .pwColorBar {
+                      width: 75%;
+                      background: #39ff14;
+                    }
+
+                    ~ .pwText {
+                      color: #39ff14;
+                    }
+                  }
+
+                  &.strength4 {
+                    .pwColorBar {
+                      width: 100%;
+                      background: #39ff14;
+                    }
+
+                    ~ .pwText {
+                      color: #39ff14;
+                    }
+                  }
+                }
+
+                .pwText {
+                  font-size: 1.2rem;
+                }
+              }
+            }
+          }
+        }
+
+        .checkboxWrap {
+          width: 40rem;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 5px;
+
+          .checkboxInput {
+            position: absolute;
+            opacity: 0;
+            width: 18px;
+            height: 18px;
+          }
+
+          .checkboxCustom {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 1px solid #fff;
+            border-radius: 4px;
+            margin-right: 10px;
+            line-height: 1.6;
+            cursor: pointer;
+            vertical-align: middle;
+            position: relative;
+
+            &::after {
+              content: '';
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              background: url('../../../../public/icon/checked.svg') no-repeat center center;
+              width: 16px;
+              height: 16px;
+              opacity: 0;
+            }
+          }
+
+          .checkboxInput:checked + .checkboxCustom::after {
+            opacity: 1;
+          }
+          > label {
+            width: 95%;
+            margin-bottom: 20px;
+            line-height: 1.6;
+
+            > button {
+              color: #fff;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+      .myDisneyWrap {
+        .myDisneyTitle {
+          display: flex;
+          align-items: center;
+          gap: 5px;
+          > span {
+            display: block;
+            width: 16px;
+            height: 16px;
+            background: url(../../../../public/icon/dropdownClose.svg) no-repeat;
+          }
+        }
+        &.active {
+          .myDisneyTitle {
+            span {
+              background: url(../../../../public/icon/dropdownOpen.svg) no-repeat;
+            }
+          }
+        }
+
+        .myDisneyTextWrap {
+          margin-top: 1rem;
+
+          .brandWrap {
+            margin-top: 1rem;
+            .brandList {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              > li {
+                flex: 1;
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .signupBtn {
+      width: 40rem;
+      height: 4.8rem;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 1.4rem;
+      border: 1px solid rgba($color: #fff, $alpha: 0.2);
+      background-color: rgba($color: #fff, $alpha: 0.1);
+      color: #fff;
+      line-height: 4.8rem;
+      font-weight: 500;
+      margin: 20px 0;
+      cursor: pointer;
+
+      &:hover {
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.3);
+        backdrop-filter: blur(12px);
+      }
+    }
+  }
+}
