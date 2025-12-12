@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import HeaderTitle from './HeaderTitle';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
@@ -20,7 +20,7 @@ const GenreList = ({ genreId, title }: GenreListProps) => {
     if (movies.length === 0) {
       onfetchCate(genreId);
     }
-    console.log('????????', GenreMovies);
+    // console.log('????????', GenreMovies);
   });
 
   return (
