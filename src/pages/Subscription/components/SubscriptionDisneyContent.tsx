@@ -29,7 +29,7 @@ const SubscriptionDisneyContent = ({ title, price, priceDes, des1, des2, des3 }:
                 <p><img src="/images/subscription/check.png" alt="체크아이콘" />최대 10대 기기에서 콘텐츠 저장 가능</p>
 
             </div>
-            <Link to="/"><button>멤버십 선택</button></Link>
+            <Link to="/payment"><button>멤버십 선택</button></Link>
         </div>
     )
 }

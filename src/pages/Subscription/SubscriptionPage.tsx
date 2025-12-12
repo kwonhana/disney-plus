@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SubscriptionTitle from './components/SubscriptionTitle'
 import './scss/SubscriptionPage.scss'
-import SubscriptionToggle from './components/SubscriptionToggle'
+import Toggle from './components/Toggle'
 import SubscriptionContent from './components/SubscriptionContent'
 import SubscriptionDisneyContent from './components/SubscriptionDisneyContent'
 
@@ -11,7 +11,7 @@ const SubscriptionPage = () => {
         <div className='subscriptionBg pullInner'>
             <div className="subscriptionWrap">
                 <SubscriptionTitle />
-                <SubscriptionToggle activeBtn={activeBtn} setActiveBtn={setActiveBtn} />
+                <Toggle activeBtn={activeBtn} setActiveBtn={setActiveBtn} mode="sub" />
 
                 {activeBtn === "bundle" && (
                     <div className="contentWrap">

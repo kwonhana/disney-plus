@@ -3,6 +3,7 @@ import './App.css';
 import Header from './pages/Header/Header';
 import MainPage from './pages/Main/MainPage';
 import SubscriptionPage from './pages/Subscription/SubscriptionPage';
+import PaymentPage from './pages/Subscription/PaymentPage';
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path='/subscription' element={<SubscriptionPage />} />
+        <Route path='/payment' element={<PaymentPage />} />
       </Routes>
     </div>
   );
