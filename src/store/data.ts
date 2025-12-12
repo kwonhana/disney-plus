@@ -320,17 +320,13 @@ export const RecommendedForYouData = [
   },
 ];
 
+//TODO 테마별 영화
 export const ThemeListNavData = [
-  { title: 'disney', text: '디즈니의 마법을 경험해 보세요' },
-  { title: 'pixar', text: '픽사의 다채로운 이야기를 만나보세요' },
-  { title: 'marvel', text: '마블 유니버스로 떠나보세요' },
-  { title: 'starwars', text: '멀고 먼 은하계의 놀라운 이야기를 만나보세요' },
-  { title: 'NGC', text: '다큐멘터리 시리즈와 영화 어워드 수상작을 만나보세요' },
-  { title: 'hulu', text: '넓고 깊은 이야기가 여기에' },
-  { title: 'fx', text: '한계를 뛰어넘는 이야기의 세계' },
+  { title: 'disney', text: '디즈니의 마법을 경험해 보세요', companyId: '337' },
+  { title: 'pixar', text: '픽사의 다채로운 이야기를 만나보세요', companyId: '3' },
+  { title: 'marvel', text: '마블 유니버스로 떠나보세요', companyId: '7505' },
+  { title: 'starwars', text: '멀고 먼 은하계의 놀라운 이야기를 만나보세요', companyId: '1' },
+  { title: 'NGC', text: '다큐멘터리 시리즈와 영화 어워드 수상작을 만나보세요', companyId: '7521' },
+  { title: 'hulu', text: '넓고 깊은 이야기가 여기에', companyId: '43' },
+  { title: 'fx', text: '한계를 뛰어넘는 이야기의 세계', companyId: '711' },
 ];
-
-
-export const ThemeListMovieData = [
-  {category: 'disney'}
-]

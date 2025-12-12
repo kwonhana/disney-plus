@@ -21,13 +21,19 @@ export interface Genre {
   id: number;
   name: string;
 }
+export interface Theme extends MediaBase {
+  title: string;
+  name: string;
+}
 
 export interface MovieState {
   movies: Movie[];
   genres: Genre[];
   category: Record<string, Movie[]>;
+  theme: Theme[];
   onFetchUpcoming: () => Promise<void>;
   onFetchGenres: () => Promise<void>;
   getGenreMap: () => Promise<Record<number, string>>;
+  onfetchTheme: (companyId: string) => Promise<Theme[] | void>;
   onfetchCate: (genreId: string) => Promise<Movie[] | void>;
 }

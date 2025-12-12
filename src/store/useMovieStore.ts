@@ -6,7 +6,8 @@ const APT_KEY = import.meta.env.VITE_TMDB_API_KEY;
 export const useMovieStore = create<MovieState>((set, get) => ({
   movies: [],
   genres: [],
-  category: [],
+  category: {},
+  theme: [],
   // trailer: [],
 
   //TODO 장르
@@ -70,11 +71,30 @@ export const useMovieStore = create<MovieState>((set, get) => ({
     return data.results;
   },
 
+  // 12: "모험"
+  // 14: "판타지"
+  // 16: "애니메이션"
+  // 18: "드라마"
+  // 27: "공포"
+  // 28: "액션"
+  // 35: "코미디"
+  // 36: "역사"
+  // 37: "서부"
+  // 53: "스릴러"
+  // 80: "범죄"
+  // 99: "다큐멘터리"
+  // 878: "SF"
+  // 9648: "미스터리"
+  // 10402: "음악"
+  // 10749: "로맨스"
+  // 10751: "가족"
+  // 10752: "전쟁"
+  // 10770: "TV 영화"
   //TODO 카테고리별 영화
   onfetchCate: async (genreId) => {
     const genreMap = await get().getGenreMap();
     if (get().category[genreId]?.length > 0) return;
-    // console.log('장르 확인', genreMap);
+    console.log('장르 확인', genreMap);
 
     const resCate = await fetch(
       `https://api.themoviedb.org/3/discover/movie?api_key=${APT_KEY}&language=ko&with_genres=${genreId}`
@@ -90,9 +110,7 @@ export const useMovieStore = create<MovieState>((set, get) => ({
         .filter((name: string): name is string => !!name);
       return { ...mov, genreNames };
     });
-
     // console.log('확인', krGenreMov);
-
     set((state) => ({
       category: {
         ...state.category,
@@ -101,24 +119,37 @@ export const useMovieStore = create<MovieState>((set, get) => ({
     }));
     return krGenreMov;
   },
-}));
 
-// 12: "모험"
-// 14: "판타지"
-// 16: "애니메이션"
-// 18: "드라마"
-// 27: "공포"
-// 28: "액션"
-// 35: "코미디"
-// 36: "역사"
-// 37: "서부"
-// 53: "스릴러"
-// 80: "범죄"
-// 99: "다큐멘터리"
-// 878: "SF"
-// 9648: "미스터리"
-// 10402: "음악"
-// 10749: "로맨스"
-// 10751: "가족"
-// 10752: "전쟁"
-// 10770: "TV 영화"
+  onfetchTheme: async (companyId: string) => {
+    const genreMap = await get().getGenreMap();
+
+    const resTv = await fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${APT_KEY}&language=ko-KR&with_watch_providers=${companyId}&watch_region=KR`
+    );
+    const resMovie = await fetch(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${APT_KEY}&language=ko-KR&with_companies=${companyId}&watch_region=KR`
+    );
+
+    const dataTv = await resTv.json();
+    const dataMovie = await resMovie.json();
+
+    const krResTv = dataTv.results.map((mov: Movie) => {
+      const genreNames = (mov.genre_ids || [])
+        .map((id: number) => genreMap[id])
+        .filter((el: string): el is string => !!el);
+      return { ...mov, genreNames };
+    });
+
+    const krResMovie = dataMovie.results.map((mov: Movie) => {
+      const genreNames = (mov.genre_ids || [])
+        .map((id: number) => genreMap[id])
+        .filter((el: string): el is string => !!el);
+      return { ...mov, genreNames };
+    });
+
+    const krThemeMov = [...krResTv, ...krResMovie];
+
+    set({ theme: krThemeMov });
+    return krThemeMov;
+  },
+}));
