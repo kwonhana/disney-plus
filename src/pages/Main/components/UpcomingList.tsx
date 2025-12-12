@@ -17,7 +17,6 @@ const UpcomingList = () => {
       onFetchUpcoming();
       onFetchGenres();
     }
-    console.log('장르 확인', movies);
   }, [movies, genres, onFetchUpcoming, onFetchGenres]);
 
   return (
