@@ -60,7 +60,7 @@ const Header = () => {
             <Link className="LinkBtn" to="void">
               홈
             </Link>
-            <Link className="LinkBtn" to="void">
+            <Link className="LinkBtn" to="/movie">
               영화
             </Link>
             <Link className="LinkBtn" to="void">

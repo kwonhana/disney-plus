@@ -3,10 +3,9 @@
 .payInputWrap {
     max-width: 44.8rem;
     margin: 0 auto;
-    margin-top: 3rem;
 
     .inputWrap {
-        margin-bottom: 3rem;
+        margin-top: 3rem;
 
         p {
             @include rs.font (1.2rem, 400, #ddd);
@@ -23,6 +22,16 @@
         }
 
 
+    }
+
+    .anyCard {
+        position: relative;
+
+        img {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+        }
     }
 
     .cardInfo {

@@ -2,8 +2,8 @@
 
 .paymentBg {
     background: linear-gradient(180deg, #0A1A26 0%, #0C7471 60%, rgba(0, 209, 197, 0.9) 100%);
-    height: auto;
-    padding: 19.4rem 0 8.6rem;
+    height: 100%;
+    padding: 15rem 0 8.6rem;
 
 
 
@@ -19,6 +19,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        position: relative;
 
         &::-webkit-scrollbar {
             display: none;

@@ -1,4 +1,4 @@
-import "../scss/PaymentContent.scss";
+import "../scss/PayContent.scss";
 
 interface payContentProps {
     wavve: string;
@@ -7,9 +7,11 @@ interface payContentProps {
     wavves: string;
     wavveImg: string;
     tvingImg: string;
+    tving: string;
+    sub: string;
 }
 
-const PaymentContent = ({ wavve, num, price, wavves, wavveImg, tvingImg, tving, sub }: payContentProps) => {
+const PayContent = ({ wavve, num, price, wavves, wavveImg, tvingImg, tving, sub }: payContentProps) => {
     return (
         <div className="payContentWrap">
             <div className="imgBox">
@@ -30,4 +32,4 @@ const PaymentContent = ({ wavve, num, price, wavves, wavveImg, tvingImg, tving, 
     )
 }
 
-export default PaymentContent
+export default PayContent

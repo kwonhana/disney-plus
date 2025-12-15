@@ -1,0 +1,41 @@
+@use '../../../App.scss' as rs;
+
+.payPopupBg {
+    background: rgba($color: #000000, $alpha: 0.5);
+    max-width: 618px;
+    width: 100%;
+    height: 800px;
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1.6rem;
+
+    .payWrap {
+        background: #333;
+        width: 73%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid rgba($color: #fff, $alpha: 0.2);
+        border-radius: 1.6rem;
+        padding: 2.6rem;
+
+        .title {
+            @include rs.font(2rem, 500, #fff);
+            margin-bottom: 3rem;
+        }
+
+        button {
+            @include rs.font(1.8rem, 500, #fff);
+            padding: 1.2rem 2rem;
+            border-radius: 8px;
+            border: 1px solid rgba($color: #fff, $alpha: 0.2);
+            margin-top: 3rem;
+        }
+    }
+}

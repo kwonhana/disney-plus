@@ -1,27 +1,39 @@
-import { useState } from 'react'
+import { act, useState } from 'react'
 import PaymentRadioBtn from './components/PaymentRadioBtn'
 import "./scss/PaymentPage.scss";
 import Toggle from './components/Toggle';
-import PayCredit from './components/payCredit'
+import PayCredit from './components/PayCredit';
 import PayCheck from './components/PayCheck';
 import PayDes from './components/PayDes';
 import PayBtn from './components/PayBtn';
-import PaymentContent from './components/PaymentContent';
+import PayPopup from './components/PayPopup';
+import PayContent from './components/PayContent';
 
 const PaymentPage = () => {
     const [activeBtn, setActiveBtn] = useState("credit");
+    const [popup, setPopup] = useState(false);
     // const [payOrSub, setpayOrSub] = useState("")
+
+    const handleClosePopup = () => {
+        setPopup(false);
+    }
     return (
         <div className='paymentBg'>
             <div className="paymentWrap">
                 <p className='payTitle'>지금 바로 스트리밍을 시작하세요</p>
-                <PaymentContent price="13,900" />
+                <PayContent price="13,900" />
                 <PaymentRadioBtn />
                 <Toggle activeBtn={activeBtn} setActiveBtn={setActiveBtn} mode="pay" />
-                <PayCredit />
-                <PayCheck />
+                {activeBtn === "credit" && (
+                    <PayCredit onPopupOpen={() => setPopup(true)} />
+                )}
+                {activeBtn === "credit" && (
+                    <PayCheck />
+                )}
                 <PayDes />
-                <PayBtn />
+                <PayBtn activeBtn={activeBtn} />
+                {popup ? <PayPopup onClose={handleClosePopup} /> : ""}
+
             </div>
 
         </div>

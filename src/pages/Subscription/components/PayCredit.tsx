@@ -1,16 +1,20 @@
 import "../scss/PayCredit.scss"
 
-const payCredit = () => {
+interface payCreditProps {
+    onPopupOpen: () => void;
+}
+
+const payCredit = ({ onPopupOpen }: payCreditProps) => {
     return (
         <div className="payInputWrap">
             <div className="inputWrap">
                 <p>카드 소유주 성명</p>
                 <input type="text" placeholder="카드 소유주 성명을 입력해주세요" />
             </div>
-            <div className="inputWrap">
+            <div className="inputWrap anyCard">
                 <p>카드번호</p>
                 <input type="text" placeholder="카드번호를 입력해주세요" />
-                <img src="" alt="" />
+                <button onClick={onPopupOpen}><img src="/images/subscription/moreInfo.png" alt="" /></button>
             </div>
             <div className="cardInfo">
                 <div className="inputWrap">

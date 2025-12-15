@@ -15,7 +15,7 @@ const SubscriptionContent = ({ wavve, num, price, wavves, wavveImg }: SubContent
         <div className="subscriptionContentWrap">
             <div className="imgBox">
                 <div><img className="disney" src="/images/logo.svg" alt="디즈니로고" /></div>
-                <div><img className="tving" src="/images/  subscription/tvingLogo.png" alt="티빙로고" /></div>
+                <div><img className="tving" src="/images/subscription/tvingLogo.png" alt="티빙로고" /></div>
                 <div className={wavveImg ? "wavve" : "none"}><img className="wavve" src={wavveImg} alt="웨이브로고" /></div>
             </div>
             <div className="title"><p>디즈니+ 티빙 {wavve} 번들</p></div>

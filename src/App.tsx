@@ -10,6 +10,8 @@ import SignupPage from './pages/Auth/SignupPage';
 import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
 import ProfileEditPage from './pages/ProfileEdit/ProfileEditPage';
+import MainMovie from './pages/Main/MainMovie';
+
 
 function App() {
   const { initAuth } = useAuthStore();
@@ -23,9 +25,9 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<MainPage />} />
+        <Route path="/movie" element={<MainMovie />} />
         <Route path="/subscription" element={<SubscriptionPage />} />
         <Route path="/profile/setting" element={<ProfileSettingPage />} />
-        <Route path="/subscription" element={<SubscriptionPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/payment" element={<PaymentPage />} />

@@ -1,7 +1,6 @@
 @use "../../../App.scss" as rs;
 
 .payCheckWrap {
-    margin-top: 3rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,7 +9,7 @@
     .check {
         display: flex;
         gap: 12px;
-        margin-bottom: 3rem;
+        margin-top: 3rem;
         width: 44rem;
 
         p {
