@@ -7,74 +7,136 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  type User,
 } from 'firebase/auth';
 import { auth, googleProvider, db } from '../api/auth';
-
-// type 지정
-interface AuthState {
-  user: User | null;
-  loading: boolean;
-  error: string | null;
-  setUser: (user: User | null) => void;
-  initAuth: () => void;
-  onMember: (email: string, password: string) => Promise<void>;
-  onLogin: (email: string, password: string) => Promise<void>;
-  onGoogleLogin: () => Promise<void>;
-  onLogout: () => Promise<void>;
-}
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import type { AuthState, KidsModeInfo, UserData } from '../types/IAuth';
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-  // 사용자 정보
   user: null,
+  userData: null,
   loading: true,
+  isLogin: false,
   error: null,
 
   clearError: () => set({ error: null }),
 
-  // 로딩이 되고 나면 사용자를 user에 넣어서 사용, loading을 false로 바꾸기 => 로그인 상태
-  // user 값이 바뀌면 isLogin값도 자동으로 업데이트 되게 함.
-  setUser: (user) => set({ user, loading: false }),
+  setUser: (user) => set({ user, loading: false, isLogin: !!user }),
 
-  initAuth: () => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        set({ user, loading: false });
-      } else {
-        set({ user: null, loading: false });
+  // 인증 상태 초기화
+  initAuth: async () => {
+    set({ loading: true });
+    onAuthStateChanged(auth, async (firebaseUser) => {
+      if (!firebaseUser) {
+        set({
+          user: null,
+          userData: null,
+          loading: false,
+          isLogin: false,
+        });
+        console.log('사용자 로그인 상태 아님');
+        return;
       }
+      // 로그인된 경우 Firestore에서 사용자 데이터 가져오기
+      const userRef = doc(db, 'users', firebaseUser.uid);
+      const userDoc = await getDoc(userRef);
+
+      let userData: UserData | null = null;
+      if (userDoc.exists()) {
+        userData = userDoc.data() as UserData;
+      }
+      set({ user: firebaseUser, userData, loading: false, isLogin: true });
     });
   },
 
   // 회원가입
-  onMember: async (email, password) => {
+  onMember: async (email, password, kidsModeData) => {
     try {
+      console.log('회원가입 시작:', email);
+      console.log('키즈 모드 데이터:', kidsModeData);
+
+      // Firebase Authentication으로 사용자 생성
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
 
-      set({ user: firebaseUser });
+      console.log('Firebase 사용자 생성 완료:', firebaseUser.uid);
 
-      alert('회원가입 성공');
-      console.log('회원가입 성공');
-    } catch (err) {
-      alert('회원가입 실패');
-      console.log('회원가입 실패', err.message);
+      // Firestore에 저장할 사용자 정qh
+      const userData = {
+        uid: firebaseUser.uid,
+        name: '',
+        phone: '',
+        email,
+        nickname: '',
+        file: '',
+        profile: '',
+        createdAt: new Date(),
+        // 키즈 모드가 활성화되어 있으면 추가
+        ...(kidsModeData?.isActive ? { kidsMode: { ...kidsModeData } } : {}),
+      };
+
+      if (kidsModeData?.isActive) {
+        userData.kidsMode = {
+          isActive: kidsModeData.isActive,
+          year: kidsModeData.year,
+          month: kidsModeData.month,
+          date: kidsModeData.date,
+        };
+      }
+
+      console.log('Firestore에 저장할 데이터:', userData);
+
+      // Firestore의 'users' 컬렉션에 사용자 정보 저장
+      const userRef = doc(db, 'users', firebaseUser.uid);
+      await setDoc(userRef, userData);
+
+      console.log('Firestore 저장 완료');
+
+      set({
+        user: firebaseUser,
+        userData,
+        loading: false,
+        isLogin: true,
+      });
+
+      console.log('회원가입 성공 - 모든 과정 완료');
+      alert('회원가입이 완료되었습니다!');
+    } catch (err: any) {
+      console.error('회원가입 실패:', err);
+      alert(err.message);
+      throw err;
     }
   },
 
   // 기본 로그인
   onLogin: async (email, password) => {
     try {
+      await setPersistence(auth, browserLocalPersistence);
+
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
 
-      set({ user: firebaseUser });
+      // Firestore에서 사용자 정보 가져오기
+      const userRef = doc(db, 'users', firebaseUser.uid);
+      const userDoc = await getDoc(userRef);
 
-      alert('로그인 성공');
+      let userData: UserData | null = null;
+
+      if (userDoc.exists()) {
+        userData = userDoc.data() as UserData;
+      }
+
+      set({
+        user: firebaseUser,
+        userData,
+        isLogin: true,
+      });
+
       console.log('로그인 성공');
-    } catch (err) {
-      alert('로그인 실패');
-      console.log('로그인 실패', err.message);
+    } catch (err: any) {
+      console.error('로그인 실패:', err);
+      alert(err.message);
+      throw err;
     }
   },
 
@@ -86,19 +148,86 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const result = await signInWithPopup(auth, googleProvider);
       const firebaseUser = result.user;
 
-      set({ user: firebaseUser });
+      // Firestore에서 사용자 정보 확인
+      const userRef = doc(db, 'users', firebaseUser.uid);
+      const userDoc = await getDoc(userRef);
 
-      alert('구글 로그인 성공');
+      let userData: UserData;
+
+      if (!userDoc.exists()) {
+        // 신규 사용자인 경우 정보 저장
+        userData = {
+          uid: firebaseUser.uid,
+          name: firebaseUser.displayName || '',
+          phone: '',
+          email: firebaseUser.email || '',
+          nickname: '',
+          file: firebaseUser.photoURL || '',
+          profile: firebaseUser.photoURL || '',
+          createdAt: new Date(),
+        };
+
+        await setDoc(userRef, userData);
+      } else {
+        userData = userDoc.data() as UserData;
+      }
+
+      set({
+        user: firebaseUser,
+        userData,
+        isLogin: true,
+      });
+
       console.log('구글 로그인 성공');
-    } catch (err) {
-      alert('구글 로그인 실패');
-      console.log('구글 로그인 실패', err.message);
+    } catch (err: any) {
+      console.error('구글 로그인 실패:', err);
+      alert(err.message);
+      throw err;
+    }
+  },
+
+  // 키즈모드 업데이트
+  updateKidsMode: async (kidsMode: KidsModeInfo) => {
+    try {
+      const currentUser = get().user;
+      if (!currentUser) {
+        throw new Error('로그인이 필요합니다.');
+      }
+
+      const userRef = doc(db, 'users', currentUser.uid);
+      await setDoc(
+        userRef,
+        {
+          kidsMode: {
+            isActive: kidsMode.isActive,
+            year: kidsMode.year,
+            month: kidsMode.month,
+            date: kidsMode.date,
+          },
+        },
+        { merge: true }
+      );
+
+      // 업데이트
+      const userData = get().userData;
+      if (userData) {
+        set({
+          userData: {
+            ...userData,
+            kidsMode,
+          },
+        });
+      }
+      console.log('키즈 모드 업데이트 완료');
+    } catch (err: any) {
+      console.error(err.message);
     }
   },
 
   // 로그아웃
   onLogout: async () => {
     await signOut(auth);
-    set({ user: null });
+    set({ user: null, userData: null, isLogin: false });
+    console.log('로그아웃 완료');
   },
 }));

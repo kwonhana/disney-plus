@@ -1,15 +1,24 @@
 // TODO 주니어 모드 나이 설정 store
 import { create } from 'zustand';
+import type { KidsStoreState } from '../types/IAuth';
 
 // TODO 생년월일 배열 만들기
 // 만 나이 기준
-export const useKidsStore = create((set) => ({
+export const useKidsStore = create<KidsStoreState>((set) => ({
   // 주니어 해당 연도를 저장할 배열
   years: [],
   // 월을 저장할 배열
   months: [],
   // 날짜를 저장할 배열
   date: [],
+
+  // 선택한 생년월일
+  selectedYear: null,
+  selectedMonth: null,
+  selectedDate: null,
+
+  // 키즈 모드 활성화 여부
+  isKidsModeActive: false,
 
   // 만 나이 기준 0 - 12세 출생 연도 배열 만들기
   initYears: () => {
@@ -45,5 +54,19 @@ export const useKidsStore = create((set) => ({
   initDate: () => {
     const dateArray = Array.from({ length: 31 }, (_, i) => String(i + 1).padStart(2, '0'));
     set({ date: dateArray });
+  },
+
+  // 연도 선택
+  setSelectedYear: (year) => {
+    set({ selectedYear: year });
+  },
+
+  // 월 선택
+  setSelectedMonth: (month) => {
+    set({ selectedMonth: month });
+  },
+  // 날짜 선택
+  setSelectedDate: (date) => {
+    set({ selectedDate: date });
   },
 }));

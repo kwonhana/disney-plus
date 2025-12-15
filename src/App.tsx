@@ -11,11 +11,11 @@ import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
 
 function App() {
-  const { isLogin } = useAuthStore();
+  const { initAuth } = useAuthStore();
 
   useEffect(() => {
-    isLogin();
-  }, []);
+    initAuth(); // 앱 시작 시 로그인 상태 초기화
+  }, [initAuth]);
 
   return (
     <div>
@@ -27,7 +27,7 @@ function App() {
         <Route path="/subscription" element={<SubscriptionPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
-              <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/payment" element={<PaymentPage />} />
       </Routes>
     </div>
   );
