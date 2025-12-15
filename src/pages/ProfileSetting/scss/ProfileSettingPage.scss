@@ -2,8 +2,6 @@
 
 .profileCreationBg {
   background: #0A1A26;
-  // height: 100vh;
-  // height: auto;
   padding: 10rem;
   align-content: center;
   justify-items: center;
@@ -14,13 +12,12 @@
     color: white;
     gap: 6rem;
     align-items: center;
-    line-height: 150%;
 
     .profileCreateBoxWrap {
       display: flex;
       flex-direction: column;
       gap: 3rem;
-      min-width: 570px;
+      width: 130%;
 
       .profileCreateBox {
         padding: 1.5rem 3rem;
@@ -43,7 +40,6 @@
         .fontSize14 {
           font-size: 1.4rem;
           font-weight: 400;
-          line-height: 150%;
           color: #ddd;
         }
 
@@ -58,8 +54,8 @@
               align-items: center;
 
               .membershipMore {
-                width: 3rem;
-                height: 3rem;
+                width: 2rem;
+                height: 2rem;
                 display: block;
                 background-image: url(../../../../public/icon/mainArrow.svg);
                 background-repeat: no-repeat;
@@ -72,7 +68,6 @@
         .profileBoxSubTitle {
           font-size: 1.8rem;
           font-weight: 400;
-          line-height: 150%;
         }
       }
     }

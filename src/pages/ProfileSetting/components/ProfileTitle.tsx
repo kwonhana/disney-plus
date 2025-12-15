@@ -6,7 +6,7 @@ interface ProfileTitleProps {
   fontWeight?: string;
 }
 
-const ProfileSettingTitle = ({
+const ProfileTitle = ({
   profileTitle,
   fontSize = '4rem',
   fontWeight = '500',
@@ -18,4 +18,4 @@ const ProfileSettingTitle = ({
   );
 };
 
-export default ProfileSettingTitle;
+export default ProfileTitle;

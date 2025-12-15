@@ -1,0 +1,119 @@
+.agesetPopupWrap {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.50);
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+
+  .agesetPopup {
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    background: #333;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5rem 7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    align-items: center;
+    max-width: 40%;
+
+    .agesetPopupTop {
+      display: flex;
+      flex-direction: column;
+      gap: 2.2rem;
+      align-items: center;
+      width: 95%;
+
+      .ageSetTitle {
+        font-size: 3rem;
+        font-weight: 600;
+      }
+
+      >span {
+        color: #ddd;
+        font-size: 1.8rem;
+        line-height: 150%;
+      }
+    }
+
+    .ageProgressBar {
+      border: 1px solid #33DDFF;
+      position: relative;
+      border-radius: 4px;
+      background: #DDD;
+      width: 100%;
+      height: 4px;
+      display: flex;
+      justify-content: space-between;
+
+      .ageProgressFill {
+        position: absolute;
+        height: 100%;
+        background: #33DDFF;
+        border-radius: 4px;
+        transition: width 0.3s ease;
+      }
+
+      .ageDot {
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+
+        >span {
+          position: absolute;
+          top: 20px;
+          font-size: 1.2rem;
+          color: white;
+        }
+
+        &.active {
+          background: #33DDFF;
+        }
+      }
+    }
+
+    .agesetPopupBtnWrap {
+      display: flex;
+      justify-content: space-between;
+      width: 32%;
+
+      .ageSave {
+        padding: 1.2rem 1.8rem;
+        border-radius: 8px;
+        background: #FFF;
+        backdrop-filter: blur(12px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.8rem;
+        font-weight: 500;
+
+      }
+
+      .ageDel {
+        padding: 1.2rem 1.8rem;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.20);
+        background: rgba(255, 255, 255, 0.10);
+        backdrop-filter: blur(12px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.8rem;
+        font-weight: 500;
+        color: #FFF;
+      }
+    }
+  }
+}

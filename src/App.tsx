@@ -9,6 +9,7 @@ import LoginPage from './pages/Auth/LoginPage';
 import SignupPage from './pages/Auth/SignupPage';
 import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
+import ProfileEditPage from './pages/ProfileEdit/ProfileEditPage';
 
 function App() {
   const { initAuth } = useAuthStore();
@@ -28,6 +29,7 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/profile/edit" element={<ProfileEditPage />} />
       </Routes>
     </div>
   );

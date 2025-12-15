@@ -2,13 +2,13 @@ import React from 'react';
 import ProfileSettingBox from './components/ProfileSettingBox';
 import { Link } from 'react-router-dom';
 import './scss/ProfileSettingPage.scss';
-import ProfileSettingTitle from './components/ProfileSettingTitle';
+import ProfileTitle from './components/ProfileTitle';
 
 const ProfileSettingPage = () => {
   return (
     <div className="profileCreationBg pullInner">
       <div className="profileCreateWrap inner">
-        <ProfileSettingTitle profileTitle="계정 설정" />
+        <ProfileTitle profileTitle="계정 설정" />
         <div className="profileCreateBoxWrap">
           <ProfileSettingBox title="계정 정보">
             <span className="profileCreateBox userEmail profileBoxSubTitle"></span>

@@ -1,0 +1,51 @@
+.profileEditBoxWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+  width: 130%;
+
+  .profileEditBoxTop {
+    // display: flex;
+    // justify-content: space-between;
+    // border: 1px solid white;
+  }
+
+  .profileEditBoxBottom {
+
+    .profileBoxContent {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      padding: 1.5rem 3rem;
+
+
+      .ageSetting {
+        display: flex;
+        align-items: center;
+        line-height: 150%;
+
+        &.top {
+          font-size: 1.8rem;
+          font-weight: 400;
+          display: flex;
+          justify-content: space-between;
+        }
+
+        &.bottom {
+          font-size: 1.4rem;
+          font-weight: 400;
+          color: #ddd;
+        }
+
+        .ageSettingBtn {
+          width: 2rem;
+          height: 2rem;
+          display: block;
+          background-image: url(../../../../public/icon/mainArrow.svg);
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      }
+    }
+  }
+}

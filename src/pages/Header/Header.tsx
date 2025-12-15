@@ -89,16 +89,22 @@ const Header = () => {
               className={`ProfileDropdown ${isDepthOpen ? 'open' : ''}`}
               onMouseLeave={closeDepth}>
               <li>
-                <Link to="/profile/edit">내 프로필 수정</Link>
+                <Link to="/profile/edit" className="dropdownLink">
+                  내 프로필 수정
+                </Link>
               </li>
               <li>
-                <Link to="/profile/change">프로필 변경</Link>
+                <Link to="/profile/change" className="dropdownLink">
+                  프로필 변경
+                </Link>
               </li>
               <li>
-                <Link to="/profile/setting">계정 설정</Link>
+                <Link to="/profile/setting" className="dropdownLink">
+                  계정 설정
+                </Link>
               </li>
               <li>
-                <button>로그아웃</button>
+                <button className="dropdownLink">로그아웃</button>
               </li>
             </ul>
           </div>
