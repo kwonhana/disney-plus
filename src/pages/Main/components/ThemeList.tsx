@@ -1,7 +1,5 @@
-
 //   const isMovieLoaded = theme.length > 0 && !isLoading;
 //   console.log("테마와 로딩중", theme, isLoading, isMovieLoaded)
-
 
 //   return (
 //     <section className="ThemeList">
@@ -96,7 +94,6 @@ const ThemeList = () => {
     onfetchTheme(activeThemeId);
   }, [activeThemeId]);
 
-
   const skeletonClassName = isLoading ? 'skeleton' : 'hidden skeleton';
 
   return (
@@ -106,8 +103,7 @@ const ThemeList = () => {
           {ThemeListNavData.map((v, i) => (
             <li
               key={i}
-              className={`${v.title} ${v.title === activeTheme ? 'active' : ''
-                }`}
+              className={`${v.title} ${v.title === activeTheme ? 'active' : ''}`}
               onClick={() => {
                 setActiveTheme(v.title);
                 fetchedRef.current = false;
@@ -157,4 +153,3 @@ const ThemeList = () => {
 };
 
 export default ThemeList;
-

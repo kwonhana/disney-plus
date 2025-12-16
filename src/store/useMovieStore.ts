@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import type { Movie, MovieState, SeasonData } from '../types/IContent';
 
-const APT_KEY = import.meta.env.VITE_TMDB_API_KEY;
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 // =========================
 // 연도 계산 (그대로 유지)
@@ -25,13 +25,14 @@ export const useMovieStore = create<MovieState>((set, get) => ({
   seasonMovies: [],
   genres: [],
   category: {},
+  Top: [],
   isLoading: false,
 
   // =========================
   // TODO 장르
   onFetchGenres: async () => {
     const res = await fetch(
-      `https://api.themoviedb.org/3/genre/movie/list?api_key=${APT_KEY}&language=ko`
+      `https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}&language=ko`
     );
     const data = await res.json();
     set({ genres: data.genres });
@@ -59,14 +60,14 @@ export const useMovieStore = create<MovieState>((set, get) => ({
     const genreMap = await get().getGenreMap();
 
     const res = await fetch(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${APT_KEY}&language=en-US&page=1`
+      `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&language=en-US&page=1`
     );
     const data = await res.json();
 
     const extra = await Promise.all(
       data.results.map(async (movie: Movie) => {
         const logoRes = await fetch(
-          `https://api.themoviedb.org/3/movie/${movie.id}/images?api_key=${APT_KEY}`
+          `https://api.themoviedb.org/3/movie/${movie.id}/images?api_key=${API_KEY}`
         );
         const logoData = await logoRes.json();
 
@@ -81,6 +82,25 @@ export const useMovieStore = create<MovieState>((set, get) => ({
     set({ movies: extra });
   },
 
+  //TODO TOP10
+  onFetchTOP: async () => {
+    const genreMap = await get().getGenreMap();
+    const resTOP = await fetch(
+      `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+    );
+    const data = await resTOP.json();
+    const dataTOP = data.results;
+
+    const TopMOV = dataTOP.map((mov: Movie) => {
+      const genreNames = (mov.genre_ids || [])
+        .map((id: number) => genreMap[id])
+        .filter((name: string): name is string => !!name);
+      return { ...mov, genreNames };
+    });
+
+    set({ Top: TopMOV });
+  },
+
   // =========================
   // TODO 카테고리
   onfetchCate: async (genreId) => {
@@ -88,7 +108,7 @@ export const useMovieStore = create<MovieState>((set, get) => ({
 
     const genreMap = await get().getGenreMap();
     const res = await fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${APT_KEY}&language=ko&with_genres=${genreId}`
+      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=ko&with_genres=${genreId}`
     );
     const data = await res.json();
 
@@ -115,10 +135,10 @@ export const useMovieStore = create<MovieState>((set, get) => ({
 
       const [tvRes, movieRes] = await Promise.all([
         fetch(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${APT_KEY}&language=ko-KR&with_watch_providers=${companyId}&watch_region=KR`
+          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=ko-KR&with_watch_providers=${companyId}&watch_region=KR`
         ),
         fetch(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${APT_KEY}&language=ko-KR&with_companies=${companyId}&watch_region=KR`
+          `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=ko-KR&with_companies=${companyId}&watch_region=KR`
         ),
       ]);
 
@@ -139,7 +159,7 @@ export const useMovieStore = create<MovieState>((set, get) => ({
   // TODO 시즌 (다른 컴포넌트용)
   onfetchSeason: async (seasonData: SeasonData) => {
     const genreMap = await get().getGenreMap();
-    let apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${APT_KEY}&language=ko-KR`;
+    let apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=ko-KR`;
     const aa = await fetch(apiUrl);
     const dd = await aa.json();
     console.log('가공', dd.results);
