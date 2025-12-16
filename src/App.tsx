@@ -11,7 +11,8 @@ import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
 import ProfileEditPage from './pages/ProfileEdit/ProfileEditPage';
 import MainMovie from './pages/Main/MainMovie';
-
+import MainSeries from './pages/Main/MainSeries';
+import MainOriginal from './pages/Main/MainOriginal';
 
 function App() {
   const { initAuth } = useAuthStore();
@@ -26,6 +27,8 @@ function App() {
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/movie" element={<MainMovie />} />
+        <Route path="/series" element={<MainSeries />} />
+        <Route path="/original" element={<MainOriginal />} />
         <Route path="/subscription" element={<SubscriptionPage />} />
         <Route path="/profile/setting" element={<ProfileSettingPage />} />
         <Route path="/signup" element={<SignupPage />} />
