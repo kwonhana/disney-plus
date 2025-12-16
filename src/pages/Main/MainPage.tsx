@@ -6,6 +6,7 @@ import ThemeList from './components/ThemeList';
 import UpcomingList from './components/UpcomingList';
 import GenreList from './components/GenreList';
 import SeasonMovie from './components/SeasonMovie';
+import Top10List from './components/Top10List';
 
 // 12: "모험"
 // 14: "판타지"
@@ -31,6 +32,7 @@ const MainPage = () => {
     <section className="MainPage normal">
       <MainScreen />
       <WatchList />
+      <Top10List title="현재 인기 영화 TOP 10" />
       <GenreList genreId="27" title="공포" />
       <RecommendedForYou />
       <ThemeList />
