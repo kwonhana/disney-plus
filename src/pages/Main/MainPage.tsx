@@ -5,6 +5,7 @@ import RecommendedForYou from './components/RecommendedForYou';
 import ThemeList from './components/ThemeList';
 import UpcomingList from './components/UpcomingList';
 import GenreList from './components/GenreList';
+import SeasonMovie from './components/SeasonMovie';
 
 // 12: "모험"
 // 14: "판타지"
@@ -35,6 +36,7 @@ const MainPage = () => {
       <ThemeList />
       <UpcomingList />
       <GenreList genreId="16" title="애니메이션" />
+      <SeasonMovie />
       <GenreList genreId="10749" title="로맨스" />
     </section>
   );
