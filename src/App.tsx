@@ -10,11 +10,14 @@ import SignupPage from './pages/Auth/SignupPage';
 import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
 import ProfileEditPage from './pages/ProfileEdit/ProfileEditPage';
+import SearchPage from './pages/Search/SearchPage';
+import Footer from './pages/Footer/Footer';
 import MainMovie from './pages/Main/MainMovie';
 import MainSeries from './pages/Main/MainSeries';
 import MainOriginal from './pages/Main/MainOriginal';
-import SearchPage from './pages/Search/SearchPage';
-import Footer from './pages/Footer/Footer';
+import ProfileSelectPage from './pages/ProfileSelect/ProfileSelectPage';
+import ProfileCreatePageImage from './pages/ProfileCreate/ProfileCreatePageImage';
+import ProfileCreatePageInfo from './pages/ProfileCreate/ProfileCreatePageInfo';
 
 function App() {
   const { initAuth } = useAuthStore();
@@ -37,7 +40,9 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/profile/edit" element={<ProfileEditPage />} />
-        <Route path="/search" element={<SearchPage />} />
+        <Route path="/profile/select" element={<ProfileSelectPage />} />
+        <Route path="profile/create/image" element={<ProfileCreatePageImage />} />
+        <Route path="profile/create/info" element={<ProfileCreatePageInfo />} />
       </Routes>
       <Footer />
     </div>
