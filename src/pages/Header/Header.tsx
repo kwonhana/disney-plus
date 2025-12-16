@@ -64,13 +64,13 @@ const Header = () => {
               <Link className="LinkBtn" to="void">
                 홈
               </Link>
-              <Link className="LinkBtn" to="void">
+              <Link className="LinkBtn" to="/movie">
                 영화
               </Link>
-              <Link className="LinkBtn" to="void">
+              <Link className="LinkBtn" to="/series">
                 시리즈
               </Link>
-              <Link className="LinkBtn" to="void">
+              <Link className="LinkBtn" to="/original">
                 오리지널
               </Link>
             </nav>
