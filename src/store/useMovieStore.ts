@@ -27,6 +27,7 @@ export const useMovieStore = create<MovieState>((set, get) => ({
   category: {},
   Top: [],
   isLoading: false,
+  Latest: [],
 
   // =========================
   // TODO 장르
@@ -101,6 +102,18 @@ export const useMovieStore = create<MovieState>((set, get) => ({
     set({ Top: TopMOV });
   },
 
+  //TODO 최신개봉작
+  onfetchLatest: async () => {
+    const resLatest = await fetch(
+      `https://api.themoviedb.org/3/tv/airing_today?api_key=${API_KEY}&language=en-US&page=1`
+    );
+    const data = await resLatest.json();
+    const dataLatest = data.results;
+
+    set({ Latest: dataLatest });
+
+    console.log('dataLatest', data);
+  },
   // =========================
   // TODO 카테고리
   onfetchCate: async (genreId) => {
@@ -159,10 +172,23 @@ export const useMovieStore = create<MovieState>((set, get) => ({
   // TODO 시즌 (다른 컴포넌트용)
   onfetchSeason: async (seasonData: SeasonData) => {
     const genreMap = await get().getGenreMap();
+
     let apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=ko-KR`;
+
+    console.log('기본', apiUrl);
     const aa = await fetch(apiUrl);
     const dd = await aa.json();
     console.log('가공', dd.results);
+
+    // if (seasonData.keywordId) {
+    //   // 쉼표(,)를 파이프(|)로 대체하여 키워드를 OR 조건으로 검색하도록 합니다.
+    //   const orKeywords = seasonData.keywordId.replace(/,/g, '|');
+    //   apiUrl += `&with_keywords=${orKeywords}`;
+    // }
+    if (seasonData.genreId) {
+      apiUrl += `&with_genres=${seasonData.genreId}`;
+    }
+
     console.log('수정후', apiUrl);
 
     if (seasonData.title === 'classic') {
@@ -170,11 +196,18 @@ export const useMovieStore = create<MovieState>((set, get) => ({
       apiUrl += `&sort_by=vote_average.desc`;
       apiUrl += `&vote_count.gte=500`;
     } else {
+      // =========================
       //  시즌 날짜 필터
+      // 시즌 시작일을 YYYY-MM-DD로 변환
       const startDate = createFullDateString(seasonData.startDate, false);
+      // 시즌 종료일을 YYYY-MM-DD로 변환
       const endDate = createFullDateString(seasonData.endDate, true);
 
+      // 파라미터   의미
+      // TMDB에서 날짜 필터
+      // primary_release_date.gte 날짜 이후 개봉
       apiUrl += `&primary_release_date.gte=${startDate}`;
+      // primary_release_date.lte 날짜 이전 개봉
       apiUrl += `&primary_release_date.lte=${endDate}`;
       apiUrl += `&sort_by=popularity.desc`;
     }
@@ -192,6 +225,4 @@ export const useMovieStore = create<MovieState>((set, get) => ({
     //  theme  → seasonMovies
     set({ seasonMovies: mapped });
   },
-
-
 }));

@@ -9,6 +9,10 @@ export interface MediaBase {
   genre_ids: number[];
 }
 
+export interface title {
+  title: string | number;
+}
+
 //TODO  Movie
 // title이 movie랑 tv 네임이 다름
 export interface Movie extends MediaBase {
@@ -48,8 +52,10 @@ export interface MovieState {
   category: Record<string, Movie[]>;
   isLoading: boolean;
   Top: Movie[];
+  Latest: Movie[];
   onFetchTOP: () => Promise<void>;
   onFetchUpcoming: () => Promise<void>;
+  onfetchLatest: () => Promise<void>;
   onFetchGenres: () => Promise<[]>;
   getGenreMap: () => Promise<Record<number, string>>;
   onfetchSeason: (seasonData: SeasonData) => Promise<void>;
