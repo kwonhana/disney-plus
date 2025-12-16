@@ -21,7 +21,7 @@ const GenreList = ({ genreId, title }: GenreListProps) => {
       onfetchCate(genreId);
     }
     // console.log('????????', GenreMovies);
-  });
+  }, []);
 
   return (
     <section className="GenreList movieList pullInner">

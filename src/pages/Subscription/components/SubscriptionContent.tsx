@@ -3,6 +3,7 @@ import '../scss/SubscriptionContent.scss'
 import { Link } from 'react-router-dom'
 
 interface SubContentProps {
+    planKey: string;
     wavve: string;
     num: string;
     price: string;
@@ -10,7 +11,7 @@ interface SubContentProps {
     wavveImg: string;
 }
 
-const SubscriptionContent = ({ wavve, num, price, wavves, wavveImg }: SubContentProps) => {
+const SubscriptionContent = ({ planKey, wavve, num, price, wavves, wavveImg }: SubContentProps) => {
     return (
         <div className="subscriptionContentWrap">
             <div className="imgBox">
@@ -32,7 +33,7 @@ const SubscriptionContent = ({ wavve, num, price, wavves, wavveImg }: SubContent
                 <p><img src="/images/subscription/check.png" alt="체크아이콘" />광고 없는 스트리밍</p>
 
             </div>
-            <Link to="/payment"><button>멤버십 선택</button></Link>
+            <Link to="/payment" state={{ planKey }}><button>멤버십 선택</button></Link>
         </div>
     )
 }

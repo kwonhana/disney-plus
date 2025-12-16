@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import "../scss/SubscriptionDisneyContent.scss"
 
 interface SubDisneyContentProps {
+    planKey: string;
     title: string;
     price: string;
     priceDes: string;
@@ -10,7 +11,7 @@ interface SubDisneyContentProps {
     des3: string;
 }
 
-const SubscriptionDisneyContent = ({ title, price, priceDes, des1, des2, des3 }: SubDisneyContentProps) => {
+const SubscriptionDisneyContent = ({ planKey, title, price, priceDes, des1, des2, des3 }: SubDisneyContentProps) => {
     return (
         <div className="subscriptionDisneyContentWrap">
             <div className="imgBox">
@@ -29,7 +30,7 @@ const SubscriptionDisneyContent = ({ title, price, priceDes, des1, des2, des3 }:
                 <p><img src="/images/subscription/check.png" alt="체크아이콘" />최대 10대 기기에서 콘텐츠 저장 가능</p>
 
             </div>
-            <Link to="/payment"><button>멤버십 선택</button></Link>
+            <Link to="/payment" state={planKey}><button>멤버십 선택</button></Link>
         </div>
     )
 }

@@ -15,18 +15,18 @@ const SubscriptionPage = () => {
 
                 {activeBtn === "bundle" && (
                     <div className="contentWrap">
-                        <SubscriptionContent price="21,000" wavve="웨이브" num="37" wavves="& 웨이브" wavveImg="/images/subscription/wavveLogo.png" />
-                        <SubscriptionContent price="18,000" num="23" wavve={""} wavves={""} wavveImg={""} />
+                        <SubscriptionContent price="21,000" wavve="웨이브" num="37" wavves="& 웨이브" wavveImg="/images/subscription/wavveLogo.png" planKey="티빙 웨이브 번들" />
+                        <SubscriptionContent price="18,000" num="23" wavve={""} wavves={""} wavveImg={""} planKey="티빙 번들" />
                     </div>
                 )}
 
                 {activeBtn === "disney" && (
                     <div className="disneyContentWrap">
                         <SubscriptionDisneyContent title="프리미엄" price="21,500" priceDes="139,000"
-                            des1="최대 4K UHD & HDR 화질" des2="최대 Dolby Atomos 오디오" des3="최대 4대 기기 동시 스트리밍"
+                            des1="최대 4K UHD & HDR 화질" des2="최대 Dolby Atomos 오디오" des3="최대 4대 기기 동시 스트리밍" planKey="프리미엄"
                         />
                         <SubscriptionDisneyContent title="스탠다드" price="9,900" priceDes="99,000"
-                            des1="최대 1080p Full HD" des2="최대 5.1 사운드" des3="2대 기기 동시 스트리밍"
+                            des1="최대 1080p Full HD" des2="최대 5.1 사운드" des3="2대 기기 동시 스트리밍" planKey="스탠다드"
                         />
                     </div>
                 )}

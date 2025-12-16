@@ -192,4 +192,6 @@ export const useMovieStore = create<MovieState>((set, get) => ({
     //  theme  → seasonMovies
     set({ seasonMovies: mapped });
   },
+
+
 }));

@@ -43,4 +43,7 @@ const Top10List = ({ title }: Top10Props) => {
   );
 };
 
-export default Top10List;
+
+
+
+export default Top10List
