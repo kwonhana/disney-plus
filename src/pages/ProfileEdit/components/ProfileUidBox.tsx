@@ -1,37 +1,26 @@
 import React, { useState } from 'react';
 import '../scss/ProfileUidBox.scss';
-
 interface ProfileUidBoxProps {
-  userPhoto: string;
-  uName: string;
-  onNameChage?: (value: string) => void;
+  username: string;
+  image?: string;
+  onChangeName: (value: string) => void;
 }
 
-const ProfileUidBox = ({ userPhoto, uName, onNameChage }: ProfileUidBoxProps) => {
-  const [name, setName] = useState(uName);
+const ProfileUidBox = ({ username, image, onChangeName }: ProfileUidBoxProps) => {
   const [err, setErr] = useState('');
 
-  const uNameChange = (value: string) => {
-    const nameChangeInfo = /^[A-Za-z0-9가-힣]+$/;
+  const validateName = (value: string) => {
+    const regex = /^[A-Za-z0-9가-힣]+$/;
 
-    if (value.length > 6) {
-      return '6자 이하만 가능합니다.';
-    }
-    if (value.length > 0 && !nameChangeInfo.test(value)) {
-      return '한글, 영문, 숫자만 사용할 수 있습니다.';
-    }
+    if (value.length > 6) return '6자 이하만 가능합니다.';
+    if (value && !regex.test(value)) return '한글, 영문, 숫자만 사용할 수 있습니다.';
     return '';
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-
-    setName(value);
-
-    const validation = uNameChange(value);
-    setErr(validation);
-
-    onNameChage?.(value);
+    setErr(validateName(value));
+    onChangeName(value);
   };
 
   return (
@@ -48,7 +37,8 @@ const ProfileUidBox = ({ userPhoto, uName, onNameChage }: ProfileUidBoxProps) =>
         <div className="unameInput">
           <input
             type="text"
-            value={name}
+            value={username}
+            placeholder={username === '' ? '이름을 입력해주세요.' : ''}
             onChange={handleChange}
             className={err ? 'nameinputWrong' : 'nameinput'}
           />
@@ -57,7 +47,7 @@ const ProfileUidBox = ({ userPhoto, uName, onNameChage }: ProfileUidBoxProps) =>
       </div>
       <div className="right" style={{ border: '1px solid white' }}>
         <div className="userPhoto">
-          <img src={userPhoto} alt="프로필사진" />
+          {image ? <img src={image} alt="프로필사진" /> : <div className="emptyPhoto" />}
         </div>
       </div>
     </div>

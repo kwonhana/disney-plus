@@ -1,0 +1,41 @@
+@use '../../../App.scss' as rs;
+
+.profileCreateBg {
+  background: #0A1A26;
+  align-content: center;
+  justify-items: center;
+  height: 100vh;
+
+  .profileCreateWrap {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    gap: 6rem;
+    align-items: center;
+
+    .profileCreateBtnWrap {
+      display: flex;
+      align-items: center;
+
+      .profileCreateBtn {
+        display: flex;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.20);
+        background: rgba(255, 255, 255, 0.10);
+        backdrop-filter: blur(12px);
+        align-items: center;
+        padding: 1.2rem 1.6rem;
+        width: 13rem;
+        justify-content: center;
+
+        >button {
+          color: white;
+          font-size: 2rem;
+          font-weight: 500;
+          background: none;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
