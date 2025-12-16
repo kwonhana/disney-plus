@@ -21,9 +21,11 @@ export interface Genre {
   id: number;
   name: string;
 }
+
 export interface Theme extends MediaBase {
   title: string;
   name: string;
+  genreNames: string[];
 }
 
 //TODO 시즌 타입
@@ -33,18 +35,20 @@ export interface SeasonData {
   genreId?: string;
   startDate: string;
   endDate: string;
-  type: 'keyword' | 'genre' | 'mixed';
+  type: 'keyword' | 'genre';
 }
 
 export interface MovieState {
   movies: Movie[];
+  themeMovies: Movie[];
+  seasonMovies: SeasonData[];
   genres: Genre[];
   category: Record<string, Movie[]>;
-  theme: Theme[];
+  isLoading: boolean;
   onFetchUpcoming: () => Promise<void>;
-  onFetchGenres: () => Promise<void>;
-  onfetchSeason: () => Promise<void>;
+  onFetchGenres: () => Promise<[]>;
   getGenreMap: () => Promise<Record<number, string>>;
+  onfetchSeason: (seasonData: SeasonData) => Promise<void>;
   onfetchTheme: (companyId: string) => Promise<Theme[] | void>;
-  onfetchCate: (genreId: string) => Promise<Movie[] | void>;
+  onfetchCate: (genreId: string | number) => Promise<Movie[] | void>;
 }

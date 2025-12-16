@@ -20,7 +20,6 @@ const createFullDateString = (dateString: string, isEnd = false): string => {
 // =========================
 //  Store
 export const useMovieStore = create<MovieState>((set, get) => ({
-  //  theme 제거
   movies: [],
   themeMovies: [],
   seasonMovies: [],
@@ -29,22 +28,25 @@ export const useMovieStore = create<MovieState>((set, get) => ({
   isLoading: false,
 
   // =========================
-  // 장르
+  // TODO 장르
   onFetchGenres: async () => {
     const res = await fetch(
       `https://api.themoviedb.org/3/genre/movie/list?api_key=${APT_KEY}&language=ko`
     );
     const data = await res.json();
     set({ genres: data.genres });
+    // console.log('onFetchGenres 타입 확인', data.genres);
     return data.genres;
   },
 
+  //TODO 장르 한글 맴
   getGenreMap: async () => {
     let genres = get().genres;
     if (genres.length === 0) {
       genres = await get().onFetchGenres();
     }
 
+    // console.log('genres 타입 확인', genres);
     return genres.reduce((acc, cur) => {
       acc[cur.id] = cur.name;
       return acc;
@@ -52,7 +54,7 @@ export const useMovieStore = create<MovieState>((set, get) => ({
   },
 
   // =========================
-  // 곧 개봉
+  // TODO 곧 개봉
   onFetchUpcoming: async () => {
     const genreMap = await get().getGenreMap();
 
@@ -80,8 +82,8 @@ export const useMovieStore = create<MovieState>((set, get) => ({
   },
 
   // =========================
-  // 카테고리
-  onfetchCate: async (genreId: number) => {
+  // TODO 카테고리
+  onfetchCate: async (genreId) => {
     if (get().category[genreId]) return;
 
     const genreMap = await get().getGenreMap();
@@ -104,7 +106,7 @@ export const useMovieStore = create<MovieState>((set, get) => ({
   },
 
   // =========================
-  //  테마 (ThemeList 전용)
+  // TODO 테마 (ThemeList 전용)
   onfetchTheme: async (companyId: string) => {
     set({ isLoading: true });
 
@@ -122,13 +124,11 @@ export const useMovieStore = create<MovieState>((set, get) => ({
 
       const tv = await tvRes.json();
       const movie = await movieRes.json();
-
       const merged = [...tv.results, ...movie.results].map((mov: Movie) => ({
         ...mov,
         genreNames: mov.genre_ids?.map((id) => genreMap[id]).filter(Boolean),
       }));
-
-      //  theme  → themeMovies 
+      //  theme  → themeMovies
       set({ themeMovies: merged });
     } finally {
       set({ isLoading: false });
@@ -136,33 +136,20 @@ export const useMovieStore = create<MovieState>((set, get) => ({
   },
 
   // =========================
-  // 시즌 (다른 컴포넌트용)
+  // TODO 시즌 (다른 컴포넌트용)
   onfetchSeason: async (seasonData: SeasonData) => {
     const genreMap = await get().getGenreMap();
-
     let apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${APT_KEY}&language=ko-KR`;
-
-    console.log("기본", apiUrl)
     const aa = await fetch(apiUrl);
     const dd = await aa.json();
-    console.log("가공", dd.results)
-
-
-    // if (seasonData.keywordId) {
-    //   apiUrl += `&with_keywords=${seasonData.keywordId}`;
-    // }
-    // if (seasonData.genreId) {
-    //   apiUrl += `&with_genres=${seasonData.genreId}`;
-    // }
-
-    console.log("수정후", apiUrl)
+    console.log('가공', dd.results);
+    console.log('수정후', apiUrl);
 
     if (seasonData.title === 'classic') {
       apiUrl += `&primary_release_year.lte=1980`;
       apiUrl += `&sort_by=vote_average.desc`;
       apiUrl += `&vote_count.gte=500`;
     } else {
-      // =========================
       //  시즌 날짜 필터
       const startDate = createFullDateString(seasonData.startDate, false);
       const endDate = createFullDateString(seasonData.endDate, true);
@@ -172,19 +159,17 @@ export const useMovieStore = create<MovieState>((set, get) => ({
       apiUrl += `&sort_by=popularity.desc`;
     }
 
-
     const res = await fetch(apiUrl);
     const data = await res.json();
-    console.log("수정후 가공", data)
-
+    console.log('수정후 가공', data);
 
     const mapped = data.results.map((mov: Movie) => ({
       ...mov,
       genreNames: mov.genre_ids?.map((id) => genreMap[id]).filter(Boolean),
     }));
-    console.log("시즌안 장르", genreMap)
-    console.log("시즌", seasonData, mapped)
-    //  theme  → seasonMovies 
+    console.log('시즌안 장르', genreMap);
+    console.log('시즌', seasonData, mapped);
+    //  theme  → seasonMovies
     set({ seasonMovies: mapped });
   },
 }));
