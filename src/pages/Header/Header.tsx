@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './scss/Header.scss';
 import { useEffect, useState } from 'react';
 
@@ -7,6 +7,7 @@ const Header = () => {
   const [isDepthOpen, setIsDepthOpen] = useState(false);
   const location = useLocation();
   const path = location.pathname;
+  const navigate = useNavigate();
 
   const isProfilePage = path.startsWith('/profile');
 
@@ -72,8 +73,8 @@ const Header = () => {
           </nav>
         </div>
         <div className="Header-right">
-          <button className="search">
-            <img src="/icon/search.svg" alt="" />
+          <button className="search" onClick={() => navigate('/search')}>
+            <img src="/icon/search.svg" alt="검색 아이콘" />
           </button>
           <Link className="MyWish LinkBtn" to="void">
             내가 찜한 콘텐츠
