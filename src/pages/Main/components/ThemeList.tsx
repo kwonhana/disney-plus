@@ -63,14 +63,14 @@ const ThemeList = () => {
             {!isLoading && themeMovies.length > 0 && (
               <Swiper slidesPerView={4.4} spaceBetween={20}>
                 {themeMovies
-                  .filter((m) => m.poster_path)
+                  .filter((el) => el.poster_path)
                   .slice(0, 10)
-                  .map((m) => (
-                    <SwiperSlide key={m.id}>
-                      <Link to="void">
+                  .map((el) => (
+                    <SwiperSlide key={el.id}>
+                      <Link to={`/play/movie/${el.id}`}>
                         <img
-                          src={`https://image.tmdb.org/t/p/w500${m.poster_path}`}
-                          alt={m.title}
+                          src={`https://image.tmdb.org/t/p/w500${el.poster_path}`}
+                          alt={el.title}
                         />
                       </Link>
                     </SwiperSlide>

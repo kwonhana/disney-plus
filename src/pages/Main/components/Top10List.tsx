@@ -1,3 +1,4 @@
+import '../scss/movieList.scss';
 import '../scss/Top10List.scss';
 import { useEffect } from 'react';
 import { useMovieStore } from '../../../store/useMovieStore';
@@ -23,7 +24,7 @@ const Top10List = ({ title }: title) => {
       <Swiper slidesPerView={4.2} spaceBetween={20} className="mySwiper">
         {Top.slice(0, 7).map((el, i) => (
           <SwiperSlide>
-            <Link to="void">
+            <Link to={`/play/movie/${el.id}`}>
               <div className={`movieThumbnail TopNumber number${1 + i}`}>
                 <div className="imgBox">
                   <img

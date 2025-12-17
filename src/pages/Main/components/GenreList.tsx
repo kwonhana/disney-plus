@@ -20,37 +20,35 @@ const GenreList = ({ genreId, title }: GenreListProps) => {
     if (movies.length === 0) {
       onfetchCate(genreId);
     }
-    // console.log('????????', GenreMovies);
+    console.log('????????', GenreMovies);
   }, []);
 
   return (
     <section className="GenreList movieList pullInner">
       <HeaderTitle mainTitle={title} />
-      <>
-        <Swiper
-          slidesPerView={6.2}
-          spaceBetween={20}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Pagination]}
-          className="mySwiper">
-          {GenreMovies.map((el) => {
-            return (
-              <SwiperSlide>
-                <Link className="" to="void">
-                  <div className="col movieThumbnail">
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500/${el.poster_path}`}
-                      alt={`${el.title} 썸네일`}
-                    />
-                  </div>
-                </Link>
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
-      </>
+      <Swiper
+        slidesPerView={6.2}
+        spaceBetween={20}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Pagination]}
+        className="mySwiper">
+        {GenreMovies.map((el) => {
+          return (
+            <SwiperSlide>
+              <Link className="" to={`/play/movie/${el.id}`}>
+                <div className="col movieThumbnail">
+                  <img
+                    src={`https://image.tmdb.org/t/p/w500/${el.poster_path}`}
+                    alt={`${el.title} 썸네일`}
+                  />
+                </div>
+              </Link>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
     </section>
   );
 };

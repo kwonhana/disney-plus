@@ -24,7 +24,7 @@ const TvUpcomingList = ({ title }: title) => {
         {UpComingTv.slice(0, 10).map((el) => {
           return (
             <SwiperSlide>
-              <Link to="void">
+              <Link to={`/play/tv/${el.id}`}>
                 <div className="movieThumbnail">
                   <div className="imgBox">
                     <img

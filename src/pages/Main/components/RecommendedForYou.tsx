@@ -23,7 +23,7 @@ const RecommendedForYou = () => {
           {RecommendedForYouData.map((el) => {
             return (
               <SwiperSlide>
-                <Link to="void">
+                <Link to={`/play/movie/${el.id}`}>
                   <div className="movieThumbnail col">
                     <img
                       src={`https://image.tmdb.org/t/p/w500/${el.poster_path}`}

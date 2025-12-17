@@ -78,7 +78,7 @@ const SeasonList = () => {
                   .slice(0, 10)
                   .map((el) => (
                     <SwiperSlide key={el.id}>
-                      <Link className="" to="void">
+                      <Link className="" to={`/play/movie/${el.id}`}>
                         <div className="MovieItem">
                           {/* 포스터 이미지 (TMDB 경로에 맞게 수정 필요) */}
                           <img
