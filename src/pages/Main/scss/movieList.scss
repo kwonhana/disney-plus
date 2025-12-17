@@ -3,10 +3,16 @@
 .marginUp {
   margin-top: -140px !important;
 }
+
+.TvKeywordList {
+  padding-top: 80px;
+}
 .movieList {
   padding-left: 4%;
   padding-bottom: 80px;
   border: 1px solid yellow;
+  max-width: 1920px;
+  margin: 0 auto;
 
   a {
     &.flex {

@@ -30,7 +30,7 @@ const SearchList = () => {
       <ul className="searchList">
         {displayResults.map((item) => (
           <li key={`${item.media_type}-${item.id}`} className="searchItem">
-            <Link to="/void">
+            <Link to={`/play/${item.id}`}>
               <div className="imgBox">
                 <img
                   src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}

@@ -154,10 +154,8 @@ export const useMovieStore = create<MovieState>((set, get) => ({
   // TODO 테마 (ThemeList 전용)
   onfetchTheme: async (companyId: string) => {
     set({ isLoading: true });
-
     try {
       const genreMap = await get().getGenreMap();
-
       const [tvRes, movieRes] = await Promise.all([
         fetch(
           `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&language=ko-KR&with_watch_providers=${companyId}&watch_region=KR`

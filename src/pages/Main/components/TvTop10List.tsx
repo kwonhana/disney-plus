@@ -23,7 +23,7 @@ const TvTop10List = ({ title }: title) => {
       <Swiper slidesPerView={4.2} spaceBetween={20} className="mySwiper">
         {TopTV.slice(0, 7).map((el, i) => (
           <SwiperSlide>
-            <Link to="void">
+            <Link to={`/play/tv/${el.id}`}>
               <div className={`movieThumbnail TopNumber number${1 + i}`}>
                 <div className="imgBox">
                   <img

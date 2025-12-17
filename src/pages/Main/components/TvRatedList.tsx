@@ -23,7 +23,7 @@ const TvRatedList = ({ title }: title) => {
       <Swiper slidesPerView={6.2} spaceBetween={20} className="mySwiper">
         {RatedTv.slice(0, 10).map((el) => (
           <SwiperSlide>
-            <Link to="void">
+            <Link to={`/play/tv/${el.id}`}>
               <div className="movieThumbnail">
                 <div className="imgBox">
                   <img
