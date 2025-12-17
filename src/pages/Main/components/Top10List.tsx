@@ -20,8 +20,8 @@ const Top10List = ({ title }: title) => {
   return (
     <section className="Top10List">
       <HeaderTitle mainTitle={title} />
-      <Swiper slidesPerView={3.4} spaceBetween={20} className="mySwiper">
-        {Top.slice(0, 10).map((el, i) => {
+      <Swiper slidesPerView={4.2} spaceBetween={20} className="mySwiper">
+        {Top.slice(0, 7).map((el, i) => {
           return (
             <SwiperSlide>
               <Link to="void">
