@@ -27,5 +27,15 @@ export const mainBanner = [
         release_date: "2025",
         total_series: "총 1개의 시즌",
         gernes: ["첩보/스파이,", "스릴러"]
+    },
+    {
+        title: "라푼젤 미니스토리",
+        backgrond_img: "/images/kidsMain/kidsBanner2.png",
+        logo: "/images/kidsMain/kidsBannerLogo2.png",
+        logo_size: "small",
+        age: "All",
+        release_date: "2017",
+        total_series: "총 1개의 시즌",
+        gernes: ["어드밴쳐,", "액션", "코미디"]
     }
 ]

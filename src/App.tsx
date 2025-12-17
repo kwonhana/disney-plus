@@ -19,6 +19,7 @@ import ProfileSelectPage from './pages/ProfileSelect/ProfileSelectPage';
 import ProfileCreatePageImage from './pages/ProfileCreate/ProfileCreatePageImage';
 import ProfileCreatePageInfo from './pages/ProfileCreate/ProfileCreatePageInfo';
 import SubComplete from './pages/Subscription/components/SubComplete';
+import KidsMainPage from './pages/KidsMain/KidsMainPage';
 
 function App() {
   const { initAuth } = useAuthStore();
@@ -45,6 +46,7 @@ function App() {
         <Route path="/profile/select" element={<ProfileSelectPage />} />
         <Route path="profile/create/image" element={<ProfileCreatePageImage />} />
         <Route path="profile/create/info" element={<ProfileCreatePageInfo />} />
+        <Route path="kids" element={<KidsMainPage />} />
       </Routes>
       <Footer />
     </div>

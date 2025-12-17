@@ -14,7 +14,7 @@ const MainBanner = ({ num }: MainBannerProps) => {
             <div className="bgImg"><img src={banner.backgrond_img} alt={banner.title} />
                 <div className="content">
                     <div className="imgBox">
-                        <p className="logo"><img src={banner.logo} alt={banner.title} /></p>
+                        <p className={`logo ${banner.logo_size}`}><img src={banner.logo} alt={banner.title} /></p>
                     </div>
                     <div className="textBox">
                         <div className="movieInfo">
