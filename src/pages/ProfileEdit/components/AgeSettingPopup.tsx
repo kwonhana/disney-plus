@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../scss/AgeSettingPopup.scss';
+import { useProfileStore } from '../../../store/useProfileStore';
 
 interface AgeSettingPopupProps {
   onClose: () => void;
@@ -15,9 +16,13 @@ const ageLevels = [
 ];
 
 const AgeSettingPopup = ({ onClose }: AgeSettingPopupProps) => {
-  // const [selectedAge, setSelectedAge] = useState();
+  const { currentProfile, setContentLimit } = useProfileStore();
+  const [selectedAge, setSelectedAge] = useState<number>(19);
 
-  const handleSaveAge = () => {};
+  const handleSaveAge = () => {
+    setContentLimit(selectedAge);
+    onClose();
+  };
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -31,6 +36,14 @@ const AgeSettingPopup = ({ onClose }: AgeSettingPopupProps) => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose]);
+  useEffect(() => {
+    if (currentProfile) {
+      setSelectedAge(currentProfile.contentLimit);
+    }
+  }, [currentProfile]);
+
+  const progressPercent =
+    (ageLevels.findIndex((a) => a.value === selectedAge) / (ageLevels.length - 1)) * 100;
 
   return (
     <div className="agesetPopupWrap">
@@ -45,29 +58,27 @@ const AgeSettingPopup = ({ onClose }: AgeSettingPopupProps) => {
           </span>
         </div>
         <div className="ageProgressBar">
-          <div
-            className="ageProgressFill"
-            // style={{
-            //   width: `${
-            //     (ageLevels.findIndex((a) => a.value === selectedAge) / (ageLevels.length - 1)) * 100
-            //   }%`,
-            // }}
-          />
+          <div className="ageProgressFill" style={{ width: `${progressPercent}%` }} />
 
-          {ageLevels.map((age, i) => {
-            // const isActive = age.value <= selectedAge;
+          <div className="ageProgressBtn">
+            {ageLevels.map((age, i) => {
+              const isActive = age.value <= selectedAge;
 
-            return (
-              <button
-                key={age.value}
-                // className={`ageDot ${isActive ? 'active' : ''}`}
-                style={{ left: `${(i / (ageLevels.length - 1)) * 100}%` }}
-                // onClick={() => setSelectedAge(age.value)}>
-              >
-                <span>{age.label}</span>
-              </button>
-            );
-          })}
+              return (
+                <div className="progressbtn">
+                  <button
+                    key={age.value}
+                    className={`ageDot ${isActive ? 'active' : ''}`}
+                    style={{ left: `${(i / (ageLevels.length - 1)) * 100}%` }}
+                    onClick={() => setSelectedAge(age.value)}></button>
+                  <span>{age.label}</span>
+                </div>
+              );
+            })}
+            {/* {ageLevels.map((a) => (
+              <span>{a.label}</span>
+            ))} */}
+          </div>
         </div>
         <div className="agesetPopupBtnWrap">
           <button className="ageSave" onClick={handleSaveAge}>

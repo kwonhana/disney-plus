@@ -45,7 +45,7 @@ const ProfileUidBox = ({ username, image, onChangeName }: ProfileUidBoxProps) =>
           <span className="error">{err}</span>
         </div>
       </div>
-      <div className="right" style={{ border: '1px solid white' }}>
+      <div className="right">
         <div className="userPhoto">
           {image ? <img src={image} alt="프로필사진" /> : <div className="emptyPhoto" />}
         </div>

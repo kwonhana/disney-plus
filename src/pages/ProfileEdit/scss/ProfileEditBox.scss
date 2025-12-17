@@ -2,12 +2,11 @@
   display: flex;
   flex-direction: column;
   gap: 6rem;
-  width: 130%;
+  width: 110%;
 
   .profileEditBoxTop {
-    // display: flex;
-    // justify-content: space-between;
-    // border: 1px solid white;
+    display: flex;
+    justify-content: space-between;
   }
 
   .profileEditBoxBottom {
@@ -41,7 +40,7 @@
           width: 2rem;
           height: 2rem;
           display: block;
-          background-image: url(../../../../public/icon/mainArrow.svg);
+          background-image: url(/public/icon/mainArrow.svg);
           background-repeat: no-repeat;
           background-position: center;
         }

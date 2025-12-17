@@ -9,7 +9,16 @@ const ProfileEditPage = () => {
   const { currentProfile, updateProfile } = useProfileStore();
   const navigate = useNavigate();
 
-  if (!currentProfile) return null;
+  const handleComplete = () => {
+    if (!currentProfile) return;
+
+    updateProfile(currentProfile.id, {
+      name: currentProfile.name,
+      image: currentProfile.image,
+      contentLimit: currentProfile.contentLimit,
+    });
+    navigate('/profile/select');
+  };
 
   return (
     <div className="profileEditBg pullInner">
@@ -18,13 +27,7 @@ const ProfileEditPage = () => {
         <ProfileEditBox />
         <div className="profileEditBtnwrap">
           <div className="profileEditBtn">
-            <button
-              onClick={() => {
-                updateProfile(currentProfile.id, currentProfile);
-                navigate('/profile/select');
-              }}>
-              완료
-            </button>
+            <button onClick={handleComplete}>완료</button>
           </div>
           <button className="pofileDelBtn">프로필 삭제</button>
         </div>

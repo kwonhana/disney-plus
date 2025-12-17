@@ -3,6 +3,7 @@ import ProfileSettingBox from '../../ProfileSetting/components/ProfileSettingBox
 import ProfileUidBox from './ProfileUidBox';
 import AgeSettingPopup from './AgeSettingPopup';
 import { useProfileStore } from '../../../store/useProfileStore';
+import '../scss/ProfileEditBox.scss';
 
 interface ProfileEditBoxProps {
   contentLimit: number;
@@ -30,7 +31,7 @@ const ProfileEditBox = ({ contentLimit, onChangeContentLimit }: ProfileEditBoxPr
             <div className="profileBoxContent">
               <div className="ageSetting top">
                 <span className="SubTitle">콘텐츠 등급 설정</span>
-                <button onClick={() => setIsPopupOpen(true)} />
+                <button className='ageSettingBtn' onClick={() => setIsPopupOpen(true)} />
               </div>
               <div className="ageSetting bottom">
                 <span>{currentProfile.contentLimit}세 이상</span>

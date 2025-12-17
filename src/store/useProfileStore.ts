@@ -30,6 +30,8 @@ interface ProfileState {
   // 프로필 이미지 선택
   setProfileImage: (image: string) => void;
 
+  setContentLimit: (limit: number) => void;
+
   // 프로필 삭제
   resetProfiles: () => void;
 }
@@ -107,6 +109,18 @@ export const useProfileStore = create<ProfileState>()(
             currentProfile: {
               ...state.currentProfile,
               image,
+            },
+          };
+        }),
+
+      setContentLimit: (limit) =>
+        set((state) => {
+          if (!state.currentProfile) return state;
+
+          return {
+            currentProfile: {
+              ...state.currentProfile,
+              contentLimit: limit,
             },
           };
         }),
