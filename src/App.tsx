@@ -18,6 +18,7 @@ import MainOriginal from './pages/Main/MainOriginal';
 import ProfileSelectPage from './pages/ProfileSelect/ProfileSelectPage';
 import ProfileCreatePageImage from './pages/ProfileCreate/ProfileCreatePageImage';
 import ProfileCreatePageInfo from './pages/ProfileCreate/ProfileCreatePageInfo';
+import SubComplete from './pages/Subscription/components/SubComplete';
 
 function App() {
   const { initAuth } = useAuthStore();
@@ -35,6 +36,7 @@ function App() {
         <Route path="/series" element={<MainSeries />} />
         <Route path="/original" element={<MainOriginal />} />
         <Route path="/subscription" element={<SubscriptionPage />} />
+        <Route path="/subscription/success" element={<SubComplete />} />
         <Route path="/profile/setting" element={<ProfileSettingPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
