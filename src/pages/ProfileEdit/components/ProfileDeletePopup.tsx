@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useProfileStore } from '../../../store/useProfileStore';
 import { useNavigate } from 'react-router-dom';
+import '../scss/ProfileDeletePopup.scss';
 
 interface ProfileDeletePopupProps {
   onClose: () => void;
@@ -26,7 +27,7 @@ const ProfileDeletePopup = ({ onClose }: ProfileDeletePopupProps) => {
   const handleDelete = () => {
     if (!currentProfile) return;
 
-    if (currentProfile.isDefault === true) {
+    if (currentProfile.isDefault) {
       alert('기본 프로필은 삭제할 수 없습니다.');
       return;
     }
@@ -45,9 +46,13 @@ const ProfileDeletePopup = ({ onClose }: ProfileDeletePopupProps) => {
         <div className="profileDelInfo">
           <span>프로필 기록, 관심 콘텐츠 및 시청 기록이 삭제되며, 실행 후 취소할 수 없습니다.</span>
         </div>
-        <div className="profileDelBtnWrpa">
-          <button onClick={onClose}>취소</button>
-          <button onClick={handleDelete}>확인</button>
+        <div className="profileDelBtnWrap">
+          <button className="profileDelBtn back" onClick={onClose}>
+            취소
+          </button>
+          <button className="profileDelBtn next" onClick={handleDelete}>
+            확인
+          </button>
         </div>
       </div>
     </div>

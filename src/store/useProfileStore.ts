@@ -40,6 +40,7 @@ interface ProfileState {
   // 프로필 삭제
   deleteProfile: (id: string) => void;
 
+  // 계정 리셋
   resetProfiles: () => void;
 }
 

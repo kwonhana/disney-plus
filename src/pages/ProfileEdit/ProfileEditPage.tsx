@@ -39,9 +39,11 @@ const ProfileEditPage = () => {
           <button className="profileComBtn" onClick={handleComplete}>
             완료
           </button>
-          <button className="profileDelBtn" onClick={() => setIsDeleteOpen(true)}>
-            프로필 삭제
-          </button>
+          {!currentProfile?.isDefault && (
+            <button className="profileDelBtn" onClick={() => setIsDeleteOpen(true)}>
+              프로필 삭제
+            </button>
+          )}
         </div>
         {isDeleteOpen && <ProfileDeletePopup onClose={() => setIsDeleteOpen(false)} />}
       </div>
