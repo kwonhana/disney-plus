@@ -8,12 +8,15 @@ import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useProfileStore } from '../../../store/useProfileStore';
 import { useWatchingStore } from '../../../store/useWatchingStore';
+import { useProfileStore } from '../../../store/useProfileStore';
 
 //TODO 현재 시청 중인 콘텐츠
 // ? 로그인 전에는 노출 불가
 const WatchList = () => {
   const { watching, onFetchWatching, onRemoveWatching } = useWatchingStore();
   const { activeProfileId } = useProfileStore();
+  const { profiles, activeProfileId } = useProfileStore();
+  const activeProfile = profiles.find((profile) => profile.id === activeProfileId);
 
   // 프로필이 변경되면 시청 목록을 새로 불러와야 함.
   useEffect(() => {
@@ -22,7 +25,9 @@ const WatchList = () => {
 
   return (
     <section className="WatchList movieList pullInner marginUp">
-      <HeaderTitle mainTitle={`${activeProfileId}님이 시청중인 콘텐츠`} />
+      <HeaderTitle
+        mainTitle={activeProfile ? `${activeProfile.name}님이 시청중인 콘텐츠` : '시청중인 콘텐츠'}
+      />
       <>
         <Swiper
           slidesPerView={4.3}
