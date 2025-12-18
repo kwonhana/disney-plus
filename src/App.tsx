@@ -21,6 +21,8 @@ import SubComplete from './pages/Subscription/components/SubComplete';
 import KidsMainPage from './pages/KidsMain/KidsMainPage';
 import VideoPlayer from './pages/VideoPlayer/VideoPlayer';
 import SearchPage from './pages/Search/SearchPage';
+import PlayerControls from './pages/VideoPlayer/PlayerControls';
+import WishlistPage from './pages/Wishlist/WishlistPage';
 
 function App() {
   const { initAuth } = useAuthStore();
@@ -49,6 +51,9 @@ function App() {
         <Route path="profile/create/image" element={<ProfileCreatePageImage />} />
         <Route path="profile/create/info" element={<ProfileCreatePageInfo />} />
         <Route path="/kids" element={<KidsMainPage />} />
+        <Route path="/play/:type/:id/video" element={<PlayerControls />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
       </Routes>
       <Footer />
     </div>

@@ -2,8 +2,10 @@ import '../scss/MainScreen.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.css';
 import { Pagination, Autoplay } from 'swiper/modules';
-import { MainScreenData } from '../../../store/data';
-import { Link } from 'react-router-dom';
+import { MainScreenData, type MainScreenItem } from '../../../store/data';
+import { Link, useNavigate } from 'react-router-dom';
+import { useWatchingStore } from '../../../store/useWatchingStore';
+import { useEffect } from 'react';
 
 //TODO 메인 베너
 const MainScreen = () => {
@@ -11,6 +13,55 @@ const MainScreen = () => {
   // 영화 메인 movie
   // 시리즈 메인 series
   // 오리지널 메인 original
+
+  const navigate = useNavigate();
+  const { onAddWatching, onFetchWatching } = useWatchingStore();
+
+  useEffect(() => {
+    onFetchWatching();
+  }, [onFetchWatching]);
+
+  const handleVideoOpen = async (movie: MainScreenItem) => {
+    console.log('클릭 이벤트 실행');
+    try {
+      // TMDB API를 통해 실제 이미지 경로 가져오기
+      const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+      console.log('apikey', API_KEY);
+      const endpoint =
+        movie.type === 'movie'
+          ? `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${API_KEY}&language=ko-KR`
+          : `https://api.themoviedb.org/3/tv/${movie.id}?api_key=${API_KEY}&language=ko-KR`;
+
+      const response = await fetch(endpoint);
+      const data = await response.json();
+
+      const watchingItem = {
+        id: Number(movie.id),
+        poster_path: data.poster_path || '',
+        backdrop_path: data.backdrop_path || '',
+        currentTime: 0,
+        duration: 0,
+      };
+
+      // 영화면 title, TV면 name 추가
+      if (movie.type === 'movie') {
+        watchingItem.title = data.title;
+      } else {
+        watchingItem.name = data.name;
+      }
+
+      console.log('저장할 데이터:', watchingItem);
+      await onAddWatching(watchingItem);
+      console.log('Firebase 저장 완료');
+
+      // Firebase 저장 후 재생 페이지로 이동
+      navigate(`/play/${movie.type}/${movie.id}/video`);
+    } catch (error) {
+      console.error('저장 실패:', error);
+      alert('저장에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
   return (
     <div className="MainScreen pullInner">
       <Swiper
@@ -33,10 +84,16 @@ const MainScreen = () => {
                   <div className="genreTitle">{el.genre_title}</div>
                 </div>
                 <div className="overview">{el.overview}</div>
-                <Link to="void" className="nowPlay">
+                <button
+                  className="nowPlay"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleVideoOpen(el);
+                  }}>
                   지금 재생하기
-                </Link>
-                <Link to="void" className="detailInfo">
+                </button>
+                <Link to={`/play/${el.type}/${el.id}`} className="detailInfo">
                   상세 정보
                 </Link>
               </div>

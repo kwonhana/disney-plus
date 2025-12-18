@@ -83,7 +83,7 @@ const Header = () => {
             <button className="search" onClick={() => navigate('/search')}>
               <img src="/icon/search.svg" alt="검색 아이콘" />
             </button>
-            <Link className="MyWish LinkBtn" to="void">
+            <Link className="MyWish LinkBtn" to="/wishlist">
               내가 찜한 콘텐츠
             </Link>
             <Link className="Kids LinkBtn" to="void">

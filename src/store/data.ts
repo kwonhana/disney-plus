@@ -1,6 +1,8 @@
 //TODO 메인 데이터
 
 export type MainScreenItem = {
+  id: string;
+  type: string;
   alt: string;
   title: string;
   age: string;
@@ -12,6 +14,8 @@ export type MainScreenItem = {
 //TODO 메인 베너
 export const MainScreenData: MainScreenItem[] = [
   {
+    id: '508442',
+    type: 'movie',
     alt: 'movie',
     title: '소울',
     age: 'All',
@@ -21,6 +25,8 @@ export const MainScreenData: MainScreenItem[] = [
     genre_title: '애니에이션, 모험, 가족, SF, 판타지, 코미디',
   },
   {
+    id: '88329',
+    type: 'tv',
     alt: 'series',
     title: '호크아이',
     age: '12',
@@ -30,6 +36,8 @@ export const MainScreenData: MainScreenItem[] = [
     genre_title: '액션, 모험, 범죄, TV드라마',
   },
   {
+    id: '239385',
+    type: 'tv',
     alt: 'original',
     title: '조각도시',
     age: '18',
@@ -340,7 +348,7 @@ export const KidsThemeListNavData = [
   { title: 'action', text: '용감하게 떠나보는 모험', companyId: '7521' },
   { title: 'pooh', text: '푸와 친구들의 달콤한 하루', companyId: '43' },
   // { title: 'originals', text: '한계를 뛰어넘는 이야기의 세계', companyId: '711' },
-]
+];
 
 //TODO 시즌별 영화
 export const SeasonNavData = [
