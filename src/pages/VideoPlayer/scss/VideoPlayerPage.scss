@@ -1,7 +1,6 @@
 @use '../../../App.scss' as rs;
 
 .VideoPlayer {
-  border: 1px solid red;
   .playerMain {
     width: 100%;
     height: 100vh;
@@ -30,183 +29,308 @@
       vertical-align: middle;
       object-fit: cover;
     }
-  }
 
-  .info-wrap {
-    margin-left: 4%;
-    // border: 1px solid #fff;
-    width: 35%;
-    aspect-ratio: 660/520;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    .info-wrap {
+      margin-left: 4%;
+      // border: 1px solid #fff;
+      width: 35%;
+      aspect-ratio: 660/520;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
 
-    .logo {
-      margin-bottom: 40px;
-      max-width: inherit;
+      .logo {
+        margin-bottom: 40px;
+        max-width: inherit;
 
-      img {
-        width: auto;
-        height: auto;
+        img {
+          width: auto;
+          height: auto;
+        }
       }
-    }
-    .flex {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
 
-    .innerFlex {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .info2,
-    .info3,
-    .info4 {
-      color: #fff;
-      @include rs.font(1.6rem, 600, #fff);
-      line-height: 150%;
+      .logo-text {
+        @include rs.font(6rem, 500, #fff);
+      }
+      .flex {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
 
-      span {
-        &::after {
+      .innerFlex {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .info2,
+      .info3,
+      .info4 {
+        color: #fff;
+        @include rs.font(1.6rem, 600, #fff);
+        line-height: 150%;
+
+        span {
+          &::after {
+            content: '·';
+            padding: 0 8px;
+          }
+          &:last-child {
+            &::after {
+              content: '';
+              padding: 0;
+            }
+          }
+        }
+
+        &::before {
           content: '·';
           padding: 0 8px;
         }
-        &:last-child {
+      }
+
+      .info3 {
+        &::after {
+          content: '분';
+          padding: 0;
+        }
+        &:empty {
+          display: none;
+        }
+      }
+
+      .info2 {
+        &::before {
+          content: '';
+          padding: 0;
+        }
+      }
+
+      .tagline {
+        @include rs.font(1.8rem, 400, #fff);
+        display: block;
+        width: 100%;
+      }
+
+      .age {
+        @include rs.age();
+      }
+
+      .infoTitle {
+        margin-top: 20px;
+        @include rs.font(1.8rem, 400, #fff);
+        line-height: 150%;
+      }
+    }
+
+    //TODO 게이진
+    .bar {
+      margin-top: 40px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      .outBar {
+        width: clamp(100px, 74%, 480px);
+        aspect-ratio: 480/10;
+        border-radius: 20px;
+        background: #888;
+        position: relative;
+
+        .innerBar {
+          height: inherit;
+          background-color: #33ddff;
+        }
+      }
+
+      .Time {
+        @include rs.font(1.6rem, 500, #ddd);
+
+        .runTime {
           &::after {
-            content: '';
-            padding: 0;
+            content: '분  중';
+            padding-right: 4px;
+          }
+
+          &:empty {
+            display: none;
+          }
+        }
+
+        .look {
+          &::after {
+            content: '분';
+            padding-right: 4px;
+          }
+          &:empty {
+            display: none;
           }
         }
       }
-
-      &::before {
-        content: '·';
-        padding: 0 8px;
-      }
     }
 
-    .info3 {
-      &::after {
-        content: '분';
-        padding: 0;
-      }
-      &:empty {
-        display: none;
-      }
-    }
-
-    .info2 {
-      &::before {
-        content: '';
-        padding: 0;
-      }
-    }
-
-    .age {
-      @include rs.age();
-      margin-right: 20px;
-    }
-
-    .infoTitle {
-      margin-top: 20px;
-      @include rs.font(1.8rem, 400, #fff);
-      line-height: 150%;
-    }
-  }
-
-  //TODO 게이진
-  .bar {
-    margin-top: 40px;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    .outBar {
-      width: clamp(100px, 74%, 480px);
-      aspect-ratio: 480/10;
-      border-radius: 20px;
-      background: #888;
-      position: relative;
-
-      .innerBar {
-        height: inherit;
-        background-color: #33ddff;
-      }
-    }
-
-    .Time {
-      @include rs.font(1.6rem, 500, #ddd);
-
-      .runTime {
-        &::after {
-          content: '분  중';
-          padding-right: 4px;
-        }
-
-        &:empty {
-          display: none;
-        }
-      }
-
-      .look {
-        &::after {
-          content: '분';
-          padding-right: 4px;
-        }
-        &:empty {
-          display: none;
-        }
-      }
-    }
-  }
-
-  .buttonWrap {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-top: 40px;
-
-    .play {
+    .buttonWrap {
       display: flex;
-      width: 168px;
-      padding: 12px 16px;
-
-      justify-content: center;
       align-items: center;
-      gap: 10px;
-      border-radius: 8px;
-      background: #fff;
-      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
-      @include rs.font(2rem, 500, #333);
-      letter-spacing: -0.5px;
+      gap: 20px;
+      margin-top: 20px;
 
-      &::after {
-        content: '';
-        width: 20px;
+      .play {
+        display: flex;
+        width: 168px;
+        padding: 12px 16px;
+
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 8px;
+        background: #fff;
+        box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
+        @include rs.font(2rem, 500, #333);
+        letter-spacing: -0.5px;
+
+        &::after {
+          content: '';
+          width: 20px;
+          aspect-ratio: 1/1;
+          display: inline-block;
+          background: url('../../../../public/icon/nowPlay.svg');
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      }
+
+      .LinkBtn {
+        width: 54px;
         aspect-ratio: 1/1;
-        display: inline-block;
-        background: url('../../../../public/icon/nowPlay.svg');
+        display: flex;
+        padding: 5px;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 27px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(12px);
+        background: url('../../../../public/icon/heart.svg');
         background-repeat: no-repeat;
         background-position: center;
       }
     }
+  }
 
-    .LinkBtn {
-      width: 54px;
-      aspect-ratio: 1/1;
+  .relatedInfo {
+    margin-top: -80px;
+    position: relative;
+
+    .buttonWrap {
       display: flex;
-      padding: 5px;
-      justify-content: center;
+      padding: 0 4%;
+      justify-content: start;
       align-items: center;
-      gap: 10px;
-      border-radius: 27px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
-      background: url('../../../../public/icon/heart.svg');
-      background-repeat: no-repeat;
-      background-position: center;
+
+      button {
+        width: 20%;
+        @include rs.font(2.4rem, 500, #fff);
+        line-height: 120%; /* 28.8px */
+        letter-spacing: -0.2px;
+        padding: 20px 30px;
+        text-wrap: no-wrap;
+      }
+    }
+    .tab-content {
+      background-color: #02172a;
+    }
+
+    //TODO 작품 정보
+
+    .tab {
+      padding: 80px 4%;
+
+      h3 {
+        @include rs.font(3rem, 500, #fff);
+      }
+
+      .grid {
+        margin-top: 20px;
+        display: grid;
+        gap: 10px;
+
+        &.col {
+          grid-template-columns: repeat(5, minmax(100px, 20%));
+          .grid-item {
+            aspect-ratio: 300/440;
+          }
+        }
+
+        &.row {
+          grid-template-columns: repeat(3, minmax(100px, 550px));
+          .grid-item {
+            aspect-ratio: 550/ 300;
+          }
+        }
+
+        .grid-item {
+          width: 100%;
+          height: auto;
+          border-radius: 16px;
+          box-shadow: 0 10px 32px -4px rgba(0, 0, 0, 0.2);
+          overflow: hidden;
+          filter: grayscale(0.5);
+        }
+      }
+    }
+
+    // 작품정보
+    .detailData {
+      display: flex;
+      flex-direction: column;
+      gap: 80px;
+      .title {
+        @include rs.font(2.4rem, 500, #fff);
+        margin-bottom: 20px;
+      }
+
+      li {
+        @include rs.font(1.8rem, 400, #ddd);
+        line-height: -0.45%;
+        word-break: keep-all;
+
+        .production,
+        .networks {
+          margin-right: 8px;
+        }
+      }
+    }
+
+    // 컬렉션
+    .collection {
+      .info {
+        margin-top: 20px;
+        @include rs.font(1.6rem, 400, #fff);
+      }
+
+      .grid-item {
+        img {
+          max-width: 100%;
+          object-fit: cover;
+          transition: ease 0.3s;
+        }
+
+        &:hover {
+          filter: grayscale(0);
+          img {
+            transform: scale(1.1);
+          }
+        }
+      }
+    }
+
+    .trailers {
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
     }
   }
 }
