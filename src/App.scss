@@ -196,7 +196,6 @@ address {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #fff;
   border-radius: 4px;
 
   &::before {
@@ -208,6 +207,7 @@ address {
 
   &.ageAL {
     background-color: rgba(76, 175, 80, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 
     &::before {
       content: 'ALL';
@@ -217,6 +217,7 @@ address {
 
   &.ageAll {
     background-color: rgba(76, 175, 80, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 
     &::before {
       content: 'ALL';
@@ -226,6 +227,7 @@ address {
 
   &.age5 {
     background-color: rgba(40, 167, 69, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 
     &::before {
       content: '5세 이상';
@@ -234,6 +236,7 @@ address {
 
   &.age6 {
     background-color: rgba(40, 167, 69, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 
     &::before {
       content: '6세 이상';
@@ -242,6 +245,7 @@ address {
 
   &.age7 {
     background-color: rgba(40, 167, 69, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 
     &::before {
       content: '7세 이상';
@@ -250,6 +254,7 @@ address {
 
   &.age9 {
     background-color: rgba(40, 167, 69, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 
     &::before {
       content: '9세 이상';
@@ -258,6 +263,8 @@ address {
 
   &.age12 {
     background-color: rgba(40, 167, 69, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
 
     &::before {
       content: '12세 이상';
@@ -266,6 +273,7 @@ address {
 
   &.age15 {
     background-color: rgba(220, 115, 23, 0.6);
+    border: 1px solid rgba(220, 115, 23, 0.2);
 
     &::before {
       content: '15세 이상';
@@ -274,6 +282,7 @@ address {
 
   &.age16 {
     background-color: rgba(220, 115, 23, 0.6);
+    border: 1px solid rgba(220, 115, 23, 0.2);
 
     &::before {
       content: '16세 이상';
@@ -282,6 +291,7 @@ address {
 
   &.age18 {
     background-color: rgba(226, 0, 0, 0.6);
+    border: 1px solid rgba(220, 115, 23, 0.2);
 
     &::before {
       content: '18세 이상';
@@ -289,6 +299,7 @@ address {
   }
   &.agenone {
     background-color: rgba(226, 0, 0, 0.6);
+    border: 1px solid rgba(220, 115, 23, 0.2);
 
     &::before {
       content: '18세 이상';

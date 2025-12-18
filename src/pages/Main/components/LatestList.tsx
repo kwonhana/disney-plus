@@ -23,7 +23,7 @@ const LatestList = ({ title }: title) => {
         {Latest.map((el) => {
           return (
             <SwiperSlide>
-              <Link className="" to={`/play/movie/${el.id}`}>
+              <Link className="" to={`/play/tv/${el.id}`}>
                 <div className="movieThumbnail">
                   <img
                     src={`https://image.tmdb.org/t/p/w500/${el.poster_path}`}

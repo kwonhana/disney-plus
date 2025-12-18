@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.css';
 import { Pagination, Autoplay } from 'swiper/modules';
 import { MainScreenData, type MainScreenItem } from '../../../store/data';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useWatchingStore } from '../../../store/useWatchingStore';
 import { useEffect } from 'react';
 
