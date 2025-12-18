@@ -73,10 +73,12 @@ import { useMovieStore } from '../../../store/useMovieStore';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useKidsMoiveStore } from '../../../store/useKidsMovieStore';
 
 //TODO 테마별 콘텐츠
 const KidsThemeList = () => {
-    const { onfetchTheme, themeMovies, isLoading } = useMovieStore();
+    const { onfetchTheme, isLoading } = useMovieStore();
+    const { kidsThemeMoive } = useKidsMoiveStore()
     const [activeTheme, setActiveTheme] = useState(KidsThemeListNavData[0].title);
 
     //TODO 현재 선택된 테마의 데이터를 찾습니다.
@@ -97,7 +99,7 @@ const KidsThemeList = () => {
     const skeletonClassName = isLoading ? 'skeleton' : 'hidden skeleton';
 
     return (
-        <section className="ThemeList">
+        <section className="kidsThemeList">
             <nav className="menu">
                 <ul>
                     {KidsThemeListNavData.map((v, i) => (
@@ -112,13 +114,13 @@ const KidsThemeList = () => {
                     ))}
                 </ul>
 
-                <div className="ThemeList">
+                <div className="kidsThemeList">
                     <div className="themeText">
                         <p>{activeThemeText}</p>
                         <button>둘러보기</button>
                     </div>
 
-                    <div className="themeMovie">
+                    <div className="kidsthemeMovie">
                         {/* {isLoading && <div className="skeleton" />} */}
                         <div className={skeletonClassName}>
                             <div className="div"></div>
@@ -128,9 +130,9 @@ const KidsThemeList = () => {
                             <div className="div"></div>
                         </div>
 
-                        {!isLoading && themeMovies.length > 0 && (
+                        {!isLoading && kidsThemeMoive.length > 0 && (
                             <Swiper slidesPerView={4.4} spaceBetween={20}>
-                                {themeMovies
+                                {kidsThemeMoive
                                     .filter((m) => m.poster_path)
                                     .slice(0, 10)
                                     .map((m) => (

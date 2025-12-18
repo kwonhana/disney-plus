@@ -48,8 +48,7 @@ function App() {
         <Route path="/profile/select" element={<ProfileSelectPage />} />
         <Route path="profile/create/image" element={<ProfileCreatePageImage />} />
         <Route path="profile/create/info" element={<ProfileCreatePageInfo />} />
-        <Route path="kids" element={<KidsMainPage />} />
-        <Route path="search" element={<SearchPage />} />
+        <Route path="/kids" element={<KidsMainPage />} />
       </Routes>
       <Footer />
     </div>

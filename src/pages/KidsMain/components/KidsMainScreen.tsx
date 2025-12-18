@@ -11,6 +11,7 @@ const KidsMainScreen = () => {
                 <p className="title">for Kids</p>
                 <p className="des">디즈니+와 함께 떠나는 환상의 모험과 즐거움이 가득한 시간</p>
             </div>
+            <div className="bgGra"></div>
         </div>
     )
 }

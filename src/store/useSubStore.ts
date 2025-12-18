@@ -22,7 +22,7 @@ export const useSubStore = create<MembershipState>((set) => ({
         // console.log(plan)
     },
 
-    //TODO 구독 파이어베이스에 저장
+    //TODO 구독 firebase에 저장
     saveMenbership: async (plan) => {
         const uid = auth.currentUser?.uid;
         if (!uid) throw new Error("로그인 필요");
@@ -46,7 +46,7 @@ export const useSubStore = create<MembershipState>((set) => ({
         set({ membership })
     },
 
-    //TODO
+    //TODO 새로고침 했을때 다시 firebase에서 전역으로 가져오기
     fetchMembership: async (uidParam: string) => {
         const uid = uidParam ?? auth.currentUser?.uid;
         if (!uid) return;
