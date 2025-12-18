@@ -12,15 +12,31 @@ export interface TV {
   poster_path: string;
   vote_average: number;
   vote_count: number;
+  genres: Genre[];
+}
+
+export interface DATA {
+  adult: boolean;
+  backdrop_path: string;
+  genres: Genre[];
+  name: string;
+  first_air_date: string;
+  last_air_date: string;
+  overview: string;
+  poster_path: string;
+  episode_run_time: number;
+}
+
+export interface Genre {
+  id: number;
+  name: string;
 }
 
 export interface ITVStore {
   UpComingTv: TV[];
   RatedTv: TV[];
   TopTV: TV[];
-  playID: TV[];
   onFetchNewTV: () => Promise<void>;
   onFetchRated: () => Promise<void>;
   onFetchTopTV: () => Promise<void>;
-  onFetchID: (id: number, type: string) => Promise<TV[] | void>;
 }

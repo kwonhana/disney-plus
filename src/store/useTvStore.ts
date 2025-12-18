@@ -6,7 +6,6 @@ export const useTvStore = create<ITVStore>((set, get) => ({
   UpComingTv: [],
   RatedTv: [],
   TopTV: [],
-  playID: [],
 
   //TODO TV 공개 예정
   onFetchNewTV: async () => {
@@ -36,10 +35,5 @@ export const useTvStore = create<ITVStore>((set, get) => ({
     const data = await res.json();
     const resData = data.results;
     set({ TopTV: resData });
-  },
-
-  //TODO ID  검색
-  onFetchID: async (id, type) => {
-    if (get().playID[id]) return;
   },
 }));
