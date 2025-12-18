@@ -17,40 +17,39 @@
     .profileEditBtnwrap {
       display: flex;
       width: 50%;
+      align-items: center;
       justify-content: space-between;
 
-      .profileEditBtn {
+      &:has(.profileComBtn:only-child) {
+        justify-content: center;
+      }
+
+      .profileComBtn {
         display: flex;
         border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.20);
-        background: rgba(255, 255, 255, 0.10);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.1);
         backdrop-filter: blur(12px);
         align-items: center;
         padding: 1.2rem 1.6rem;
         width: 13rem;
         justify-content: center;
-
-        >button {
-          color: white;
-          font-size: 2rem;
-          font-weight: 500;
-          background: none;
-          cursor: pointer;
-        }
+        color: white;
+        font-size: 2rem;
+        font-weight: 500;
       }
 
-      .pofileDelBtn {
-        color: #DDD;
-        text-align: center;
+      .profileDelBtn {
+        color: #ddd;
         font-size: 1.8rem;
         font-weight: 500;
         line-height: 150%;
-        letter-spacing: -0.45px;
-        text-decoration-line: underline;
-        text-decoration-style: solid;
-        text-decoration-skip-ink: auto;
-        text-decoration-thickness: auto;
-        text-underline-offset: auto;
+        text-decoration: underline;
+        cursor: pointer;
+
+        .profileDelBtn:hover {
+          color: #FF2E2E;
+        }
       }
     }
   }

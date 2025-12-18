@@ -1,0 +1,70 @@
+.profileDelPopupWrap {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.50);
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+
+  .profileDelPopup {
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    background: #333;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 5rem 7rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+    align-items: center;
+    max-width: 40%;
+
+    .profileDelTitle {
+      font-size: 3rem;
+      font-weight: 600;
+    }
+
+    .profileDelInfo {
+      font-size: 1.8rem;
+      font-weight: 400;
+      width: 85%;
+      display: flex;
+      text-align: center;
+      word-break: break-all;
+      overflow-wrap: break-word;
+    }
+
+    .profileDelBtnWrap {
+      display: flex;
+      justify-content: space-between;
+      // border: 1px solid white;
+      gap: 8px;
+
+      .profileDelBtn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1.2rem 1.6rem;
+        font-size: 1.8rem;
+        font-weight: 500;
+
+        &.back {
+          border-radius: 8px;
+          background: #FFF;
+          backdrop-filter: blur(12px);
+          color: #333;
+        }
+
+        &.next {
+          border-radius: 8px;
+          border: 1px solid rgba(255, 255, 255, 0.20);
+          background: rgba(255, 255, 255, 0.10);
+          backdrop-filter: blur(12px);
+        }
+      }
+    }
+  }
+}
