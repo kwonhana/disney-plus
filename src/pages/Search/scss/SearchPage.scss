@@ -117,16 +117,22 @@
             box-shadow: 0 10px 32px -4px rgba(0, 0, 0, 0.2);
 
             .imgBox {
+              border-radius: 8px;
               width: 100%;
+              overflow: hidden;
               aspect-ratio: 2 / 3;
+              background: rgba(#eee, 0.3);
               img {
                 width: 100%;
                 height: 100%;
-                object-fit: contain;
-                display: block;
-                border-radius: 8px;
                 background: rgba(#eee, 0.3);
+                vertical-align: middle;
+                transition: ease 0.3s;
+                object-fit: cover;
               }
+            }
+            &:hover .imgBox img {
+              transform: scale(1.1);
             }
           }
         }

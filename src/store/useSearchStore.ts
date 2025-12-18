@@ -8,24 +8,37 @@ import { useMovieStore } from './useMovieStore';
 const DISNEY_COMPANY_IDS = [2, 3, 420, 7505, 13252, 3166]; // 제작사
 const DISNEY_NETWORK_IDS = [2739, 210024, 453, 88, 34]; // 네트워크
 
+const NETFLIX_COMPANY_ID = 213;
+
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
 // ==============================
 // OR 조건 필터링 함수
 // ==============================
 const matchesFilter = (detail: any, selectedGenreId: number | null, keyword: string) => {
+  // 넷플릭스 제작사는 제외
+  const isNetflix = (detail.production_companies || []).some(
+    (c: any) => c.id === NETFLIX_COMPANY_ID
+  );
+  if (isNetflix) return false;
+
+  // 디즈니 or 디즈니 관련 네트워크
   const byCompany = (detail.production_companies || []).some((c: any) =>
     DISNEY_COMPANY_IDS.includes(c.id)
   );
   const byNetwork = (detail.networks || []).some((n: any) => DISNEY_NETWORK_IDS.includes(n.id));
+  // if (!byCompany && !byNetwork) return false;
+
+  // 장르 or 키워드
   const byGenre =
     selectedGenreId != null &&
     (detail.genres?.map((g: any) => g.id) || []).includes(selectedGenreId);
+
   const byKeyword = (detail.title?.toLowerCase() || detail.name?.toLowerCase() || '').includes(
     keyword.toLowerCase()
   );
 
-  return byCompany || byNetwork || byGenre || byKeyword;
+  return byGenre || byKeyword;
 };
 
 // ==============================
@@ -84,7 +97,7 @@ export const useSearchStore = create<any>((set, get) => ({
         genreNames: (item.genre_ids || []).map((id: number) => genreMap[id]).filter(Boolean),
       });
 
-      // 1. 제목 검색
+      // TODO 제목 검색
       const [movieSearchRes, tvSearchRes] = await Promise.all([
         fetch(
           `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=ko-KR&query=${encodeURIComponent(
@@ -101,7 +114,7 @@ export const useSearchStore = create<any>((set, get) => ({
       const movieSearchData = await movieSearchRes.json();
       const tvSearchData = await tvSearchRes.json();
 
-      // 2. 상세 조회 및 OR 조건 필터링
+      // TODO 상세 조회 및 OR 조건 필터링
       const disneyMovies = (
         await Promise.all(
           (movieSearchData.results || []).slice(0, 20).map(async (movie: any) => {
@@ -153,7 +166,7 @@ export const useSearchStore = create<any>((set, get) => ({
         ...disneyTVs.map((t) => normalize(t, 'tv')),
       ];
 
-      // 3. 제목 결과 없으면 장르 fallback
+      // TODO 제목 결과 없으면 장르 fallback
       if (allResults.length === 0) {
         const matchedGenres = genres.filter((genre: any) =>
           genre.name.toLowerCase().includes(keyword.toLowerCase())
@@ -186,10 +199,15 @@ export const useSearchStore = create<any>((set, get) => ({
         }
       }
 
-      // 4. 중복 제거
+      // TODO 중복 제거
       const uniqueResults = allResults.filter(
         (item, index, self) =>
-          index === self.findIndex((t) => t.id === item.id && t.media_type === item.media_type)
+          index ===
+          self.findIndex(
+            (t) =>
+              (t.id === item.id && t.media_type === item.media_type) ||
+              (t.title === item.title && t.backdrop_path === null)
+          )
       );
 
       console.log('✨ 최종 검색 결과:', uniqueResults.length);
