@@ -23,6 +23,7 @@ import SearchPage from './pages/Search/SearchPage';
 import PlayerControls from './pages/VideoPlayer/PlayerControls';
 import WishlistPage from './pages/Wishlist/WishlistPage';
 import { useProfileStore } from './store/useProfileStore';
+import AuthRedirect from './pages/Auth/components/AuthRedirect';
 
 function App() {
   const { initAuth, userData } = useAuthStore();
@@ -61,6 +62,7 @@ function App() {
         <Route path="/play/:type/:id/video" element={<PlayerControls />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />
+        <Route path="/auth/redirect" element={<AuthRedirect />} />
       </Routes>
       <Footer />
     </div>
