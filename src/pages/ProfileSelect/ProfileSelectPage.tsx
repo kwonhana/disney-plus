@@ -9,7 +9,7 @@ const ProfileSelectPage = () => {
   const { profiles, initDefaultProfiles, selectProfile, resetCurrentProfile, setActiveProfile } =
     useProfileStore();
 
-  const [mode, setMode] = useState<'select' | 'edit'>('select');
+  const [mode, setMode] = useState<'select' | 'Edit'>('select');
 
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ const ProfileSelectPage = () => {
   };
 
   const handleEditMode = () => {
-    setMode('edit');
+    setMode('Edit');
   };
 
   return (
@@ -76,7 +76,7 @@ const ProfileSelectPage = () => {
           </>
         )}
 
-        {mode === 'edit' && <ProfileSelectEdit onClose={() => setMode('select')} />}
+        {mode === 'Edit' && <ProfileSelectEdit onClose={() => setMode('select')} />}
       </div>
     </div>
   );

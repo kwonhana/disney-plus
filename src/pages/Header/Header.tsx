@@ -8,7 +8,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDepthOpen, setIsDepthOpen] = useState(false);
   const { isLogin, onLogout } = useAuthStore();
-  const { profiles, activeProfileId } = useProfileStore();
+  const { profiles, activeProfileId, editActiveProfile } = useProfileStore();
   const location = useLocation();
   const path = location.pathname;
   const navigate = useNavigate();
@@ -94,9 +94,14 @@ const Header = () => {
                 className={`ProfileDropdown ${isDepthOpen ? 'open' : ''}`}
                 onMouseLeave={closeDepth}>
                 <li>
-                  <Link to="/profile/edit" className="dropdownLink">
+                  <button
+                    className="dropdownLink"
+                    onClick={() => {
+                      editActiveProfile();
+                      navigate('/profile/edit');
+                    }}>
                     내 프로필 수정
-                  </Link>
+                  </button>
                 </li>
                 <li>
                   <Link to="/profile/select" className="dropdownLink">

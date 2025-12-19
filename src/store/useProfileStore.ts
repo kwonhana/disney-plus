@@ -41,6 +41,7 @@ interface ProfileState {
   // 현재 내가 선택한 들어간 프로필 시청중인거
   activeProfileId: string | null;
   setActiveProfile: (id: string) => void;
+  editActiveProfile: () => void;
 
   // 초기화
   initCurrentProfile: () => void;
@@ -131,6 +132,19 @@ export const useProfileStore = create<ProfileState>()(
 
           return next;
         }),
+
+      editActiveProfile: () => {
+        const { profiles, activeProfileId } = get();
+
+        if (!activeProfileId) return;
+
+        const active = profiles.find((p) => p.id === activeProfileId);
+        if (!active) return;
+
+        set({
+          currentProfile: { ...active },
+        });
+      },
 
       resetCurrentProfile: () => set({ currentProfile: null }),
 
