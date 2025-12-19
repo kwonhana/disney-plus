@@ -239,11 +239,11 @@ export const useProfileStore = create<ProfileState>()(
         set((state) =>
           state.currentProfile
             ? {
-                currentProfile: {
-                  ...state.currentProfile,
-                  contentLimit: limit,
-                },
-              }
+              currentProfile: {
+                ...state.currentProfile,
+                contentLimit: limit,
+              },
+            }
             : state
         ),
 
