@@ -1,19 +1,36 @@
 import './scss/VideoPlayerPage.scss';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import type { Genre, DATA } from '../../types/ITV';
+import type {
+  Genre,
+  MediaDetail,
+  MovieDetail,
+  TVDetail,
+  Video,
+  CollectionMovie,
+  Movie,
+  TV,
+  ReleaseDatesResult,
+  ContentRatingResult,
+  CollectionResponse,
+} from '../../types/ITV';
 import { useWatchingStore } from '../../store/useWatchingStore';
 import { useWishStore } from '../../store/useWishStore';
 
 const VideoPlayer = () => {
   // --- 상태 관리 ---
-  const [player, setPlayer] = useState<DATA | any>({});
+  const [player, setPlayer] = useState<MediaDetail | null>(null);
   const [logo, setLogo] = useState<string | null>(null);
-  const [videos, setVideos] = useState<any[]>([]);
-  const [recommendations, setRecommendations] = useState<any[]>([]);
+  const [recommendations, setRecommendations] = useState<(Movie | TV)[]>([]);
   const [certification, setCertification] = useState<string>('none');
   const [activeTab, setActiveTab] = useState('추천 콘텐츠');
-  const [isSticky, setIsSticky] = useState(false);
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [collectionMovies, setCollectionMovies] = useState<CollectionMovie[]>([]);
+
+  // 로딩 상태 - 초기값을 true로 설정
+  const [isLoadingRecommendations, setIsLoadingRecommendations] = useState(true); // 연관
+  const [isLoadingVideos, setIsLoadingVideos] = useState(true); // 예고편
+  const [isLoadingCollection, setIsLoadingCollection] = useState(true); // 컬렉션
 
   // --- 훅 및 변수 ---
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
@@ -21,150 +38,282 @@ const VideoPlayer = () => {
   const { onAddWatching, onFetchWatching } = useWatchingStore();
   const { onToggleWish } = useWishStore();
   const navigate = useNavigate();
-  const stickyRef = useRef<HTMLDivElement>(null);
 
-  // TODO 1. 탭 리스트 동적 생성 ---
-  const hasRecommend = player.overview || player.production_companies || player.release_date;
-  const hasCollection = player.seasons;
-  const hasBelongs = player.belongs_to_collection;
-  const hasProduction = player.production_companies;
-  const tabList = ['추천 콘텐츠'];
-  if (hasRecommend) tabList.push('작품정보');
-  if (hasProduction) tabList.push('예고편');
-  if (hasCollection) tabList.push('컬렉션');
-  if (hasBelongs) tabList.unshift('에피소드');
+  // TODO 탭 기능
+  const generateTabList = () => {
+    const tabs: string[] = [];
 
-  // --- 비동기 데이터 호출 함수들 ---
-  // TODO 2. 추천 콘텐츠 호출 (onFetchID 내부에서 호출됨)
-  const onFetchRecommend = async (genres: Genre[]) => {
-    const genreIds = genres.map((g) => g.id).join(',');
-    const res = await fetch(
-      `https://api.themoviedb.org/3/discover/${type}?api_key=${API_KEY}&with_genres=${genreIds}&language=ko-KR&sort_by=popularity.desc`
-    );
-    const data = await res.json();
-    const filtered = data.results?.filter((item: any) => item.id !== Number(id)).slice(0, 12) || [];
-    setRecommendations(filtered);
+    if (!player) return tabs;
+
+    // 에피소드가 있으면 맨 앞에 추가 (TV만)
+    if ('seasons' in player && player.seasons && player.seasons.length > 0) {
+      tabs.push('에피소드');
+    }
+
+    tabs.push('추천 콘텐츠');
+
+    if (
+      player.overview ||
+      player.production_companies?.length > 0 ||
+      ('release_date' in player && player.release_date)
+    ) {
+      tabs.push('작품정보');
+    }
+
+    // 예고편이 있을 때만 탭 추가
+    if (videos.length > 0) {
+      tabs.push('예고편');
+    }
+
+    // 컬렉션이 있을 때만 탭 추가 (영화만)
+    if ('belongs_to_collection' in player && player.belongs_to_collection) {
+      tabs.push('컬렉션');
+    }
+
+    return tabs;
   };
 
-  // TODO 3. 상세 데이터 호출
-  const onFetchID = async () => {
-    const res = await fetch(
-      `https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=ko-KR`
-    );
-    const data = await res.json();
-    setPlayer(data);
-    if (data.genres) onFetchRecommend(data.genres);
+  const tabList = generateTabList();
+
+  //TODO 1.상세데이터 호출
+  const fetchMovieDetails = async () => {
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/${type}/${id}?api_key=${API_KEY}&language=ko-KR`
+      );
+      const data = await res.json();
+      setPlayer(data);
+
+      if (data.genres) fetchRecommendations(data.genres);
+      if (data.belongs_to_collection) {
+        fetchCollectionMovies(data.belongs_to_collection.id);
+      } else {
+        // 컬렉션이 없으면 로딩 종료
+        setIsLoadingCollection(false);
+      }
+    } catch (error) {
+      console.error('영화 상세 로드 실패:', error);
+      setIsLoadingCollection(false);
+    }
   };
 
-  // TODO 4. 연령 등급 호출
-  const onFetchAge = async () => {
-    const endpoint = type === 'movie' ? 'release_dates' : 'content_ratings';
-    const res = await fetch(
-      `https://api.themoviedb.org/3/${type}/${id}/${endpoint}?api_key=${API_KEY}`
-    );
-    const data = await res.json();
-    const NLInfo = data.results.find((el: any) => el.iso_3166_1 === 'NL');
-    const cAge =
-      type === 'movie'
-        ? NLInfo?.release_dates?.[0]?.certification || 'none'
-        : NLInfo?.rating || 'none';
-    setCertification(cAge);
+  //TODO 2. 추천 콘텐츠 호출
+  const fetchRecommendations = async (genres: Genre[]) => {
+    setIsLoadingRecommendations(true);
+    try {
+      const genreIds = genres.map((g) => g.id).join(',');
+      const res = await fetch(
+        `https://api.themoviedb.org/3/discover/${type}?api_key=${API_KEY}&with_genres=${genreIds}&language=ko-KR&sort_by=popularity.desc`
+      );
+      const data = await res.json();
+      const filtered: (Movie | TV)[] =
+        data.results?.filter((item: TV) => item.id !== Number(id)).slice(0, 12) || [];
+      setRecommendations(filtered);
+    } catch (error) {
+      console.error('추천 콘텐츠 로드 실패:', error);
+    } finally {
+      setIsLoadingRecommendations(false);
+    }
   };
 
-  //TODO 5. 로고 이미지 호출
-  const onFetchLogo = async () => {
-    const res = await fetch(`https://api.themoviedb.org/3/${type}/${id}/images?api_key=${API_KEY}`);
-    const data = await res.json();
-    setLogo(data.logos?.[0]?.file_path || null);
+  //TODO 3. 연령 등급 호출
+  const fetchCertification = async () => {
+    try {
+      const endpoint = type === 'movie' ? 'release_dates' : 'content_ratings';
+      const res = await fetch(
+        `https://api.themoviedb.org/3/${type}/${id}/${endpoint}?api_key=${API_KEY}`
+      );
+      const data = await res.json();
+
+      const NLInfo = data.results.find(
+        (el: ReleaseDatesResult | ContentRatingResult) => el.iso_3166_1 === 'NL'
+      );
+      const cAge =
+        type === 'movie'
+          ? NLInfo?.release_dates?.[0]?.certification || 'none'
+          : NLInfo?.rating || 'none';
+      setCertification(cAge);
+    } catch (error) {
+      console.error('연령 등급 로드 실패:', error);
+    }
   };
 
-  // TODO6. 예고편 호출
-  const onFetchVideo = async () => {
-    const res = await fetch(
-      `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${API_KEY}&language=en-US`
-    );
-    const data = await res.json();
-    const trailers = data.results.filter((v: any) => v.type === 'Trailer');
-    setVideos(trailers.length > 0 ? trailers : data.results);
+  //TODO 4. 로고 이미지 호출
+  const fetchLogo = async () => {
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/${type}/${id}/images?api_key=${API_KEY}`
+      );
+      const data = await res.json();
+      setLogo(data.logos?.[0]?.file_path || null);
+    } catch (error) {
+      console.error('로고 이미지 로드 실패:', error);
+    }
   };
 
-  console.log(id, type, player, player.episode_run_time);
+  //TODO 5. 예고편 호출
+  const fetchVideos = async () => {
+    setIsLoadingVideos(true);
+    console.log('예고편 로딩 시작');
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/${type}/${id}/videos?api_key=${API_KEY}&language=en-US`
+      );
+      const data = await res.json();
+      const results: Video[] = data.results || [];
+      const trailers = results.filter((v) => v.type === 'Trailer');
+      const videoList = trailers.length > 0 ? trailers : data.results;
+      setVideos(videoList || []);
+      console.log('예고편 로딩 완료:', videoList?.length || 0);
+    } catch (error) {
+      console.error('예고편 로드 실패:', error);
+      setVideos([]);
+    } finally {
+      setIsLoadingVideos(false);
+      console.log('예고편 로딩 상태 false로 변경');
+    }
+  };
 
-  // --- Side Effects ---
+  //TODO 6. 컬렉션 영화 목록 호출
+  const fetchCollectionMovies = async (collectionId: number) => {
+    setIsLoadingCollection(true);
+    console.log('컬렉션 로딩 시작:', collectionId);
+    try {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/collection/${collectionId}?api_key=${API_KEY}&language=ko-KR`
+      );
+      const data = await res.json();
+      const collection: CollectionResponse = data;
+      const filteredParts = collection.parts?.filter((movie) => movie.id !== Number(id)) || [];
+      setCollectionMovies(filteredParts);
+      console.log('컬렉션 로딩 완료:', filteredParts.length);
+    } catch (error) {
+      console.error('컬렉션 데이터 로드 실패:', error);
+    } finally {
+      setIsLoadingCollection(false);
+      console.log('컬렉션 로딩 상태 false로 변경');
+    }
+  };
+
   useEffect(() => {
     onFetchWatching();
   }, [onFetchWatching]);
 
   useEffect(() => {
-    window.scrollTo(0, 0); // 페이지 이동 시 최상단으로
-    onFetchID();
-    onFetchAge();
-    onFetchLogo();
-    onFetchVideo();
+    window.scrollTo(0, 0);
+    setPlayer({});
+    setRecommendations([]);
+    setVideos([]);
+    setCollectionMovies([]);
+    setIsLoadingRecommendations(true);
+    setIsLoadingVideos(true);
+    setIsLoadingCollection(true);
+
+    // 데이터 호출
+    fetchMovieDetails();
+    fetchCertification();
+    fetchLogo();
+    fetchVideos();
+
+    console.log('로딩 시작 - Videos:', true, 'Collection:', true);
   }, [id, type]);
 
-  // 스티키 감지 Observer
+  // TODO 에피소드가 있으면 초기 탭을 에피소드로 설정
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsSticky(entry.boundingClientRect.top <= 80);
-      },
-      { rootMargin: '-81px 0px 0px 0px', threshold: [1] }
-    );
-    if (stickyRef.current) observer.observe(stickyRef.current);
-    return () => observer.disconnect();
-  }, []);
+    if (player && 'seasons' in player && player.seasons && player.seasons.length > 0) {
+      setActiveTab('에피소드');
+    } else {
+      setActiveTab('추천 콘텐츠');
+    }
+  }, [player]);
 
-  // TODO 재생 목록 파이어베이스 저장
+  // ---채아 이벤트 핸들러 ---
   const handleVideoOpen = async () => {
-    if (!id || !type || !player.poster_path) return;
+    if (!id || !type || !player || !player.poster_path) return;
+    const title = 'title' in player ? player.title : player.name;
+
     const watchingItem = {
       id: Number(id),
       poster_path: player.poster_path,
       backdrop_path: player.backdrop_path || '',
       currentTime: 0,
       duration: 0,
-      title: player.title || player.name,
+      title: title,
     };
     await onAddWatching(watchingItem);
     navigate(`/play/${type}/${id}/video`);
   };
 
   const handleWishToggle = () => {
+    if (!player || !player.poster_path) return;
+    const title = 'title' in player ? player.title : player.name;
     onToggleWish({
       id: Number(id),
       poster_path: player.poster_path,
       backdrop_path: player.backdrop_path || '',
-      title: player.title || player.name,
+      title: title,
     });
   };
 
-  // 데이터 가공
-  const firstDate = player.first_air_date || player.release_date;
-  const year = firstDate ? firstDate.split('-')[0] : '';
-  const runTimeDisplay =
-    type === 'movie'
-      ? player.runtime
-        ? `${player.runtime}분`
-        : ''
-      : player.episode_run_time?.[0]
-      ? `${player.episode_run_time[0]}분`
-      : '';
+  // --- 데이터 가공 ---
+  const getDisplayData = () => {
+    if (!player) {
+      return { firstDate: '', year: '', runTimeDisplay: '', title: '' };
+    }
+    const firstDate = 'first_air_date' in player ? player.first_air_date : player.release_date;
+    const year = firstDate ? firstDate.split('-')[0] : '';
+    let runTimeDisplay = '';
+    if (type === 'movie' && 'runtime' in player) {
+      runTimeDisplay = player.runtime ? `${player.runtime}분` : '';
+    } else if (type === 'tv' && 'episode_run_time' in player) {
+      runTimeDisplay = player.episode_run_time?.[0] ? `${player.episode_run_time[0]}분` : '';
+    }
+    const title = 'title' in player ? player.title : player.name;
+    return { firstDate, year, runTimeDisplay, title };
+  };
+  const { year, runTimeDisplay, title } = getDisplayData();
+
+  //  스켈레톤 컴포넌트
+  const GridSkeleton = ({ count = 12 }: { count?: number }) => (
+    <>
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} className="grid-item skeleton">
+          <div className="skeleton-image"></div>
+          <div className="skeleton-text"></div>
+        </div>
+      ))}
+    </>
+  );
+
+  const VideoSkeleton = () => (
+    <>
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div key={i} className="grid-item skeleton">
+          <div className="skeleton-video"></div>
+          <div className="skeleton-text"></div>
+        </div>
+      ))}
+    </>
+  );
 
   return (
     <section className="VideoPlayer">
       {/* 메인 비주얼 영역 */}
       <div className="playerMain">
-        <img
-          src={`https://image.tmdb.org/t/p/original/${player.backdrop_path || player.poster_path}`}
-          alt={player.name || player.title}
-        />
+        {player && (
+          <img
+            src={`https://image.tmdb.org/t/p/original/${
+              player.backdrop_path || player.poster_path
+            }`}
+            alt={title}
+          />
+        )}
         <div className="info-wrap">
           <div className="logo">
             {logo ? (
               <img src={`https://image.tmdb.org/t/p/original/${logo}`} alt="logo" />
             ) : (
-              <h1 className="logo-text">{player.title || player.name}</h1>
+              <h1 className="logo-text">{title}</h1>
             )}
           </div>
           <div className="flex">
@@ -173,7 +322,7 @@ const VideoPlayer = () => {
               <span className="info2">{year}</span>
               <span className="info3">{runTimeDisplay}</span>
               <p className="info4">
-                {player.genres?.map((genre: Genre) => (
+                {player?.genres?.map((genre: Genre) => (
                   <span key={genre.id}>{genre.name}</span>
                 ))}
               </p>
@@ -190,7 +339,7 @@ const VideoPlayer = () => {
 
       {/* 탭 메뉴 및 상세 콘텐츠 영역 */}
       <div className="relatedInfo">
-        <div ref={stickyRef} className={`buttonWrap ${isSticky ? 'stuck' : ''}`}>
+        <div className="buttonWrap">
           {tabList.map((el, i) => (
             <button
               key={i}
@@ -202,58 +351,70 @@ const VideoPlayer = () => {
         </div>
 
         <div className="tab-content">
-          {activeTab === '에피소드' && (
+          {/* 에피소드 탭 */}
+          {activeTab === '에피소드' && player && 'seasons' in player && (
             <div className="recommend tab">
               <ul className="collection-list grid col">
-                <li className="grid-item">
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500/${player.belongs_to_collection.poster_path}`}
-                    alt="collection"
-                  />
-                  <p>{player.belongs_to_collection.name}</p>
-                </li>
+                {player.seasons?.map((season) => (
+                  <li key={season.id} className="grid-item">
+                    <Link to={`/play/${type}/${season.id}`}>
+                      <img
+                        src={`https://image.tmdb.org/t/p/w500/${season.poster_path}`}
+                        alt={season.name}
+                      />
+                      <p>{season.name}</p>
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           )}
 
-          {/* 1. 추천 콘텐츠 */}
+          {/* 추천 콘텐츠 탭 */}
           {activeTab === '추천 콘텐츠' && (
             <div className="recommend tab">
               <div className="grid col">
-                {recommendations.map((item) => (
-                  <Link key={item.id} to={`/play/${type}/${item.id}`} className="grid-item">
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
-                      alt={item.title}
-                    />
-                    <p>{item.title || item.name}</p>
-                  </Link>
-                ))}
+                {isLoadingRecommendations ? (
+                  <GridSkeleton />
+                ) : (
+                  recommendations.map((item) => {
+                    const itemTitle = 'title' in item ? item.title : item.name;
+                    return (
+                      <Link key={item.id} to={`/play/${type}/${item.id}`} className="grid-item">
+                        <img
+                          src={`https://image.tmdb.org/t/p/w500/${item.poster_path}`}
+                          alt={itemTitle}
+                        />
+                        <p>{itemTitle}</p>
+                      </Link>
+                    );
+                  })
+                )}
               </div>
             </div>
           )}
 
-          {/* 2. 작품정보 */}
-          {activeTab === '작품정보' && (
+          {/* 작품정보 탭 */}
+          {activeTab === '작품정보' && player && (
             <div className="detailData tab">
               <ul>
                 <li className="title">줄거리</li>
                 <li className="overview">{player.overview || '등록된 줄거리가 없습니다.'}</li>
               </ul>
-              {player.production_companies?.length > 0 && (
+              {player.production_companies && player.production_companies.length > 0 && (
                 <ul>
                   <li className="title">제작사</li>
                   <li className="prod-list">
-                    {player.production_companies.map((el: any, idx: number) => (
-                      <span key={el.id}>
-                        {el.name}
-                        {idx < player.production_companies.length - 1 ? ', ' : ''}
+                    {player.production_companies.map((company, idx) => (
+                      <span key={company.id}>
+                        {company.name}
+                        {idx < player.production_companies!.length - 1 ? ', ' : ''}
                       </span>
                     ))}
                   </li>
                 </ul>
               )}
-              {player.release_date && (
+              {'release_date' in player && player.release_date && (
                 <ul>
                   <li className="title">개봉일</li>
                   <li>{player.release_date}</li>
@@ -262,11 +423,13 @@ const VideoPlayer = () => {
             </div>
           )}
 
-          {/* 3. 예고편 */}
+          {/* 예고편 탭 */}
           {activeTab === '예고편' && (
             <div className="trailers tab">
               <div className="videoWarp grid row">
-                {videos.length > 0 ? (
+                {isLoadingVideos ? (
+                  <VideoSkeleton />
+                ) : (
                   videos.slice(0, 6).map((video) => (
                     <div key={video.id} className="grid-item">
                       <div className="iframe-box">
@@ -278,42 +441,36 @@ const VideoPlayer = () => {
                       <p>{video.name}</p>
                     </div>
                   ))
-                ) : (
-                  <p className="info">등록된 예고편 영상이 없습니다.</p>
                 )}
               </div>
             </div>
           )}
 
-          {/* 4. 컬렉션 */}
-          {activeTab === '컬렉션' && (
-            <div className="collection tab">
-              <ul className="collection-list grid col">
-                {/* TV 시즌 */}
-                {player.seasons?.map((el: any) => (
-                  <li key={el.id} className="grid-item">
-                    <Link to={`/play/${type}/${id}/season/${el.season_number}`}>
-                      <img
-                        src={`https://image.tmdb.org/t/p/w500/${el.poster_path}`}
-                        alt={el.name}
-                      />
-                      <p>{el.name}</p>
-                    </Link>
-                  </li>
-                ))}
-                {/* 영화 시리즈 */}
-                {/* {player.belongs_to_collection && (
-                  <li className="grid-item">
-                    <img
-                      src={`https://image.tmdb.org/t/p/w500/${player.belongs_to_collection.poster_path}`}
-                      alt="collection"
-                    />
-                    <p>{player.belongs_to_collection.name}</p>
-                  </li>
-                )} */}
-              </ul>
-            </div>
-          )}
+          {/* 컬렉션 탭 */}
+          {activeTab === '컬렉션' &&
+            player &&
+            'belongs_to_collection' in player &&
+            player.belongs_to_collection && (
+              <div className="collection tab">
+                <ul className="collection-list grid col">
+                  {isLoadingCollection ? (
+                    <GridSkeleton count={6} />
+                  ) : (
+                    collectionMovies.map((movie) => (
+                      <li key={movie.id} className="grid-item">
+                        <Link to={`/play/movie/${movie.id}`}>
+                          <img
+                            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                            alt={movie.title}
+                          />
+                          <p>{movie.title}</p>
+                        </Link>
+                      </li>
+                    ))
+                  )}
+                </ul>
+              </div>
+            )}
         </div>
       </div>
     </section>

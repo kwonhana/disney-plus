@@ -15,10 +15,10 @@
       top: 0;
       left: 0;
       background: linear-gradient(
-          270deg,
-          rgba(0, 0, 0, 0) 30.85%,
-          rgba(0, 0, 0, 0.514) 60.12%,
-          rgba(0, 0, 0, 0.744) 100%
+          180deg,
+          rgba(2, 23, 42, 0) 30%,
+          rgba(2, 23, 42, 0.6) 80%,
+          #02172a 100%
         ),
         url(<path-to-image>) rgba(211, 211, 211, 0) 50% / cover no-repeat;
     }
@@ -32,20 +32,22 @@
 
     .info-wrap {
       margin-left: 4%;
-      // border: 1px solid #fff;
       width: 35%;
-      aspect-ratio: 660/520;
+      aspect-ratio: 660/360;
+      // transform: translateY(-50%);
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
+      bottom: 14%;
 
       .logo {
         margin-bottom: 40px;
         max-width: inherit;
+        // border: 1px solid yellow;
 
         img {
           width: auto;
-          height: auto;
+          height: 100%;
+          max-height: 160px;
+          object-fit: contain;
         }
       }
 
@@ -90,10 +92,6 @@
       }
 
       .info3 {
-        &::after {
-          content: '분';
-          padding: 0;
-        }
         &:empty {
           display: none;
         }
@@ -149,6 +147,7 @@
           &::after {
             content: '분  중';
             padding-right: 4px;
+            border: 1px solid red;
           }
 
           &:empty {
@@ -160,6 +159,7 @@
           &::after {
             content: '분';
             padding-right: 4px;
+            border: 1px solid red;
           }
           &:empty {
             display: none;
@@ -227,7 +227,6 @@
       padding: 0 4%;
       justify-content: start;
       align-items: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       position: relative;
 
       &::before {
@@ -354,6 +353,42 @@
         height: 100%;
         border: none;
       }
+    }
+  }
+
+  .skeleton {
+    pointer-events: none;
+
+    .skeleton-image,
+    .skeleton-video,
+    .skeleton-text {
+      background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.05) 25%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0.05) 75%
+      );
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s ease-in-out infinite;
+      border-radius: 4px;
+    }
+
+    .skeleton-image {
+      width: 100%;
+      aspect-ratio: 2/3;
+      margin-bottom: 8px;
+    }
+
+    .skeleton-video {
+      width: 100%;
+      aspect-ratio: 16/9;
+      margin-bottom: 8px;
+    }
+
+    .skeleton-text {
+      height: 20px;
+      width: 80%;
+      margin: 0 auto;
     }
   }
 }
