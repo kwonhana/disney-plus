@@ -24,6 +24,7 @@ import PlayerControls from './pages/VideoPlayer/PlayerControls';
 import WishlistPage from './pages/Wishlist/WishlistPage';
 import { useProfileStore } from './store/useProfileStore';
 import AuthRedirect from './pages/Auth/components/AuthRedirect';
+import KidsDetail from './pages/KidsMain/components/KidsDetail';
 
 function App() {
   const { initAuth, userData } = useAuthStore();
@@ -59,6 +60,7 @@ function App() {
         <Route path="profile/create/image" element={<ProfileCreatePageImage />} />
         <Route path="profile/create/info" element={<ProfileCreatePageInfo />} />
         <Route path="/kids" element={<KidsMainPage />} />
+        <Route path="/kids/:friends" element={<KidsDetail />} />
         <Route path="/play/:type/:id/video" element={<PlayerControls />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />

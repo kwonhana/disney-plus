@@ -3,18 +3,18 @@
 // $Theme: disney, pixar, marvel, starwars, NGC, hulu, fx;
 $image-root: '../../../../public/images/kidsMain/theme/';
 $Theme-sizes: (
-    micikeyMouse: (width: 132px,
+    mickey: (width: 132px,
         height: 60px,
     ),
-    princessFairy: (width: 180px,
-        height: 50px,
-    ),
+    // princess: (width: 180px,
+    //     height: 50px,
+    // ),
     disneyJr: (width: 161px,
         height: 60px,
     ),
-    car: (width: 107px,
-        height: 70px,
-    ),
+    // cars: (width: 107px,
+    //     height: 70px,
+    // ),
     action: (width: 107px,
         height: 60px,
     ),
@@ -65,7 +65,7 @@ $Theme-sizes: (
 
                     &.#{$Theme}.active {
                         background: url('#{$image-root}#{$Theme}_active.png') no-repeat center center;
-                        background-size: contain;
+                        // background-size: contain;
 
                         &:hover {
                             opacity: 1;

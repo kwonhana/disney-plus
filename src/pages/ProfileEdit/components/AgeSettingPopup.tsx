@@ -25,6 +25,7 @@ const AgeSettingPopup = ({ onClose }: AgeSettingPopupProps) => {
   const handleSaveAge = () => {
     if (isKidsProfile && selectedAge > 12) {
       setContentLimit(12);
+      // console.log(setContentLimit)
     } else {
       setContentLimit(selectedAge);
     }

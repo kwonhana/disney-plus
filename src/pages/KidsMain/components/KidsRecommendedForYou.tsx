@@ -8,6 +8,7 @@ import HeaderTitle from '../../Main/components/HeaderTitle';
 
 //TODO 사용자 맞춤 추천 목록
 const RecommendedForYou = () => {
+
     return (
         <section className="RecommendedForYou movieList pullInner">
             <HeaderTitle mainTitle="@@@님이 좋아할 만한 이야기" />
@@ -25,7 +26,7 @@ const RecommendedForYou = () => {
                             return (
                                 <SwiperSlide>
                                     <Link to="void">
-                                        <div className="movieThumbnail col">
+                                        <div className="movieThumbnail col kids">
                                             <img
                                                 src={`https://image.tmdb.org/t/p/w500/${el.poster_path}`}
                                                 alt={`${el.title} 썸네일`}
