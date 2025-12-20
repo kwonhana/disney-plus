@@ -34,7 +34,7 @@ const VideoPlayer = () => {
   const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
   const { id, type } = useParams();
   const { onAddWatching, onFetchWatching } = useWatchingStore();
-  const { onToggleWish } = useWishStore();
+  const { wishlist, onToggleWish } = useWishStore();
   const navigate = useNavigate();
 
   console.log('player', player);
@@ -227,32 +227,48 @@ const VideoPlayer = () => {
   }, [player]);
 
   // ---채아 이벤트 핸들러 ---
+  // 시청 시작 핸들러
   const handleVideoOpen = async () => {
+    // 필수 데이터 체크 (type 정보 포함)
     if (!id || !type || !player || !player.poster_path) return;
+
     const title = 'title' in player ? player.title : player.name;
 
     const watchingItem = {
       id: Number(id),
+      media_type: type, // ⭐ 추가: 시청 목록에서도 타입을 알아야 나중에 불러올 수 있습니다.
       poster_path: player.poster_path,
       backdrop_path: player.backdrop_path || '',
       currentTime: 0,
       duration: 0,
       title: title,
     };
+
     await onAddWatching(watchingItem);
     navigate(`/play/${type}/${id}/video`);
   };
 
+  // 찜하기 토글 핸들러
   const handleWishToggle = () => {
-    if (!player || !player.poster_path) return;
+    // 필수 데이터 체크
+    if (!id || !type || !player || !player.poster_path) return;
+
     const title = 'title' in player ? player.title : player.name;
+
+    // ⭐ onToggleWish에 전달하는 객체에 media_type을 반드시 포함시킵니다.
     onToggleWish({
       id: Number(id),
+      media_type: type, // ⭐ 핵심: URL 파라미터에서 가져온 type('movie' 또는 'tv') 주입
       poster_path: player.poster_path,
       backdrop_path: player.backdrop_path || '',
       title: title,
     });
   };
+  // 현재 콘텐츠가 찜 목록에 있는지 여부를 판별.
+  // type(media_type)과 id가 모두 일치해야 정확합니다.
+  const isWished = wishlist.some(
+    (item) => String(item.id) === String(id) && item.media_type === type
+  );
 
   // --- 데이터 가공 ---
   const getDisplayData = () => {
@@ -334,7 +350,10 @@ const VideoPlayer = () => {
               <button className="play" onClick={handleVideoOpen}>
                 지금 재생하기
               </button>
-              <button className="MyWish LinkBtn" onClick={handleWishToggle}></button>
+              <button
+                className={`MyWish LinkBtn ${isWished ? 'active' : ''}`}
+                onClick={handleWishToggle}
+                aria-label="찜하기"></button>
             </div>
           </div>
         )}
