@@ -23,7 +23,7 @@ const SearchTop10List = ({ title, data }: SearchTop10Prop) => {
         {data.slice(0, 10).map((el, i) => {
           return (
             <SwiperSlide>
-              <Link to="void">
+              <Link to={`/play/${el.media_type}/${el.id}`}>
                 <div className="movieThumbnail">
                   <div className="imgBox">
                     <img

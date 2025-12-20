@@ -14,7 +14,7 @@ import { useMovieStore } from '../../store/useMovieStore';
 // but, 없으면 장르 id를 매치시켜 동일 장르 작품 띄우기
 // 화면에 뿌릴 내용 => 포스터 이미지, 로고
 // 검색 페이지 첫 화면 / 검색어 입력 전 => 인기 영화 top10 / 인기 시리즈 top10
-//  ${onKidsMode ? 'kids' : 'normal'}
+
 const SearchPage = () => {
   const [onKidsMode] = useState(false);
   const { searchWord, selectedFilter } = useSearchStore();
@@ -38,8 +38,16 @@ const SearchPage = () => {
           <div className="searchBottom">
             {isInitial ? (
               <>
-                <SearchTop10List title="인기 영화 TOP 10" data={Top} />
-                <SearchTop10List title="인기 TV TOP 10" data={TopTV} />
+                {/* 1. 데이터가 존재할 때만 map을 실행하도록 ?. 연산자 추가 */}
+                <SearchTop10List
+                  title="인기 영화 TOP 10"
+                  data={Top?.map((m) => ({ ...m, media_type: 'movie' })) || []}
+                />
+
+                <SearchTop10List
+                  title="인기 TV TOP 10"
+                  data={TopTV?.map((t) => ({ ...t, media_type: 'tv' })) || []}
+                />
               </>
             ) : (
               <SearchList />

@@ -1,22 +1,34 @@
+import { useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSearchStore } from '../../../store/useSearchStore';
-import { useMovieStore } from '../../../store/useMovieStore';
+import { useContentMatchStore } from '../../../store/useContentMatchStore';
 
 const SearchList = () => {
-  const { searchResults, searchWord, selectedGenreId } = useSearchStore();
-  const { getMovieByGenre, upcomingMovies, popularMovies } = useMovieStore();
+  const { searchResults, searchWord } = useSearchStore();
+  const { mergedList, setLocalList } = useContentMatchStore();
 
-  console.log('검색어:', searchWord);
-  console.log('결과:', searchResults);
+  // 1. 검색 결과가 변경될 때 매칭 스토어에 데이터 주입
+  useEffect(() => {
+    setLocalList(searchResults);
+  }, [searchResults, setLocalList]);
 
-  // 표시할 결과 내용
-  let displayResults = searchResults;
+  // 2. ⭐ 핵심: 매칭된 결과(mergedList)가 비어있다면 원본 검색 결과(searchResults)를 가공해서 사용
+  // 이렇게 하면 TMDb 매칭 데이터가 없더라도 화면에 로컬 데이터가 즉시 나타납니다.
+  const displayResults = useMemo(() => {
+    if (mergedList.length > 0) return mergedList;
 
-  if (searchWord && searchResults.length === 0) {
-    // 장르 기반
-    displayResults = selectedGenreId ? getMovieByGenre(selectedGenreId) || [] : popularMovies;
-  }
-  if (!displayResults || displayResults.length === 0) {
+    // 매칭 결과가 없을 때 로컬 데이터를 정규화하여 반환
+    return searchResults.map((item: any) => ({
+      id: item.id,
+      media_type: item.category === 'movie' ? 'movie' : 'tv',
+      title: item.title || item.name,
+      poster_path: item.poster_path,
+    }));
+  }, [mergedList, searchResults]);
+
+  console.log('최종 출력 리스트:', displayResults);
+
+  if (searchWord && displayResults.length === 0) {
     return (
       <div className="searchListWrap">
         <p className="noResult">
@@ -25,16 +37,23 @@ const SearchList = () => {
       </div>
     );
   }
+
   return (
     <div className="searchListWrap">
       <ul className="searchList">
         {displayResults.map((item) => (
           <li key={`${item.media_type}-${item.id}`} className="searchItem">
-            <Link to={`/play/${item.id}`}>
+            <Link to={`/play/${item.media_type}/${item.id}`}>
               <div className="imgBox">
                 <img
-                  src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
-                  alt={item.title || item.name}
+                  src={
+                    item.poster_path
+                      ? item.poster_path.startsWith('http')
+                        ? item.poster_path
+                        : `https://image.tmdb.org/t/p/w300${item.poster_path}`
+                      : '/assets/no-image.png'
+                  }
+                  alt={item.title}
                 />
               </div>
             </Link>
