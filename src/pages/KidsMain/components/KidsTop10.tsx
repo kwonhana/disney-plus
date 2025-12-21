@@ -22,7 +22,7 @@ const KidsTop10 = ({ title }: title) => {
     }, [kidsTopMovie, onFetchTop10Movies]);
 
     return (
-        <section className="Top10List">
+        <section className={`Top10List ${kids ? "kids" : ""}`}>
             <HeaderTitle mainTitle={title} />
             <Swiper slidesPerView={4.2} spaceBetween={20} className="mySwiper">
                 {kidsTopMovie.slice(0, 7).map((el, i) => (
