@@ -13,7 +13,7 @@ interface GenreListProps {
 //TODO 재사용 가능한 장르 콘텐츠 목록
 const GenreList = ({ genreId, title }: GenreListProps) => {
   const { movies, category, onfetchCate } = useMovieStore();
-  const isKids = !!useMatch("/kids/*");
+  const isKids = useMatch("/kids/*");
 
   const GenreMovies = category[genreId] || [];
 
