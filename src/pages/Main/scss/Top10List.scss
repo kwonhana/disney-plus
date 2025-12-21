@@ -3,13 +3,15 @@
 .Top10List {
   padding: 100px 0;
   padding-left: 4%;
-  border: 1px solid red;
-  background: linear-gradient(180deg,
-      rgba(2, 23, 42, 0.6) 4%,
-      rgba(12, 48, 64, 0.6) 16%,
-      rgba(47, 131, 139, 0.55) 53%,
-      rgba(12, 48, 64, 0.56) 81%,
-      rgba(2, 23, 42, 0.6) 100%);
+  // border: 1px solid red;
+  background: linear-gradient(
+    180deg,
+    rgba(2, 23, 42, 0.6) 4%,
+    rgba(12, 48, 64, 0.6) 16%,
+    rgba(47, 131, 139, 0.55) 53%,
+    rgba(12, 48, 64, 0.56) 81%,
+    rgba(2, 23, 42, 0.6) 100%
+  );
   max-width: 1920px;
   margin: 0 auto;
 
