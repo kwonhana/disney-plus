@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ProfileSettingBox from './components/ProfileSettingBox';
 import { Link, useNavigate } from 'react-router-dom';
 import './scss/ProfileSettingPage.scss';
@@ -12,7 +12,6 @@ const ProfileSettingPage = () => {
   const { membership } = useSubStore();
   const { activeProfileId, profiles, autoKidsLogin, setAutoKidsLogin } = useProfileStore();
   const navigate = useNavigate();
-  const [isActive, setIsActive] = useState();
 
   const handleComplete = () => {
     const profile = profiles.find((p) => p.id === activeProfileId);

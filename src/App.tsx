@@ -39,7 +39,7 @@ function App() {
       initWithUser(userData.uid);
       initDefaultProfiles();
     }
-  }, [userData]);
+  }, [userData, initWithUser, initDefaultProfiles]);
 
   return (
     <div>

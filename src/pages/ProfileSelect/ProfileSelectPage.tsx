@@ -17,9 +17,7 @@ const ProfileSelectPage = () => {
 
   useEffect(() => {
     initDefaultProfiles();
-    console.log(profiles);
-    console.log(membership);
-  }, []);
+  }, [initDefaultProfiles]);
 
   const handleSelectProfile = (profile: Profile) => {
     setActiveProfile(profile.id);

@@ -89,7 +89,7 @@ export const useProfileStore = create<ProfileState>()(
           const autoKidsLogin = parsed.state.autoKidsLogin ?? false;
 
           if (autoKidsLogin) {
-            const kidsProfile = profiles.find((p) => p.isKids);
+            const kidsProfile = profiles.find((p: Profile) => p.isKids);
             if (kidsProfile) {
               activeProfileId = kidsProfile.id;
             }
