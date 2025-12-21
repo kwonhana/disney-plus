@@ -13,7 +13,7 @@ interface VideoPopupProps {
   backdropPath?: string;
 }
 
-const VideoPopup = ({
+const WatchingVideoPopup = ({
   youtubeKey,
   onClose,
   title,
@@ -24,7 +24,7 @@ const VideoPopup = ({
 }: VideoPopupProps) => {
   const navigate = useNavigate();
   const { wishlist, onToggleWish } = useWishStore();
-  const { onRemoveWatching, watching } = useWatchingStore();
+  const { onRemoveWatching } = useWatchingStore();
 
   // 유효한 유튜브 키가 있는지 확인
   const hasVideo = youtubeKey && youtubeKey !== '' && youtubeKey !== 'undefined';
@@ -64,11 +64,6 @@ const VideoPopup = ({
     navigate(`/play/${detailType}/${id}`);
   };
 
-  // 현재 콘텐츠가 재생 목록(시청 기록)에 있는지 확인
-  const isWatching = watching.some(
-    (item) => String(item.id) === String(id) && item.media_type === mediaType
-  );
-
   // 현재 콘텐츠가 찜 목록에 있는지 확인
   const isWished = wishlist.some(
     (item) => String(item.id) === String(id) && item.media_type === mediaType
@@ -84,6 +79,7 @@ const VideoPopup = ({
               src={`https://www.youtube.com/embed/${youtubeKey}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0`}
               allow="autoplay; fullscreen; picture-in-picture"
               title="YouTube trailer"
+              frameBorder="0"
             />
           ) : (
             <div className="no-video-fallback">
@@ -101,27 +97,27 @@ const VideoPopup = ({
         <div className="controlWrap">
           <div className="controlLeft">
             {/* 재생 버튼 */}
-            <button
-              className={`playBtn ${isWished ? 'active' : ''}`}
-              onClick={handlePlay}
-              title="재생">
-              <span>이어보기</span>
+            <button onClick={handlePlay} title="재생">
+              <img src="/icon/playIcon.svg" alt="재생아이콘" />
             </button>
+
             {/* 찜하기 버튼 */}
             <button
-              className={`wishBtn ${isWatching ? 'active' : ''}`}
+              className={`MyWish LinkBtn ${isWished ? 'active' : ''}`}
               onClick={handleWishToggle}
-              title={isWished ? '찜 목록에서 제거' : '찜 목록에 추가'}></button>
+              title={isWished ? '찜 목록에서 제거' : '찜 목록에 추가'}>
+              <img src="/icon/heart.svg" alt="위시아이콘" />
+            </button>
+
             {/* 기록 삭제 버튼 */}
-            <button
-              className="deleteBtn"
-              onClick={handleRemove}
-              title="시청 기록에서 삭제"></button>
+            <button onClick={handleRemove} title="시청 기록에서 삭제">
+              <img src="/icon/trashIcon.svg" alt="삭제아이콘" />
+            </button>
           </div>
 
           <div className="controlRight">
             {/* 상세보기 버튼 */}
-            <button className="hamBtn" onClick={handleDetail} title="상세보기">
+            <button onClick={handleDetail} title="상세보기">
               <img src="/icon/hamIcon.svg" alt="상세보기" />
             </button>
           </div>
@@ -131,4 +127,4 @@ const VideoPopup = ({
   );
 };
 
-export default VideoPopup;
+export default WatchingVideoPopup;

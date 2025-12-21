@@ -55,9 +55,33 @@
       background: rgba($color: #fff, $alpha: 0.3);
       text-align: center;
       border: 1px solid #fff;
+      &.playBtn {
+        background: url(../../../../public/icon/playIcon.svg) no-repeat center
+          rgba($color: #fff, $alpha: 0.3);
+        span {
+          display: none;
+        }
+      }
+
+      &.wishBtn {
+        background: url(../../../../public/icon/heart.svg) no-repeat center
+          rgba($color: #fff, $alpha: 0.3);
+        &.active {
+          background: url(../../../../public/icon/heartFillIcon.svg) no-repeat center
+            rgba($color: #fff, $alpha: 0.3);
+        }
+      }
+      &.deleteBtn {
+        background: url(../../../../public/icon/trashIcon.svg) no-repeat center
+          rgba($color: #fff, $alpha: 0.3);
+      }
+      &.hamBtn {
+        background: url(../../../../public/icon/hamIcon.svg) no-repeat center
+          rgba($color: #fff, $alpha: 0.3);
+      }
 
       &:hover {
-        background: rgba(255, 255, 255, 0.5);
+        background-color: rgba(255, 255, 255, 0.5);
         transform: scale(1.05);
       }
 

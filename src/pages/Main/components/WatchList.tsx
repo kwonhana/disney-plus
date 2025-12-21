@@ -1,9 +1,9 @@
+import { useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper.css';
 import '../scss/movieList.scss';
 import { Pagination } from 'swiper/modules';
 import HeaderTitle from './HeaderTitle';
-import { useEffect, useRef, useState } from 'react';
 import { useProfileStore } from '../../../store/useProfileStore';
 import { useWatchingStore } from '../../../store/useWatchingStore';
 import { useMovieStore } from '../../../store/useMovieStore';
@@ -23,58 +23,83 @@ const WatchList = () => {
   const { onFetchTvVideo } = useTvStore();
 
   const [youtubeKey, setYoutubeKey] = useState('');
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
-  const hoverTimer = useRef<NodeJS.Timeout | null>(null);
+  const [hoveredItem, setHoveredItem] = useState<any | null>(null);
+  const [popupPos, setPopupPos] = useState({ top: 0, left: 0, width: 0 });
 
-  const activeProfile = profiles.find((profile) => profile.id === activeProfileId);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const hoverTimer = useRef<NodeJS.Timeout | null>(null);
+  const closeTimer = useRef<NodeJS.Timeout | null>(null);
+
+  const activeProfile = profiles.find((p) => p.id === activeProfileId);
 
   useEffect(() => {
-    if (activeProfileId) {
-      onFetchWatching();
-    }
+    if (activeProfileId) onFetchWatching();
   }, [activeProfileId, onFetchWatching]);
 
   if (!watching || watching.length === 0) return null;
 
-  const handleMouseEnter = (id: number, mediaType: string) => {
+  /** 썸네일 hover */
+  const handleMouseEnter = (e: React.MouseEvent, el: any) => {
     if (hoverTimer.current) clearTimeout(hoverTimer.current);
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const containerRect = containerRef.current?.getBoundingClientRect();
+    const windowWidth = window.innerWidth;
+
+    let leftPos = rect.left - (containerRect?.left || 0);
+    const popupWidth = rect.width * 1.3;
+
+    if (leftPos < 0) leftPos = 0;
+    if (rect.left + popupWidth > windowWidth) {
+      leftPos = leftPos - (popupWidth - rect.width);
+    }
+
+    const position = {
+      top: rect.top - (containerRect?.top || 0),
+      left: leftPos,
+      width: rect.width,
+    };
 
     hoverTimer.current = setTimeout(async () => {
+      const mediaType = el.media_type === 'series' ? 'tv' : el.media_type || 'movie';
+
+      let key = '';
       try {
-        let videos = [];
-        // mediaType이 'tv'나 'series'로 들어올 경우를 모두 대비
-        if (mediaType === 'movie') {
-          videos = await onFetchVideo(id);
-        } else {
-          videos = await onFetchTvVideo(id);
-        }
+        const videos =
+          mediaType === 'movie' ? await onFetchVideo(el.id) : await onFetchTvVideo(el.id);
 
-        const trailer = videos?.find((v: any) => v.type === 'Trailer' && v.site === 'YouTube');
+        const trailer =
+          videos?.find(
+            (v: any) => (v.type === 'Trailer' || v.type === 'Teaser') && v.site === 'YouTube'
+          ) || videos?.find((v: any) => v.site === 'YouTube');
 
-        if (trailer) {
-          setYoutubeKey(trailer.key);
-        } else {
-          setYoutubeKey(''); // 영상 없으면 빈값
-        }
-
-        // 영상 유무와 상관없이 팝업을 띄우기 위해 ID 설정
-        setHoveredId(id);
-      } catch (error) {
-        console.error('비디오 로드 실패:', error);
-        setYoutubeKey('');
-        setHoveredId(id);
+        key = trailer ? trailer.key : '';
+      } catch (e) {
+        console.error('비디오 로드 실패', e);
       }
+
+      setYoutubeKey(key);
+      setPopupPos(position);
+      setHoveredItem(el);
     }, 400);
   };
 
+  /** 팝업 닫기 (지연) */
   const handleMouseLeave = () => {
     if (hoverTimer.current) clearTimeout(hoverTimer.current);
-    setHoveredId(null);
-    setYoutubeKey('');
+
+    closeTimer.current = setTimeout(() => {
+      setHoveredItem(null);
+      setYoutubeKey('');
+    }, 150);
   };
 
   return (
-    <section className="WatchList movieList pullInner marginUp" style={{ position: 'relative' }}>
+    <section
+      className="WatchList movieList pullInner marginUp"
+      ref={containerRef}
+      style={{ position: 'relative', overflow: 'visible' }}>
       <HeaderTitle
         mainTitle={
           activeProfile ? `${activeProfile.name}님이 시청 중인 콘텐츠` : '시청 중인 콘텐츠'
@@ -89,59 +114,63 @@ const WatchList = () => {
         className="mySwiper"
         style={{ overflow: 'visible' }}>
         {watching.map((el) => {
-          // [중요] 상세페이지 경로를 위한 미디어 타입 변환
-          // TMDB 데이터가 'tv'로 오면 'tv'를 유지하거나, 프로젝트 구조상 'series'가 필요하면 여기서 교정
-          const rawType = el.media_type || 'movie';
-          const mediaTypeForPopup = rawType === 'series' ? 'tv' : rawType;
-
           const title = el.title || el.name;
           const progress = generateProgress(el.id);
-          const isHovered = hoveredId === el.id;
 
           return (
-            <SwiperSlide
-              key={`${rawType}-${el.id}`}
-              style={{ zIndex: isHovered ? 100 : 1, overflow: 'visible' }}>
-              <div className="flex" onMouseLeave={handleMouseLeave}>
-                <div
-                  className="movieThumbnail row"
-                  onMouseEnter={() => handleMouseEnter(el.id, mediaTypeForPopup)}
-                  style={{ position: 'relative', cursor: 'pointer' }}>
-                  <img
-                    src={`https://image.tmdb.org/t/p/w500/${el.backdrop_path}`}
-                    alt={`${title} 썸네일`}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = '/images/no-image.png';
-                    }}
-                  />
-                  <span className="movieTitle">{title}</span>
-
-                  <div className="progressBar">
-                    <div className="now" style={{ width: `${progress}%` }}></div>
-                  </div>
+            <SwiperSlide key={`${el.media_type}-${el.id}`} style={{ overflow: 'visible' }}>
+              <div
+                className="movieThumbnail row"
+                onMouseEnter={(e) => handleMouseEnter(e, el)}
+                style={{ cursor: 'pointer' }}>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500/${el.backdrop_path}`}
+                  alt={title}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/images/no-image.png';
+                  }}
+                />
+                <span className="movieTitle">{title}</span>
+                <div className="progressBar">
+                  <div className="now" style={{ width: `${progress}%` }} />
                 </div>
-
-                {/* youtubeKey가 있거나 빈 문자열("")이어도 hoveredId만 맞으면 팝업 노출 */}
-                {isHovered && (
-                  <div
-                    className="video-popup-container"
-                    style={{ position: 'absolute', top: 0, left: 0, width: '100%' }}>
-                    <VideoPopup
-                      youtubeKey={youtubeKey}
-                      title={title || '제목 없음'}
-                      id={el.id}
-                      mediaType={mediaTypeForPopup as 'movie' | 'tv'}
-                      posterPath={el.poster_path || ''}
-                      backdropPath={el.backdrop_path}
-                      onClose={handleMouseLeave}
-                    />
-                  </div>
-                )}
               </div>
             </SwiperSlide>
           );
         })}
       </Swiper>
+
+      {/* 팝업 (Swiper 밖, section 기준) */}
+      {hoveredItem && (
+        <div
+          className="video-popup-container-portal"
+          onMouseEnter={() => {
+            if (closeTimer.current) clearTimeout(closeTimer.current);
+          }}
+          onMouseLeave={handleMouseLeave}
+          style={{
+            position: 'absolute',
+            top: popupPos.top - 20,
+            left: popupPos.left,
+            width: popupPos.width,
+            zIndex: 9999,
+            pointerEvents: 'auto',
+          }}>
+          <VideoPopup
+            youtubeKey={youtubeKey}
+            title={hoveredItem.title || hoveredItem.name || ''}
+            id={hoveredItem.id}
+            mediaType={
+              (hoveredItem.media_type === 'series' ? 'tv' : hoveredItem.media_type) as
+                | 'movie'
+                | 'tv'
+            }
+            posterPath={hoveredItem.poster_path || ''}
+            backdropPath={hoveredItem.backdrop_path}
+            onClose={handleMouseLeave}
+          />
+        </div>
+      )}
     </section>
   );
 };
