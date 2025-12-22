@@ -18,7 +18,11 @@
     padding: 7rem 0; // margin-bottom: 10px;
 
     .footerLogo {
-      margin-bottom: 6rem;
+      margin-bottom: clamp(16px, 4vh, 6rem);
+
+      width: clamp(55px, 2vw, 180px);
+      aspect-ratio: 180/98;
+
       img {
         width: 18rem;
       }
@@ -48,13 +52,30 @@
       flex-direction: column;
       align-items: center;
       font-size: 1.4rem;
+      font-size: clamp(0.6rem, 1vw, 1.4rem);
+      word-break: keep-all;
+      width: 80%;
       font-weight: 300;
       line-height: 1.6;
 
-      div,
+      div {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
       p {
         text-align: center;
         margin-bottom: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        span {
+          &::after {
+            content: '|';
+            padding: 0 4px;
+          }
+        }
       }
     }
   }
