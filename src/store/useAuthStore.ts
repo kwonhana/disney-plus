@@ -14,6 +14,7 @@ import type { AuthState, KidsModeInfo, UserData } from '../types/IAuth';
 import { useProfileStore } from './useProfileStore';
 import { useSubStore } from './useSubStore';
 import { calculateAgeLimit } from '../utils/AgeCalculate';
+import { FirebaseError } from 'firebase/app';
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
@@ -107,9 +108,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       console.log('회원가입 성공 - 모든 과정 완료');
       alert('회원가입이 완료되었습니다!');
-    } catch (err: any) {
-      console.error('회원가입 실패:', err);
-      alert(err.message);
+    } catch (err: unknown) {
+      if (err instanceof FirebaseError) {
+        console.error('회원가입 실패:', err.code, err.message);
+        alert(err.message);
+      } else if (err instanceof Error) {
+        console.error('회원가입 실패:', err.message);
+        alert(err.message);
+      } else {
+        console.error('회원가입 실패: 알 수 없는 에러', err);
+      }
       throw err;
     }
   },
@@ -161,9 +169,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
 
       console.log('로그인 성공');
-    } catch (err: any) {
-      console.error('로그인 실패:', err);
-      alert(err.message);
+    } catch (err: unknown) {
+      if (err instanceof FirebaseError) {
+        console.error('로그인 실패:', err.code, err.message);
+        alert(err.message);
+      } else if (err instanceof Error) {
+        console.error('로그인 실패:', err.message);
+        alert(err.message);
+      } else {
+        console.error('로그인 실패: 알 수 없는 에러', err);
+      }
       throw err;
     }
   },
@@ -207,9 +222,16 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       });
 
       console.log('구글 로그인 성공');
-    } catch (err: any) {
-      console.error('구글 로그인 실패:', err);
-      alert(err.message);
+    } catch (err: unknown) {
+      if (err instanceof FirebaseError) {
+        console.error('구글 로그인 실패:', err.code, err.message);
+        alert(err.message);
+      } else if (err instanceof Error) {
+        console.error('구글 로그인 실패:', err.message);
+        alert(err.message);
+      } else {
+        console.error('구글 로그인 실패: 알 수 없는 에러', err);
+      }
       throw err;
     }
   },
@@ -247,8 +269,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         });
       }
       console.log('키즈 모드 업데이트 완료');
-    } catch (err: any) {
-      console.error(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error(err.message);
+      } else {
+        console.error('알 수 없는 에러가 발생했습니다.');
+      }
     }
   },
 
