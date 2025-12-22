@@ -56,8 +56,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
 
-      >img {}
+      &.active {
+
+        >img {
+          filter: brightness(50%);
+        }
+      }
+
+      >img {
+        width: 100%;
+      }
+
+      >span {
+        display: block;
+        width: 3.6rem;
+        height: fit-content;
+        position: absolute;
+        top: 0;
+        transform: translate(10%, 105%);
+      }
     }
   }
 }

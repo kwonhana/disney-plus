@@ -1,13 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import AuthTop from './AuthTop';
 import '../scss/LoginComplete.scss';
+import { useAuthStore } from '../../../store/useAuthStore';
 
 const LoginComplete = () => {
+  const { userData } = useAuthStore();
   const navigate = useNavigate();
 
   const handleDisney = () => {
-    navigate('/', { replace: true });
+    if (userData?.kidsMode?.isActive) {
+      navigate('/kids', { replace: true });
+    } else {
+      navigate('/', { replace: true });
+    }
   };
+
   return (
     <div className="loginCompleteWrap">
       <AuthTop title="로그인이 완료되었습니다." />

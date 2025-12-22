@@ -8,6 +8,7 @@ import KidsMode from './KidsMode';
 import type { KidsModeInfo } from '../../../types/IAuth';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../../api/auth';
+import { FirebaseError } from 'firebase/app';
 
 // props type 선언
 interface SignupProps {
@@ -73,14 +74,22 @@ const SignupForm = ({ onComplete }: SignupProps) => {
   };
 
   // 이메일 중복 체크
-  const checkEmailExists = async (email) => {
+  const checkEmailExists = async (email: string) => {
     try {
       const userRef = collection(db, 'users');
       const q = query(userRef, where('email', '==', email));
       const querySnapshot = await getDocs(q);
       return !querySnapshot.empty;
-    } catch (err: any) {
-      console.log(err.message);
+    } catch (err: unknown) {
+      if (err instanceof FirebaseError) {
+        console.error('회원가입 실패:', err.code, err.message);
+        alert(err.message);
+      } else if (err instanceof Error) {
+        console.error('회원가입 실패:', err.message);
+        alert(err.message);
+      } else {
+        console.error('회원가입 실패: 알 수 없는 에러', err);
+      }
       return false;
     }
   };
@@ -209,7 +218,7 @@ const SignupForm = ({ onComplete }: SignupProps) => {
   };
 
   // 회원가입 메서드
-  const handleSignup = async (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) return;
@@ -237,8 +246,17 @@ const SignupForm = ({ onComplete }: SignupProps) => {
       setConfirmPwMsg('');
 
       onComplete();
-    } catch (err: any) {
-      console.error('회원가입 오류:', err);
+    } catch (err: unknown) {
+      if (err instanceof FirebaseError) {
+        console.error('회원가입 실패:', err.code, err.message);
+        alert(err.message);
+      } else if (err instanceof Error) {
+        console.error('회원가입 실패:', err.message);
+        alert(err.message);
+      } else {
+        console.error('회원가입 실패: 알 수 없는 에러', err);
+      }
+      throw err;
     }
   };
 
