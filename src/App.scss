@@ -208,8 +208,10 @@ address {
   &::before {
     display: inline-block;
     @include font(1.4rem, 500, #fff);
+    font-size: clamp(0.8rem, 0.8vw, 1.4rem);
     padding: 4px 8px;
     // aspect-ratio: 40/22;
+    text-wrap: nowrap;
   }
 
   &.ageAL {
@@ -218,7 +220,7 @@ address {
 
     &::before {
       content: 'ALL';
-      @include font(1.4rem, 500, #fff);
+      font: clamp(1.2rem, 1.2vw, 1.4rem);
     }
   }
 
@@ -228,7 +230,6 @@ address {
 
     &::before {
       content: 'ALL';
-      @include font(1.4rem, 500, #fff);
     }
   }
 
