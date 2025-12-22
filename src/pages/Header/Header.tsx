@@ -7,8 +7,10 @@ import { useProfileStore } from '../../store/useProfileStore';
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDepthOpen, setIsDepthOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isLogin, onLogout } = useAuthStore();
   const { profiles, activeProfileId, editActiveProfile } = useProfileStore();
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
   const location = useLocation();
   const path = location.pathname;
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ const Header = () => {
   const isPayPage = path.startsWith('/payment');
 
   const activeProfile = profiles.find((profile) => profile.id === activeProfileId);
-  const kids = useMatch("/kids/*")
+  const kids = useMatch('/kids/*');
 
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -49,7 +51,10 @@ const Header = () => {
 
   if (isProfilePage || isLoginPage || isSubPage || isPayPage) {
     return (
-      <div className={`Header isprofile pullInner ${isScrolled ? 'active' : ''} ${kids ? "kids" : ""} `}>
+      <div
+        className={`Header isprofile pullInner ${isScrolled ? 'active' : ''} ${
+          kids ? 'kids' : ''
+        } `}>
         <div className="Header-left">
           <Link to="/">
             <img src="/images/logo.svg" alt="로고" />
@@ -83,7 +88,7 @@ const Header = () => {
               </h1>
               <nav>
                 <Link className="LinkBtn" to="/kids">
-                  홈
+                  홈11111111
                 </Link>
                 <Link className="LinkBtn" to="/kids/movie">
                   영화
@@ -169,7 +174,7 @@ const Header = () => {
                 <img src="/images/logo.svg" alt="로고" />
               </Link>
             </h1>
-            <nav>
+            <nav className="web">
               <Link className="LinkBtn" to="/">
                 홈
               </Link>
@@ -179,6 +184,33 @@ const Header = () => {
               <Link className="LinkBtn" to="/series">
                 시리즈
               </Link>
+            </nav>
+            {/* 768px 이하에서만 보이는 드롭다운 버튼 */}
+            <nav className={`DropdownMenu ${isMenuOpen ? 'open' : ''}`}>
+              <button className="DropdownToggle" onClick={toggleMenu}>
+                메뉴
+                <span>
+                  <img
+                    src={isMenuOpen ? '/icon/dropdownClose.svg' : '/icon/dropdownOpen.svg'}
+                    alt={isMenuOpen ? '닫기' : '열기'}
+                  />
+                </span>
+              </button>
+
+              {isMenuOpen && (
+                <ul className="DropdownList">
+                  <li>
+                    <Link to="/kids/movie" onClick={() => setIsMenuOpen(false)}>
+                      영화
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/kids/series" onClick={() => setIsMenuOpen(false)}>
+                      시리즈
+                    </Link>
+                  </li>
+                </ul>
+              )}
             </nav>
           </div>
           <div className="Header-right">
@@ -242,7 +274,6 @@ const Header = () => {
       )}
     </div>
   );
-
 };
 
 export default Header;
