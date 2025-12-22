@@ -66,7 +66,7 @@ const Top10List = ({ title }: title) => {
 
       {/* Swiper 스타일 및 구조 유지 */}
       <Swiper slidesPerView={4.2} spaceBetween={20} className="mySwiper">
-        {Top.slice(0, 10).map((el, i) => (
+        {Top.slice(0, 7).map((el, i) => (
           <SwiperSlide key={el.id}>
             {/* 기존 Link -> div(TopNumber) -> div(imgBox) 구조를 그대로 유지 */}
             <Link

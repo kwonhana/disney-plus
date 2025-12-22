@@ -9,12 +9,7 @@ import { useWatchingStore } from '../../../store/useWatchingStore';
 import { useMovieStore } from '../../../store/useMovieStore';
 import { useTvStore } from '../../../store/useTvStore';
 import VideoPopup from './VideoPopup';
-
-const generateProgress = (id: number): number => {
-  const seed = id * 9301 + 49297;
-  const random = (seed % 233280) / 233280;
-  return Math.floor(random * (98 - 5 + 1)) + 5;
-};
+import { generateProgress } from '../../../utils/progress';
 
 const WatchList = () => {
   const { watching, onFetchWatching } = useWatchingStore();
@@ -82,7 +77,7 @@ const WatchList = () => {
       setYoutubeKey(key);
       setPopupPos(position);
       setHoveredItem(el);
-    }, 400);
+    }, 200);
   };
 
   /** 팝업 닫기 (지연) */
@@ -92,7 +87,7 @@ const WatchList = () => {
     closeTimer.current = setTimeout(() => {
       setHoveredItem(null);
       setYoutubeKey('');
-    }, 150);
+    }, 100);
   };
 
   return (

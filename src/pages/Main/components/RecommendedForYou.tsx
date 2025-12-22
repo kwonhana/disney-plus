@@ -103,7 +103,7 @@ const RecommendedForYou = () => {
         >
           {recommendedItems.map((el) => {
             const title = el.title || el.name || '제목 없음';
-            const mediaType = el.media_type === 'tv' ? 'series' : 'movie';
+            const mediaType = el.media_type;
 
             return (
               <SwiperSlide key={`${el.media_type}-${el.id}`} style={{ overflow: 'visible' }}>

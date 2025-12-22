@@ -41,6 +41,7 @@ const MainScreen = () => {
         backdrop_path: data.backdrop_path || '',
         currentTime: 0,
         duration: 0,
+        media_type: movie.type, // ⭐ 추가
       };
 
       // 영화면 title, TV면 name 추가
