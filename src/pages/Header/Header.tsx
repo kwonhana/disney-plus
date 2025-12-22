@@ -24,6 +24,8 @@ const Header = () => {
   const activeProfile = profiles.find((profile) => profile.id === activeProfileId);
   const kids = useMatch('/kids/*');
 
+  const isKidsProfile = activeProfile?.isKids === true;
+
   const handleScroll = () => {
     if (window.scrollY > 50) {
       setIsScrolled(true);
@@ -39,6 +41,7 @@ const Header = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
+    console.log(isKidsProfile);
   }, []);
 
   const toggleProfileDepth = () => {
@@ -105,9 +108,6 @@ const Header = () => {
               <Link className="MyWish LinkBtn" to="/wishlist">
                 내가 찜한 콘텐츠
               </Link>
-              {/* <Link className="Kids LinkBtn" to="void">
-              키즈
-            </Link> */}
               <div className="MyProfileDepth">
                 <button className="MyProfile" onClick={toggleProfileDepth}>
                   <img src={activeProfile?.image} alt={activeProfile?.name || '프로필'} />
@@ -128,11 +128,6 @@ const Header = () => {
                   <li>
                     <Link to="/profile/select" className="dropdownLink">
                       프로필 변경
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/profile/setting" className="dropdownLink">
-                      계정 설정
                     </Link>
                   </li>
                   <li>
@@ -242,11 +237,13 @@ const Header = () => {
                     프로필 변경
                   </Link>
                 </li>
-                <li>
-                  <Link to="/profile/setting" className="dropdownLink">
-                    계정 설정
-                  </Link>
-                </li>
+                {!isKidsProfile && (
+                    <li>
+                      <Link to="/profile/setting" className="dropdownLink">
+                        계정 설정
+                      </Link>
+                    </li>
+                  )}
                 <li>
                   <button className="dropdownLink" onClick={handleLogout}>
                     로그아웃
