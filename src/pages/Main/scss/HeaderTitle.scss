@@ -13,6 +13,10 @@
     z-index: 2;
     position: relative;
 
+    &.kidsTitle {
+      @include rs.font(3rem, 500, #fff);
+    }
+
     &:hover {
       .arrow::before {
         visibility: visible;
@@ -43,6 +47,7 @@
       display: inline-block;
       margin-right: 8px;
     }
+
     &::after {
       content: '';
       width: 8px;
