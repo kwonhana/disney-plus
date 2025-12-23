@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../scss/ProfileUidBox.scss';
+import { Link } from 'react-router-dom';
+import { useProfileStore } from '../../../store/useProfileStore';
 interface ProfileUidBoxProps {
   username: string;
   image?: string;
@@ -8,6 +10,9 @@ interface ProfileUidBoxProps {
 
 const ProfileUidBox = ({ username, image, onChangeName }: ProfileUidBoxProps) => {
   const [err, setErr] = useState('');
+
+  const currentProfile = useProfileStore((state) => state.currentProfile);
+  const isKidsProfile = currentProfile?.isKids;
 
   const validateName = (value: string) => {
     const regex = /^[A-Za-z0-9가-힣]+$/;
@@ -46,9 +51,18 @@ const ProfileUidBox = ({ username, image, onChangeName }: ProfileUidBoxProps) =>
         </div>
       </div>
       <div className="right">
-        <div className="userPhoto">
-          {image ? <img src={image} alt="프로필사진" /> : <div className="emptyPhoto" />}
-        </div>
+        {isKidsProfile ? (
+          <div className="userPhoto disabled">
+            {image ? <img src={image} alt="프로필사진" /> : <div className="emptyPhoto" />}
+          </div>
+        ) : (
+          <Link to="/profile/create/image" className="userPhoto active">
+            {image ? <img src={image} alt="프로필사진" /> : <div className="emptyPhoto" />}
+            <span>
+              <img src="/public/icon/pencilIcon.svg" alt="" />
+            </span>
+          </Link>
+        )}
       </div>
     </div>
   );

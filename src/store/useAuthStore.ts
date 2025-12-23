@@ -41,6 +41,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         console.log('사용자 로그인 상태 아님');
         return;
       }
+
       // 로그인된 경우 Firestore에서 사용자 데이터 가져오기
       const userRef = doc(db, 'users', firebaseUser.uid);
       const userDoc = await getDoc(userRef);
@@ -49,10 +50,36 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (userDoc.exists()) {
         userData = userDoc.data() as UserData;
       }
+
+      // 상태 업데이트
       set({ user: firebaseUser, userData, loading: false, isLogin: true });
 
-      //Firestore에서 membership만 가져와서 subStore로 복구
+      // 구독/멤버십 복구
       await useSubStore.getState().fetchMembership(firebaseUser.uid);
+
+      const profileStore = useProfileStore.getState();
+      profileStore.initWithUser(firebaseUser.uid);
+      profileStore.initDefaultProfiles();
+
+      if (userData?.kidsMode?.isActive) {
+        const { year, month, date } = userData.kidsMode;
+        if (year && month && date) {
+          const limit = calculateAgeLimit(year, month, date);
+
+          const kidsProfile = profileStore.profiles.find((p) => p.isKids);
+          if (kidsProfile) {
+            profileStore.updateProfile(kidsProfile.id, {
+              contentLimit: limit,
+              isKids: true,
+            });
+            profileStore.setActiveProfile(kidsProfile.id);
+          } else {
+            console.warn('키즈 프로필을 찾을 수 없습니다. profiles:', profileStore.profiles);
+          }
+        }
+      }
+
+      console.log('initAuth: 사용자 세션 복구 완료');
     });
   },
 
@@ -123,6 +150,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   // 기본 로그인
+  // useAuthStore.ts (onLogin 정리 예)
   onLogin: async (email, password) => {
     try {
       await setPersistence(auth, browserLocalPersistence);
@@ -135,7 +163,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const userDoc = await getDoc(userRef);
 
       let userData: UserData | null = null;
-
       if (userDoc.exists()) {
         userData = userDoc.data() as UserData;
       }
@@ -146,23 +173,22 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         isLogin: true,
       });
 
-      useSubStore.getState().fetchMembership(firebaseUser.uid);
+      // fetch membership
+      await useSubStore.getState().fetchMembership(firebaseUser.uid);
 
+      // profile 초기화 및 기본 프로필 세팅
       const profileStore = useProfileStore.getState();
       profileStore.initWithUser(firebaseUser.uid);
       profileStore.initDefaultProfiles();
 
+      // kidsMode 처리 (동일 로직)
       if (userData?.kidsMode?.isActive) {
         const { year, month, date } = userData.kidsMode;
-
         if (year && month && date) {
           const limit = calculateAgeLimit(year, month, date);
-
           const kidsProfile = profileStore.profiles.find((p) => p.isKids);
           if (kidsProfile) {
-            profileStore.updateProfile(kidsProfile.id, {
-              contentLimit: limit,
-            });
+            profileStore.updateProfile(kidsProfile.id, { contentLimit: limit });
             profileStore.setActiveProfile(kidsProfile.id);
           }
         }

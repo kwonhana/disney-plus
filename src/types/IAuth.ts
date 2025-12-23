@@ -41,6 +41,8 @@ export interface AuthState {
 }
 
 export interface KidsStoreState {
+  // userId: string | null;
+
   years: number[];
   months: string[];
   date: string[];
@@ -48,6 +50,8 @@ export interface KidsStoreState {
   selectedYear: number | null;
   selectedMonth: number | null;
   selectedDate: number | null;
+
+  // initWithUser: (userId: string) => void;
 
   isKidsModeActive: boolean;
 

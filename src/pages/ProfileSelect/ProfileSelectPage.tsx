@@ -6,12 +6,21 @@ import { Link, useNavigate } from 'react-router-dom';
 import ProfileSelectEdit from './components/ProfileSelectEdit';
 
 const ProfileSelectPage = () => {
-  const { profiles, initDefaultProfiles, selectProfile, resetCurrentProfile, setActiveProfile } =
-    useProfileStore();
+  const {
+    profiles,
+    initDefaultProfiles,
+    activeProfileId,
+    selectProfile,
+    resetCurrentProfile,
+    setActiveProfile,
+  } = useProfileStore();
 
   const [mode, setMode] = useState<'select' | 'Edit'>('select');
 
   const navigate = useNavigate();
+
+  const activeProfile = profiles.find((p) => p.id === activeProfileId);
+  const isKidsProfile = activeProfile?.isKids === true;
 
   useEffect(() => {
     initDefaultProfiles();
@@ -58,16 +67,18 @@ const ProfileSelectPage = () => {
                     </div>
                   </div>
                 ))}
-                <div className="addNewProfile">
-                  <div className="addProfileImgBox">
-                    <Link to="/profile/create/image" onClick={() => resetCurrentProfile()}>
-                      <img src="/icon/plusIcon.svg" alt="계정 추가 아이콘" />
-                    </Link>
+                {!isKidsProfile && (
+                  <div className="addNewProfile">
+                    <div className="addProfileImgBox">
+                      <Link to="/profile/create/image" onClick={() => resetCurrentProfile()}>
+                        <img src="/icon/plusIcon.svg" alt="계정 추가 아이콘" />
+                      </Link>
+                    </div>
+                    <div className="addProfileTextBox">
+                      <span>프로필 추가</span>
+                    </div>
                   </div>
-                  <div className="addProfileTextBox">
-                    <span>프로필 추가</span>
-                  </div>
-                </div>
+                )}
               </div>
 
               <div className="profileEditBtnWrap">

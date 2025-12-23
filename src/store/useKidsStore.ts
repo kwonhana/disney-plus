@@ -17,6 +17,20 @@ export const useKidsStore = create<KidsStoreState>((set) => ({
   selectedMonth: null,
   selectedDate: null,
 
+  // 연도 선택
+  setSelectedYear: (year) => {
+    set({ selectedYear: year });
+  },
+
+  // 월 선택
+  setSelectedMonth: (month) => {
+    set({ selectedMonth: month });
+  },
+  // 날짜 선택
+  setSelectedDate: (date) => {
+    set({ selectedDate: date });
+  },
+
   // 키즈 모드 활성화 여부
   isKidsModeActive: false,
 
@@ -56,17 +70,10 @@ export const useKidsStore = create<KidsStoreState>((set) => ({
     set({ date: dateArray });
   },
 
-  // 연도 선택
-  setSelectedYear: (year) => {
-    set({ selectedYear: year });
-  },
-
-  // 월 선택
-  setSelectedMonth: (month) => {
-    set({ selectedMonth: month });
-  },
-  // 날짜 선택
-  setSelectedDate: (date) => {
-    set({ selectedDate: date });
-  },
+  reset: () =>
+    set({
+      selectedYear: null,
+      selectedMonth: null,
+      selectedDate: null,
+    }),
 }));

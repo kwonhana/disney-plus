@@ -23,17 +23,25 @@ const profileImages: ProfileImage[] = [
 ];
 
 const ProfileCreatePageImage: React.FC = () => {
-  const { currentProfile, initCurrentProfile, setProfileImage } = useProfileStore();
+  const { profiles, currentProfile, initCurrentProfile, setProfileImage } = useProfileStore();
   const navigate = useNavigate();
 
-  const handleNext = () => {
-    navigate('/profile/create/info');
-  };
   useEffect(() => {
     if (!currentProfile) {
+      console.warn('currentProfile 없음 → 생성 모드');
       initCurrentProfile();
     }
-  }, [currentProfile, initCurrentProfile]);
+  }, []);
+
+  const handleNext = () => {
+    const isEditMode = profiles.some((p) => p.id === currentProfile?.id);
+
+    if (isEditMode) {
+      navigate('/profile/edit');
+    } else {
+      navigate('/profile/create/info');
+    }
+  };
 
   return (
     <div className="profileImageBg pullInner">
