@@ -61,7 +61,10 @@ const Top10List = ({ title }: title) => {
 
   return (
     // ref 추가 외에 section 클래스명 유지
-    <section className="Top10List" ref={containerRef} style={{ position: 'relative' }}>
+    <section
+      className="Top10List"
+      ref={containerRef}
+      style={{ position: 'relative' }}>
       <HeaderTitle mainTitle={title} />
 
       {/* Swiper 스타일 및 구조 유지 */}

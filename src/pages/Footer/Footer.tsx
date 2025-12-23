@@ -1,10 +1,17 @@
+import { useProfileStore } from '../../store/useProfileStore';
 import './scss/Footer.scss';
 import { useMatch } from 'react-router-dom';
 
 const Footer = () => {
-  const isKids = !!useMatch('/kids/*');
+  const { profiles, activeProfileId } = useProfileStore();
+
+  const activeProfile = profiles.find((profile) => profile.id === activeProfileId);
+  const isKidsProfile = activeProfile?.isKids === true;
+
+  // const isKids = !!useMatch('/kids/*');
+
   return (
-    <div className={`footer normal ${isKids ? 'kidsMode' : ''}`}>
+    <div className={`footer normal ${isKidsProfile ? 'kidsMode' : ''}`}>
       <div className="inner">
         <div className="footerLogo">
           <img src="/images/logo.svg" alt="footer_logo" />

@@ -78,7 +78,7 @@ const Header = () => {
       </div>
     );
   }
-  if (kids) {
+  if (isKidsProfile) {
     return (
       <div className={`Header pullInner ${isScrolled ? 'kids' : ''} `}>
         {isLogin ? (
@@ -91,7 +91,7 @@ const Header = () => {
               </h1>
               <nav>
                 <Link className="LinkBtn" to="/kids">
-                  홈11111111
+                  홈
                 </Link>
                 <Link className="LinkBtn" to="/kids/movie">
                   영화

@@ -4,23 +4,38 @@
   padding: clamp(35px, 2vh, 100px) clamp(0, 0, 0);
   padding-left: 4%;
   // border: 1px solid red;
-  background: linear-gradient(
-    180deg,
-    rgba(2, 23, 42, 0.6) 4%,
-    rgba(12, 48, 64, 0.6) 16%,
-    rgba(47, 131, 139, 0.55) 53%,
-    rgba(12, 48, 64, 0.56) 81%,
-    rgba(2, 23, 42, 0.6) 100%
-  );
+  background: linear-gradient(180deg,
+      rgba(2, 23, 42, 0.6) 4%,
+      rgba(12, 48, 64, 0.6) 16%,
+      rgba(47, 131, 139, 0.55) 53%,
+      rgba(12, 48, 64, 0.56) 81%,
+      rgba(2, 23, 42, 0.6) 100%);
   max-width: 1920px;
   width: 100%;
   aspect-ratio: 768 / 300;
   margin: 0 auto;
+  aspect-ratio: 768/300;
 
-  .swiper-slide {
+  &.kids {
+    background: linear-gradient(180deg,
+        rgba(0, 47, 62, 1) 4%,
+        rgba(12, 48, 64, 1) 16%,
+        rgba(47, 131, 139, 0.91) 53%,
+        rgba(12, 48, 64, 0.93) 81%,
+        rgba(0, 47, 62, 1) 100%);
+  }
+
+  // .swiper {
+  //   border: 1px solid red;
+  // }
+
+
+
+  .TopNumber {
     position: relative;
     display: flex;
     justify-content: end;
+
     .TopNumber {
       border-radius: 8px;
       position: absolute;
@@ -109,7 +124,4 @@
       rgba(0, 47, 62, 1) 100%
     );
   }
-}
-
-@include rs.respond(tablet) {
 }
