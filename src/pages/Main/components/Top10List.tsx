@@ -62,7 +62,7 @@ const Top10List = ({ title }: title) => {
   return (
     // ref 추가 외에 section 클래스명 유지
     <section
-      className={`Top10List ${isKidsProfile ? 'kids' : ''}`}
+      className="Top10List"
       ref={containerRef}
       style={{ position: 'relative' }}>
       <HeaderTitle mainTitle={title} />
