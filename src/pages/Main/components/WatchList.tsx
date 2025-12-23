@@ -174,6 +174,7 @@ const WatchList = () => {
             posterPath={hoveredItem.poster_path || ''}
             backdropPath={hoveredItem.backdrop_path}
             onClose={handleMouseLeave}
+            showDeleteButton={true}
           />
         </div>
       )}
