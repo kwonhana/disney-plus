@@ -9,11 +9,17 @@ import { useKidsMoiveStore } from '../../../store/useKidsMovieStore';
 import { useMovieStore } from '../../../store/useMovieStore'; // 비디오 페칭용
 import VideoPopup from '../../Main/components/VideoPopup'; // 경로 확인 필요
 import 'swiper/swiper.css';
+import { useProfileStore } from '../../../store/useProfileStore';
 
 const KidsTop10 = ({ title }: title) => {
   const kids = useMatch('/kids/*');
   const { onFetchTop10Movies, kidsTopMovie } = useKidsMoiveStore();
   const { onFetchVideo } = useMovieStore(); // 영화 비디오 가져오기 함수
+
+  const { profiles, activeProfileId } = useProfileStore();
+
+  const activeProfile = profiles.find((profile) => profile.id === activeProfileId);
+  const isKidsProfile = activeProfile?.isKids === true;
 
   // --- 팝업 상태 관리 ---
   const [hoveredId, setHoveredId] = useState<number | null>(null);
@@ -85,7 +91,7 @@ const KidsTop10 = ({ title }: title) => {
 
   return (
     <section
-      className={`Top10List ${kids ? 'kids' : ''}`}
+      className={`Top10List ${isKidsProfile ? 'kids' : ''}`}
       ref={containerRef}
       style={{ position: 'relative' }}>
       <HeaderTitle mainTitle={title} />
