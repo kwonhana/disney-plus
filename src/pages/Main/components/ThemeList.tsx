@@ -66,7 +66,7 @@ const ThemeList = () => {
 
   return (
     // 기존 클래스명 ThemeList 유지
-    <section className="ThemeList" ref={containerRef} style={{ position: 'relative' }}>
+    <section className="ThemeList ThemeWrap" ref={containerRef} style={{ position: 'relative' }}>
       <nav className="menu">
         <ul>
           {ThemeListNavData.map((v, i) => (
@@ -97,7 +97,30 @@ const ThemeList = () => {
             </div>
 
             {!isLoading && themeMovies.length > 0 && (
-              <Swiper slidesPerView={4.4} spaceBetween={20}>
+              <Swiper
+                pagination={{ clickable: true }}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 1.8,
+                    spaceBetween: 8,
+                  },
+                  281: {
+                    slidesPerView: 2,
+                    spaceBetween: 8,
+                  },
+                  361: {
+                    slidesPerView: 2.2,
+                    spaceBetween: 16,
+                  },
+                  769: {
+                    slidesPerView: 3.4,
+                    spaceBetween: 16,
+                  },
+                  1201: {
+                    slidesPerView: 4.2,
+                    spaceBetween: 16,
+                  },
+                }}>
                 {themeMovies
                   .filter((el) => el.poster_path)
                   .slice(0, 10)

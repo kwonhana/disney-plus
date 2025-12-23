@@ -37,7 +37,7 @@ $Theme-sizes: (
   display: none !important;
 }
 
-.ThemeList {
+.ThemeWrap {
   max-width: 1920px;
   margin: 0 auto;
   aspect-ratio: 1920/570;
@@ -110,7 +110,7 @@ $Theme-sizes: (
         justify-content: center;
 
         p {
-          @include rs.font(clamp(1.2rem, 1.8vw, 2.4rem), 600, #fff);
+          @include rs.font(clamp(10px, 2vw, 24px), 600, #fff);
           padding: 0 40px;
           line-height: 150%;
           letter-spacing: -0.6px;
@@ -169,6 +169,7 @@ $Theme-sizes: (
             width: 100%;
             height: 100%;
           }
+
           img {
             max-width: 100%;
             width: 100%;

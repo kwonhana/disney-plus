@@ -48,22 +48,15 @@ const Footer = () => {
           <div className="footerBottomTop">
             <p>
               <span>월트디즈니컴퍼니코리아 유한책임회사</span>
-              &nbsp;&nbsp;|&nbsp;&nbsp;
               <span>대표자 : 김소연</span>
-              &nbsp;&nbsp;|&nbsp;&nbsp;
               <span>서울특별시 강남구 테헤란로 152, 7층 (우편번호: 06236)</span>
-              &nbsp;&nbsp;|&nbsp;&nbsp;
               <span>Email: help@disneyplus.kr</span>
-              &nbsp;&nbsp;|&nbsp;&nbsp;
               <span>연락처 : 080 822 1416</span>
-              &nbsp;&nbsp;|&nbsp;&nbsp;
               <span> 사업자등록번호 : 220-81-03347</span>
             </p>
             <p>
               <span>통신판매업 신고번호: 제2021-서울강남-05456호</span>
-              &nbsp;&nbsp;|&nbsp;&nbsp;
               <span>비디오물배급업 신고번호 : 제2016-16호</span>
-              &nbsp;&nbsp;|&nbsp;&nbsp;
               <span>호스팅서비스 사업자 : NSOne</span>
             </p>
           </div>

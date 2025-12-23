@@ -70,30 +70,41 @@ const Top10List = ({ title }: title) => {
 
       {/* Swiper 스타일 및 구조 유지 */}
       <Swiper
-        spaceBetween={20}
+        pagination={{ clickable: true }}
         breakpoints={{
           0: {
-            slidesPerView: 1.8,
+            slidesPerView: 1.9,
+            spaceBetween: 8,
+          },
+          281: {
+            slidesPerView: 2.1,
+            spaceBetween: 8,
+          },
+          361: {
+            slidesPerView: 2.6,
             spaceBetween: 16,
           },
-          360: {
-            slidesPerView: 2.1,
+          769: {
+            slidesPerView: 3.8,
+            spaceBetween: 16,
           },
-          768: {
-            slidesPerView: 4.3,
+          1201: {
+            slidesPerView: 4.2,
+            spaceBetween: 16,
           },
         }}
         className="mySwiper">
         {Top.slice(0, 7).map((el, i) => (
           <SwiperSlide key={el.id}>
             {/* 기존 Link -> div(TopNumber) -> div(imgBox) 구조를 그대로 유지 */}
+            <span className={`TopNumber number${1 + i}`}></span>
             <Link
               to={`/play/movie/${el.id}`}
               onMouseEnter={(e) => handleMouseEnter(e, el)}
               onMouseLeave={() => {
                 if (hoverTimer.current) clearTimeout(hoverTimer.current);
               }}>
-              <div className={`movieThumbnail TopNumber number${1 + i}`}>
+              <div className={`movieThumbnail  `}>
                 <div className="imgBox">
                   <img
                     src={`https://image.tmdb.org/t/p/w500/${el.poster_path}`}
