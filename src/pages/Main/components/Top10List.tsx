@@ -77,7 +77,7 @@ const Top10List = ({ title }: title) => {
             spaceBetween: 8,
           },
           361: {
-            slidesPerView: 3.2,
+            slidesPerView: 2.6,
             spaceBetween: 16,
           },
           769: {
@@ -93,13 +93,14 @@ const Top10List = ({ title }: title) => {
         {Top.slice(0, 7).map((el, i) => (
           <SwiperSlide key={el.id}>
             {/* 기존 Link -> div(TopNumber) -> div(imgBox) 구조를 그대로 유지 */}
+            <span className={`TopNumber number${1 + i}`}></span>
             <Link
               to={`/play/movie/${el.id}`}
               onMouseEnter={(e) => handleMouseEnter(e, el)}
               onMouseLeave={() => {
                 if (hoverTimer.current) clearTimeout(hoverTimer.current);
               }}>
-              <div className={`movieThumbnail TopNumber number${1 + i}`}>
+              <div className={`movieThumbnail  `}>
                 <div className="imgBox">
                   <img
                     src={`https://image.tmdb.org/t/p/w500/${el.poster_path}`}

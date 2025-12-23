@@ -66,7 +66,7 @@ const ThemeList = () => {
 
   return (
     // 기존 클래스명 ThemeList 유지
-    <section className="ThemeList" ref={containerRef} style={{ position: 'relative' }}>
+    <section className="ThemeList ThemeWrap" ref={containerRef} style={{ position: 'relative' }}>
       <nav className="menu">
         <ul>
           {ThemeListNavData.map((v, i) => (
