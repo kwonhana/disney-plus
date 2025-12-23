@@ -110,8 +110,9 @@
     .movieTitle {
       position: absolute;
       @include rs.font(2rem, 600, #fff);
-      bottom: 16px;
-      right: 16px;
+      font-size: clamp(1.2rem, 1.4vw, 2rem);
+      bottom: clamp(4px, 0.8vh, 16px);
+      left: 16px;
       text-shadow: -1px -1px 0 #02172a, 1px -1px 0 #02172a, -1px 1px 0 #02172a, 1px 1px 0 #02172a;
     }
   }

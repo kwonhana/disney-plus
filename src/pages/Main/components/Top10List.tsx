@@ -76,7 +76,7 @@ const Top10List = ({ title }: title) => {
             slidesPerView: 2.1,
             spaceBetween: 8,
           },
-          361: {
+          481: {
             slidesPerView: 2.6,
             spaceBetween: 16,
           },

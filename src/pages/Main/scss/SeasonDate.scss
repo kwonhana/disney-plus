@@ -24,7 +24,7 @@
     background-repeat: no-repeat;
 
     &.holiday {
-      width: clamp(60px, 2vw, 220px);
+      width: clamp(60px, 12vw, 220px);
       aspect-ratio: 220/119;
       background-image: url('../../../../public/images/main/Season/holiday.svg');
     }
@@ -46,31 +46,31 @@
     }
     &.spring {
       width: 220px;
-    width: clamp(60px, 2vw, 220px);
+      width: clamp(60px, 2vw, 220px);
       aspect-ratio: 220/100;
       background-image: url('../../../../public/images/main/Season/spring.svg');
     }
     &.family {
       width: 220px;
-       width: clamp(60px, 2vw, 220px);
+      width: clamp(60px, 2vw, 220px);
       aspect-ratio: 220/100;
       background-image: url('../../../../public/images/main/Season/family.svg');
     }
     &.classic {
       width: 220px;
-    width: clamp(60px, 2vw, 220px);
+      width: clamp(60px, 2vw, 220px);
       aspect-ratio: 220/100;
       background-image: url('../../../../public/images/main/Season/classic.svg');
     }
     &.horror {
       width: 220px;
-        width: clamp(60px, 2vw, 220px);
+      width: clamp(60px, 2vw, 220px);
       aspect-ratio: 220/140;
       background-image: url('../../../../public/images/main/Season/horror.svg');
     }
     &.vacation {
       width: 220px;
-    width: clamp(60px, 2vw, 220px);
+      width: clamp(60px, 2vw, 220px);
       aspect-ratio: 220/100;
       background-image: url('../../../../public/images/main/Season/vacation.svg');
     }

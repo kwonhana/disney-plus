@@ -180,33 +180,6 @@ const Header = () => {
                 시리즈
               </Link>
             </nav>
-            {/* 768px 이하에서만 보이는 드롭다운 버튼 */}
-            <nav className={`DropdownMenu ${isMenuOpen ? 'open' : ''}`}>
-              <button className="DropdownToggle" onClick={toggleMenu}>
-                메뉴
-                <span>
-                  <img
-                    src={isMenuOpen ? '/icon/dropdownClose.svg' : '/icon/dropdownOpen.svg'}
-                    alt={isMenuOpen ? '닫기' : '열기'}
-                  />
-                </span>
-              </button>
-
-              {isMenuOpen && (
-                <ul className="DropdownList">
-                  <li>
-                    <Link to="/kids/movie" onClick={() => setIsMenuOpen(false)}>
-                      영화
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/kids/series" onClick={() => setIsMenuOpen(false)}>
-                      시리즈
-                    </Link>
-                  </li>
-                </ul>
-              )}
-            </nav>
           </div>
           <div className="Header-right">
             <button className="search" onClick={() => navigate('/search')}>
@@ -238,12 +211,12 @@ const Header = () => {
                   </Link>
                 </li>
                 {!isKidsProfile && (
-                    <li>
-                      <Link to="/profile/setting" className="dropdownLink">
-                        계정 설정
-                      </Link>
-                    </li>
-                  )}
+                  <li>
+                    <Link to="/profile/setting" className="dropdownLink">
+                      계정 설정
+                    </Link>
+                  </li>
+                )}
                 <li>
                   <button className="dropdownLink" onClick={handleLogout}>
                     로그아웃
