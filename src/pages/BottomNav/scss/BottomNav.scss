@@ -1,0 +1,88 @@
+@use '../../../App.scss' as rs;
+
+@include rs.respond(web) {
+  .BottomNav {
+    display: none;
+  }
+}
+@include rs.respond(tablet) {
+  .BottomNav {
+    width: 100%;
+    aspect-ratio: 360/50;
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    z-index: 9990;
+    border: 1px solid red;
+    background: rgba(2, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+
+    ul {
+      display: flex;
+      width: 100%;
+
+      li {
+        width: 20%;
+        border: 1px solid red;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .sub-nav {
+          display: none;
+        }
+        .icon {
+          width: 80%;
+          aspect-ratio: 1/1;
+          background-repeat: no-repeat;
+          background-position: center;
+
+          &.home {
+            background: url('../../../../public/icon/home.svg') no-repeat center center;
+            &:hover {
+              background: url('../../../../public/icon/home-active.svg') no-repeat center center;
+            }
+          }
+
+          &.heart {
+            background: url('../../../../public/icon/heart.svg') no-repeat center center;
+            &:hover {
+              background: url('../../../../public/icon/setting-active.svg') no-repeat center center;
+            }
+          }
+
+          &.search {
+            background: url('../../../../public/icon/search.svg') no-repeat center center;
+            &:hover {
+              background: url('../../../../public/icon/search-active.svg') no-repeat center center;
+            }
+          }
+
+          &.setting {
+            background: url('../../../../public/icon/setting.svg') no-repeat center center;
+            &:hover {
+              background: url('../../../../public/icon/setting-active.svg') no-repeat center center;
+            }
+          }
+
+          &.hamBtn {
+            background: url('../../../../public/icon/hamBar.svg') no-repeat center center;
+            &:hover {
+              background: url('../../../../public/icon/hamBar-active.svg') no-repeat center center;
+
+              .sub-nav {
+                display: block;
+                background-color: red;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100vh;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
