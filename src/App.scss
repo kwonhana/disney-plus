@@ -328,6 +328,7 @@ address {
 $breakpoints: (
   tablet: 768px,
   mobile: 480px,
+  mini: 320px,
 );
 
 @mixin respond($device) {

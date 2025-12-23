@@ -160,7 +160,7 @@ const Header = () => {
   }
 
   return (
-    <div className={`Header pullInner ${isScrolled ? 'active' : ''} `}>
+    <header className={`Header pullInner ${isScrolled ? 'active' : ''} `}>
       {isLogin && !isSignupPage ? (
         <>
           <div className="Header-left">
@@ -242,7 +242,7 @@ const Header = () => {
           </div>
         </>
       )}
-    </div>
+    </header>
   );
 };
 
